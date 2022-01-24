@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import BarExam from '../components/BarExam'
 import LineExam from '../components/LineExam'
+import { Map } from '../components/Map'
 import PieExam from '../components/PieExam'
+import "../css/mainpage.css"
 const cardStyle={
     color:"red",
     textAlign:"center",
@@ -12,8 +14,10 @@ export class MainPage extends Component {
     render() {
         return (
             <div className='container'>
-                <div>this is main page</div>
-                <div className='row' style={{padding:"10px;"}}>
+                <div className='map-section section'>
+                    <Map/>
+                </div>
+                <div className='row' style={{marginTop:"6%"}}>
                     <div className='col-md-4'>
                     <div style={cardStyle}>BarChart</div>
                     <BarExam/>
