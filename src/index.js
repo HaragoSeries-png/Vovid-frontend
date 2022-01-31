@@ -6,15 +6,19 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import rootReducer from './reducers/index';
-const store = createStore(rootReducer,composeWithDevTools())
+import {QueryClient,QueryClientProvider} from 'react-query'
+import store from './store/store'
 
+
+const queryClient = new QueryClient(); 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store} >
-    <App />
-    </Provider>
- 
- 
+    <QueryClientProvider client ={queryClient}>
+      <Provider store = {store}>
+          <App />
+      </Provider>
+
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

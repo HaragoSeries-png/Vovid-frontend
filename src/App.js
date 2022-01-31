@@ -5,7 +5,8 @@ import { BrowserRouter,Routes,Route} from 'react-router-dom'
 import { Navbar } from './components/Navbar'; 
 import DashBoard from './pages/DashBoard';
 import HomePage from './pages/HomePage';
-import MainPage from './pages/MainPage'
+import MainPage from './pages/MainPage';
+import TestPage from './pages/testPage';
 //bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 //components
@@ -27,6 +28,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route exact path="/" element={<MainPage/>}></Route>
+            <Route exact path="/test" element={<TestPage/>}></Route>
           </Routes>
        </BrowserRouter>
     </div>

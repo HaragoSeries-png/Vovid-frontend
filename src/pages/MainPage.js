@@ -6,14 +6,18 @@ import PieExam from "../components/PieExam";
 import { Row,Col } from 'react-bootstrap';
 import "../css/mainpage.css";
 import { Cardchart } from "../components/Cardchart";
+import Posts from "../components/Posts";
+import { useSelector,useDispatch } from 'react-redux'
 const cardStyle = {
   color: "red",
   textAlign: "center",
   marginLeft: "50px",
 };
+
 export class MainPage extends Component {
   render() {
     return (
+      
       <div className="container">
         <div className="map-section section">
           <Map />
@@ -33,15 +37,16 @@ export class MainPage extends Component {
                     </div>
                 </div> */}
         <div className="graph-section">
-          <Row>
-            <Col><Cardchart  name="Line chart"/></Col>
+          <Row className="row-distance">
+            <Col className="LineGraphSize"><Cardchart  name="Line chart"/></Col>
             <Col><Cardchart  name="Bar chart"/></Col>
           </Row>
-          <Row>
+          <Row className="row-distance">
             <Col><Cardchart  name="Pie chart"/></Col>
             <Col><Cardchart  name="Bar chart"/></Col>
           </Row>
         </div>
+        <Posts/>
       </div>
     );
   }

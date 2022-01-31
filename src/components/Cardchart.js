@@ -9,7 +9,7 @@ export const Cardchart = (props) => {
     function GraphType(props){
         if(props.name == "Line chart"){
             return (
-            <div className='graph-detail'> 
+            <div className='graph-detail line-detail'> 
              <LineExam  />
             </div>
             )
