@@ -1,0 +1,15 @@
+.mainBlock{
+    background-color: white;
+    border-radius: 8px;
+    width: 250px;
+    padding: 10px;
+    height: 30px;
+    margin-bottom: 10px;
+    outline: 0;
+    outline: none !important;
+}
+.mainBlock:focus{
+    outline: none !important;
+}
+
+

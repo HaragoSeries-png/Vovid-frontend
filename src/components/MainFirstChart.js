@@ -6,7 +6,7 @@ import "../css/mainFirstChart.css"
 import { color, display } from "@mui/system";
 const MainFirstChart = ({ data, country }) => {
   const [dailyData, setDailyData] = useState([]);
-  
+console.log("dia : ",dailyData );
   // Similaire à componentDidMount et componentDidUpdate
   //useEffect cant be async so we create an async inside in order to call await function
   useEffect(() => {
@@ -64,10 +64,6 @@ const MainFirstChart = ({ data, country }) => {
             display:'false'
           }
         },
-        title:{
-          text:"asdsad12215",
-          color:'white'
-        }
       }
       
       }
@@ -85,6 +81,7 @@ const MainFirstChart = ({ data, country }) => {
 
   const lineChart =
     dailyData !== undefined ? (
+     
       <Line style={{backgroundColor:"#343A40",height:"20%",padding:"1%"}}
         data={{
           labels: dailyData.map(({ date }) => date),

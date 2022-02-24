@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NativeSelect, FormControl } from "@material-ui/core";
 import { fetchCountries } from "../api/apicount";
-
+import "../css/countryPicker.css"
 const CountryPicker = (props) => {
   console.log("crp : ",props);
   // const [fetchedCountries, setFetchedCountries] = useState([]);
@@ -19,10 +19,11 @@ const CountryPicker = (props) => {
       <NativeSelect
         defaultValue=""
         onChange={e => props.handleCountryChange(e.target.value)}
+        className="mainBlock"
       >
-        <option value="">Global</option>
-        <option value="Thailand">TH</option>
-        <option value="US">US</option>
+        <option className="subBlock" value="">Global</option>
+        <option className="subBlock" value="Thailand">TH</option>
+        <option className="subBlock" value="US">US</option>
         {/* {fetchedCountries.map((country, i) => (
           <option key={i} value={country}>
             {country}
