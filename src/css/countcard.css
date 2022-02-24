@@ -1,0 +1,32 @@
+
+  
+  .card {
+    margin: 0 2% !important;
+  
+  }
+  
+  .infected {
+    border-bottom: 10px solid rgba(0, 0, 255, 0.5);
+  
+  }
+  
+  .recovered {
+    border-bottom: 10px solid rgba(0, 255, 0, 0.5);
+  }
+  .type-box{
+    background-color: #343A40;
+    border-radius: 12px;
+    height: 110px;
+  }
+  
+  .deaths {
+    border-bottom: 10px solid rgba(255, 0, 0, 0.5);
+  }
+  
+  @media (max-width: 770px) {
+    .card {
+      margin: 2% 0 !important;
+      
+    }
+  }
+  

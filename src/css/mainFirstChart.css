@@ -1,0 +1,12 @@
+.mainchart {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  @media (max-width: 770px) {
+    .mainchart {
+      width: 100%;
+    }
+  }
+  

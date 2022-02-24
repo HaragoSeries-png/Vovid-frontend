@@ -10,8 +10,6 @@ import TestPage from './pages/testPage';
 //bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 //components
-import { LoadingRender } from './components/LoadingRender';
-import Page1 from './components/Page1';
 
 
 //pages
@@ -21,6 +19,10 @@ import Page1 from './components/Page1';
 // const ReactQuery   = React.lazy(()=>import('./pages/Reactquery'))
 // const MainPage    = React.lazy(()=>import('./pages/MainPage'))
 function App() {
+
+
+
+  
   return (
 <div className='head'>
     <Navbar/>
