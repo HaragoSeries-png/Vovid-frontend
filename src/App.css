@@ -9,7 +9,8 @@
   pointer-events: none;
 }
 .content{
-  height: 200vh;
+  height: min-content;
+  padding-bottom: 30vh;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

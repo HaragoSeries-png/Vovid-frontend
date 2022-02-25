@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import BarExam from "../components/BarExam";
-import LineExam from "../components/LineExam";
 import Map  from "../components/Map";
-import PieExam from "../components/PieExam";
-import { Row,Col } from 'react-bootstrap';
-
 import "../css/mainpage.css";
-import { Cardchart } from "../components/Cardchart";
-import Posts from "../components/Posts";
 import { useSelector,useDispatch } from 'react-redux'
 import Topic from "../components/Topic";
 import CountCard from "../components/CountCard";
@@ -15,19 +8,10 @@ import {fetchData} from "../api/apicount"
 import CountryPicker from "../components/CountryPicker"
 import SubChart from "../components/SubChart";
 import Box from '@mui/material/Box';
-import { Card, CardContent, Typography, Grid } from "@material-ui/core";
-import CardActions from '@mui/material/CardActions';
-import styles from "../css/countcard.css";
-import Button from '@mui/material/Button';
-import CountUp from "react-countup";
+import { Card, Grid } from "@material-ui/core";
 import MainFirstChart from "../components/MainFirstChart";
 
 
-const cardStyle = {
-  color: "red",
-  textAlign: "center",
-  marginLeft: "50px",
-};
 
 
 
@@ -36,8 +20,10 @@ const cardStyle = {
 export class MainPage extends Component {
   state = {
     data: {},
-    country: ""
+    country: "",
   };
+  
+
 
   async componentDidMount() {
     const fetchedData = await fetchData();
@@ -56,6 +42,7 @@ export class MainPage extends Component {
 
   render() {
     const { data, country } = this.state;
+    const graphType ="Line"
     return (
       
       <div className="container">
@@ -64,7 +51,7 @@ export class MainPage extends Component {
         <CountryPicker handleCountryChange={this.handleCountryChange}/>
         <CountCard  data={data} />
         <div style={{marginTop:'5%'}}>
-        <Grid container rowspacing={1} columnspacing={{ xs: 1, sm: 2, md: 3 }}  >
+        <Grid container rowspacing={2} columnspacing={{ xs: 1, sm: 2, md: 3 }}  >
         <Grid item xs={12}>
           <Card sx={{ minWidth: 275 }}>
            <MainFirstChart data={data} country={country} />
@@ -84,14 +71,22 @@ export class MainPage extends Component {
         <div style={{marginTop:"2%"}}>
         <Grid container spacing={2}>
           <Grid item md={6}>
-            <SubChart/>
+            <SubChart graphType="Line"  />
           </Grid>
           <Grid item md={6}>
-            <SubChart/>
+            <SubChart graphType="Pie" />
           </Grid>
         </Grid>
-
-
+        </div>
+        <div style={{marginTop:"2%"}}>
+        <Grid container spacing={2}>
+          <Grid item md={6}>
+            <SubChart graphType="Bar"  />
+          </Grid>
+          <Grid item md={6}>
+            <SubChart graphType="Pie" />
+          </Grid>
+        </Grid>
         </div>
         {/* <div className='row' style={{marginTop:"6%"}}>
                     <div className='col-md-4'>
