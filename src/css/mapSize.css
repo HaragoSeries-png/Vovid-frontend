@@ -4,3 +4,15 @@
    margin-left: auto;
    margin-right: auto;
 }
+.onMap{
+    stroke: #454D55;
+}
+.onMap .svg-map__location{
+    fill: #343434;
+}
+.onMap .svg-map__location:hover{
+    fill: #F39C12;
+}
+.onMap .svg-map__location:focus{
+    fill: #F39C12;
+}

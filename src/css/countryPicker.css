@@ -5,11 +5,13 @@
     padding: 10px;
     height: 30px;
     margin-bottom: 10px;
-    outline: 0;
     outline: none !important;
 }
-.mainBlock:focus{
+.MuiInputBase-input:focus{
     outline: none !important;
+    border: none;
 }
-
-
+.MuiInputBase-input{
+    outline: none !important;
+    border: none;
+}

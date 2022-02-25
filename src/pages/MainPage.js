@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import BarExam from "../components/BarExam";
 import LineExam from "../components/LineExam";
-import { Map } from "../components/Map";
+import Map  from "../components/Map";
 import PieExam from "../components/PieExam";
 import { Row,Col } from 'react-bootstrap';
 
@@ -72,14 +72,16 @@ export class MainPage extends Component {
           </Card>
         </Grid>
         </Grid>
-  </div>      
-    
+        </div>      
+
         {/* <MainChart/> */}
+        <div  style={{marginTop:"2%"}}>
+          <Map country={country} />
+        </div>
 
 
-        {/* <div className="map-section section">
-          <Map />
-        </div> */}
+
+
         <div>
 
         </div>

@@ -6,7 +6,7 @@ import "../css/mainFirstChart.css"
 import { color, display } from "@mui/system";
 const MainFirstChart = ({ data, country }) => {
   const [dailyData, setDailyData] = useState([]);
-console.log("dia : ",dailyData );
+
   // Similaire à componentDidMount et componentDidUpdate
   //useEffect cant be async so we create an async inside in order to call await function
   useEffect(() => {
@@ -15,7 +15,6 @@ console.log("dia : ",dailyData );
 
       setDailyData(initialDailyData);
     };
-    console.log("daily : ",dailyData);
 
     fetchMyAPI();
   }, []);
