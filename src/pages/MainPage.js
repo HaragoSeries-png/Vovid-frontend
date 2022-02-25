@@ -13,7 +13,7 @@ import Topic from "../components/Topic";
 import CountCard from "../components/CountCard";
 import {fetchData} from "../api/apicount"
 import CountryPicker from "../components/CountryPicker"
-import MainChart from "../components/MainChart";
+import SubChart from "../components/SubChart";
 import Box from '@mui/material/Box';
 import { Card, CardContent, Typography, Grid } from "@material-ui/core";
 import CardActions from '@mui/material/CardActions';
@@ -68,13 +68,12 @@ export class MainPage extends Component {
         <Grid item xs={12}>
           <Card sx={{ minWidth: 275 }}>
            <MainFirstChart data={data} country={country} />
-
           </Card>
         </Grid>
         </Grid>
         </div>      
 
-        {/* <MainChart/> */}
+      
         <div  style={{marginTop:"2%"}}>
           <Map country={country} />
         </div>
@@ -82,7 +81,16 @@ export class MainPage extends Component {
 
 
 
-        <div>
+        <div style={{marginTop:"2%"}}>
+        <Grid container spacing={2}>
+          <Grid item md={6}>
+            <SubChart/>
+          </Grid>
+          <Grid item md={6}>
+            <SubChart/>
+          </Grid>
+        </Grid>
+
 
         </div>
         {/* <div className='row' style={{marginTop:"6%"}}>

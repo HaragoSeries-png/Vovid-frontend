@@ -1,0 +1,14 @@
+.containChart{
+    width: 100%;
+    border-radius: 12px;
+    background-color: #343A40;
+    height: 400px;
+}
+.top-content{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 20px 0px 20px;
+}
+.top-content .header-font{
+    font-size: 15px;
+}
