@@ -84,7 +84,7 @@ export class MainPage extends Component {
             <SubChart graphType="Bar"  />
           </Grid>
           <Grid item md={6}>
-            <SubChart graphType="Pie" />
+            <SubChart graphType="Radar" />
           </Grid>
         </Grid>
         </div>

@@ -1,6 +1,6 @@
 import { current } from "@reduxjs/toolkit";
 import React, { useState } from "react";
-import { Bar, Doughnut, Line } from "react-chartjs-2";
+import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
 import HorizontalBar from 'react-chartjs-2';
 import "../css/subChart.css"
 const Swap = ({chosen}) =>{
@@ -118,15 +118,88 @@ const Swap = ({chosen}) =>{
       </div>
     )
   }
+  else if(chosen =="Radar"){
+    const data = {
+      labels: [
+        'Eating',
+        'Drinking',
+        'Sleeping',
+        'Designing',
+        'Coding',
+        'Cycling',
+        'Running'
+      ],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [65, 59, 90, 81, 56, 55, 40],
+        fill: true,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)',
+        pointBackgroundColor: 'rgb(255, 99, 132)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgb(255, 99, 132)'
+      }, {
+        label: 'My Second Dataset',
+        data: [28, 48, 40, 19, 96, 27, 100],
+        fill: true,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgb(54, 162, 235)',
+        pointBackgroundColor: 'rgb(54, 162, 235)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgb(54, 162, 235)'
+      }]
+    
+    };
+    const options = {
+      scales: {
+        maintainAspectRatio: false,
+ 
+      },
+    };
+    return(
+      <div style={{width:"100%"}}>
+        <Radar data={data} 
+          width={"350px"}
+          height={"350px"}
+          options={{
+            maintainAspectRatio: false,
+            scales:{
+              r:{
+                ticks:{
+                  color:'white',
+                  backdropColor:'#343A40',
+                  maxTicksLimit:'3'
+                },
+                grid:{
+                  color:'black'
+                },
+                angleLines:{
+                  color:'black'
+                },
+                pointLabels:{
+                  color:'white'
+                }
+              }
+            },
+            plugins: { 
+              legend: {
+                labels:{
+                  color:'white'
+                }
+          }
+        }
+          }}
+        
+        />
+      </div>
+    )
+  }
 }
 const SubChart = (props) => {
-
   const graphType =props.graphType;
- 
-
   const [currentChart, setcurrentChart] = useState(graphType);
-  
-
   function changeChart(nameChart) {
     setcurrentChart(nameChart);
   }
@@ -139,6 +212,7 @@ const SubChart = (props) => {
         <button className={currentChart === 'Line' ? 'active-btn' : 'btn-chart'} onClick={()=>changeChart("Line")}>Line</button>
         <button className={currentChart === 'Pie' ? 'active-btn' : 'btn-chart'} onClick={()=>changeChart("Pie")}>Pie</button>
         <button className={currentChart === 'Bar' ? 'active-btn' : 'btn-chart'} onClick={()=>changeChart("Bar")}>Bar</button>
+        <button className={currentChart === 'Radar' ? 'active-btn' : 'btn-chart'} onClick={()=>changeChart("Radar")}>Radar</button>
         </div>
       </div>
       <hr style={{backgroundColor:"black"}}></hr>
