@@ -88,6 +88,16 @@ export class MainPage extends Component {
           </Grid>
         </Grid>
         </div>
+        <div style={{marginTop:"2%"}}>
+        <Grid container spacing={2}>
+          <Grid item md={6}>
+            <SubChart graphType="Bar"  />
+          </Grid>
+          <Grid item md={6}>
+            <SubChart graphType="Scatter" />
+          </Grid>
+        </Grid>
+        </div>
         {/* <div className='row' style={{marginTop:"6%"}}>
                     <div className='col-md-4'>
                     <div style={cardStyle}>BarChart</div>
