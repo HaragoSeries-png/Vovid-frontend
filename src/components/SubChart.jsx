@@ -143,11 +143,21 @@ const Swap = ({ chosen }) => {
           ticks: {
             color: "white",
           },
+          title:{
+            display:true,
+            text:'y-axis',
+            color:'white'
+          }
         },
         x: {
           ticks: {
             color: "white",
           },
+          title:{
+            display:true,
+            text:'x-axis',
+            color:'white'
+          }
         },
       },
     };
@@ -166,11 +176,21 @@ const Swap = ({ chosen }) => {
           ticks: {
             color: "white",
           },
+          title:{
+            display:true,
+            text:'y-axis',
+            color:'white'
+          }
         },
         x: {
           ticks: {
             color: "white",
           },
+          title:{
+            display:true,
+            text:'x-axis',
+            color:'white'
+          }
         },
       },
     };
@@ -322,11 +342,21 @@ const Swap = ({ chosen }) => {
                 ticks: {
                   color: "white",
                 },
+                title:{
+                  display:true,
+                  text:'y-axis',
+                  color:'white'
+                }
               },
               x: {
                 ticks: {
                   color: "white",
                 },
+                title:{
+                  display:true,
+                  text:'x-axis',
+                  color:'white'
+                }
               },
             },
           }}
