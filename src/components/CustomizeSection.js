@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/customSection.css";
 export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
-    const axisType =["Test1","test2","3","4","5","6"];
+    const axisType =["Location","New cases","Total cases","New deaths","Total deaths","Date"];
    
     const changeXaxis=(topic)=>{
       const a = topic;
@@ -51,7 +51,6 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
 
     return (
       <div className="main-container-visual">
-        <div>CustomizeSection</div>
         <div className="header-axis">
         <div>
           X-Axis
@@ -60,7 +59,10 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
           Y-Axis
         </div>
         </div>
+
+
         <div className="axis-type">
+
             <div className="axis-list">
               {axisType.map((item,index)=>{
                 return <div 
@@ -74,7 +76,7 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
               })}
 
             </div>
-            <div>
+
             <div className="axis-list">
               {axisType.map((item,index)=>{
                 return <div key={item} 
@@ -86,8 +88,12 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
               })}
 
             </div>
-            </div>
+        
+
         </div>
+
+
+
           {/* <div className="displayAxis">
               <div>{xAxis}</div>
               <div>{yAxis}</div>

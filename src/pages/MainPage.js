@@ -16,7 +16,7 @@ import SelectGraph from "../components/SelectGraph";
 const MainPage = () => {
   const [data, setdata] = useState({});
   const [country, setcountry] = useState();
-  const [xAxis, setxAxis] = useState("Test1");
+  const [xAxis, setxAxis] = useState("Location");
   const [yAxis, setyAxis] = useState("");
   const [graphSelector, setgraphSelector] = useState("Pie")
   
@@ -48,17 +48,31 @@ const MainPage = () => {
         </Grid>
         </Grid> */}
 
-        <CustomizeSection
+        {/* <CustomizeSection
           xAxis={xAxis}
           yAxis={yAxis}
           setxAxis={setxAxis}
           setyAxis={setyAxis}
-        />
+        /> */}
         {/* <SelectGraph  graphSelector={graphSelector} setgraphSelector ={setgraphSelector} /> */}
        
-        <SubChart graphType={graphSelector} x={xAxis} y={yAxis}  />
+        {/* <SubChart graphType={graphSelector} x={xAxis} y={yAxis}  /> */}
         
+        <div className="layout-customize">
+          <div className="wid-100-1">
+            <CustomizeSection
+          xAxis={xAxis}
+          yAxis={yAxis}
+          setxAxis={setxAxis}
+          setyAxis={setyAxis}          />
+          </div>
+          <div className="wid-100-2">
+            <div> 
+            <SubChart graphType={graphSelector} x={xAxis} y={yAxis}  /> 
+            </div>
 
+          </div>
+        </div>
       </div>
 
       {/* <div style={{ marginTop: "2%" }}>

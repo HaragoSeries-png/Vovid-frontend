@@ -4,7 +4,7 @@ import { Bar, Doughnut, Line, Radar, Scatter } from "react-chartjs-2";
 import HorizontalBar from "react-chartjs-2";
 import "../css/subChart.css";
 import { YAxis } from "recharts";
-const Swap = ({ chosen }) => {
+const Swap = ({ chosen,disableChart }) => {
 
   if (chosen === "Pie") {
 
@@ -29,11 +29,7 @@ const Swap = ({ chosen }) => {
     //   ]
     // }
 
-
-
-
-
-
+    if(disableChart ==="true"){
     return (
       <div
         className="graph-contain"
@@ -46,7 +42,7 @@ const Swap = ({ chosen }) => {
       >
         <div
           className="graph_donut"
-          style={{ width: "400px", paddingTop: "0px", marginTop: "-45px" }}
+          style={{ width: "500px", paddingTop: "0px", marginTop: "0px" }}
         >
           <Doughnut
             data={data}
@@ -67,7 +63,20 @@ const Swap = ({ chosen }) => {
           />
         </div>
       </div>
-    );
+    )
+          }
+          else{
+            return(
+              <div>
+                Can not visualize
+              </div>
+            )
+          }
+
+
+
+
+
   } else if (chosen === "Line") {
 
     //if dataset in y axis > 1  graph will compare between 2 dataset
@@ -106,8 +115,9 @@ const Swap = ({ chosen }) => {
     };
 
     return (
-      <div>
+      <div style={{width:"100%",height:"100%"}}>
         <Line
+          style={{width:"100%",height:"400px",marginTop:"3.5%"}}
           data={data}
           options={{
             plugins: {
@@ -243,7 +253,7 @@ const Swap = ({ chosen }) => {
       },
     };
     return (
-      <div>
+      <div style={{marginTo:"30%"}}>
         <div className="bar-header">
           <p
             className={
@@ -317,8 +327,8 @@ const Swap = ({ chosen }) => {
       <div style={{ width: "100%" }}>
         <Radar
           data={data}
-          width={"350px"}
-          height={"350px"}
+          width={"100%"}
+          height={"500px"}
           options={{
             maintainAspectRatio: false,
             scales: {
@@ -372,7 +382,7 @@ const Swap = ({ chosen }) => {
       ],
     };
     return (
-      <div>
+      <div style={{marginTop:"4%"}}>
         <Scatter
           data={data}
           options={{
@@ -420,17 +430,18 @@ const SubChart = (props) => {
   console.log("x : ",props.x);
   console.log("y : ",props.y);
   const [currentChart, setcurrentChart] = useState(graphType);
-  const [disableChart, setdisableChart] = useState(true);
+  const [disableChart, setdisableChart] = useState("true");
+
   function changeChart(nameChart) {
     setcurrentChart(nameChart);
   }
   useEffect(() => {
     changeChart(props.graphType);
-    if(props.x === "" || props.y ===" "){
-      setdisableChart(true)
+    if(props.x === "" || props.y ===""){
+      setdisableChart("true")
     }
     else{
-      setdisableChart(false)
+      setdisableChart("false")
     }
   }, [props.graphType,props.x,props.y])
   
@@ -438,7 +449,7 @@ const SubChart = (props) => {
     <div className="containChart">
       <div className="top-content">
         {/* */}
-        <div className="header-font">Attribute Name  X : {props.x} / Y : {props.y}   </div>
+        <div className="header-font">Attribute Name  X : {props.x} / Y : {props.y} | disable chart state : {disableChart}  </div>
         <div className="header-font">
           <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
@@ -475,7 +486,7 @@ const SubChart = (props) => {
       <hr style={{ backgroundColor: "black" }}></hr>
       <div className="btm-content">
         {/* {currentChart == "Bar" ? <div>Bar</div> :currentChart=="Pie"?<div>Pie</div>:<div>Soon</div>} */}
-        <Swap chosen={currentChart} />
+        <Swap chosen={currentChart} disableChart={disableChart} x={props.x} y={props.y} />
       </div>
     </div>
   );

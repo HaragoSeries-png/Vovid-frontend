@@ -45,3 +45,24 @@
   .body{
     background-color: #454D55;
   }
+  .layout-customize{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    column-gap: 0.5%;
+    row-gap: 5%; 
+  }
+  .wid-100-1{
+    width: 100%;
+  }
+  .wid-100-2{
+    width: 100%;
+    
+  }
+  .wid-100-3{
+    width: 100%;
+    background-color: pink;
+  }
+  .wid-100-4{
+    width: 100%;
+    background-color: yellow;
+  }
