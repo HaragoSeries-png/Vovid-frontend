@@ -1,0 +1,64 @@
+.main-container-visual{
+    height: min-content;
+    margin-bottom: 2%;
+    width: 100%;
+    margin-top:5%;
+}
+.mainBlock-visual{
+    width:100%;
+    padding: 5px;
+}
+.subBlock-visual{
+    padding:20px;
+    text-align: center;
+    color: white;
+    background-color: antiquewhite;
+}
+.option-contain{
+    margin-left: auto;
+    margin-right:auto;
+}
+.button-option-contain{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.header-axis{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+.button-option{
+    padding: 20px;
+    text-align: center;
+    color:white;
+    width: 100%;
+    border-radius: 8px;
+}
+.axis-type,.axis-list,.displayAxis{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 5px;
+    margin-top:1%;
+}
+.bgAxis{
+   background-color: #343A40;
+   user-select: none; 
+   cursor: pointer;
+   border-radius: 8px;
+}
+.bgAxis:hover{
+    background-color: orange;
+    color: black;
+    transition: .8s;
+}
+.bgAxis:active{
+    opacity: 0.75;
+}
+.bgAxis-active{
+    background-color: orange;
+    color: black;
+    transition: .3s;
+}
+.testBug{
+    background-color: wheat;
+}

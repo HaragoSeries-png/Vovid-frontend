@@ -1,11 +1,13 @@
 import { current } from "@reduxjs/toolkit";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bar, Doughnut, Line, Radar, Scatter } from "react-chartjs-2";
 import HorizontalBar from "react-chartjs-2";
 import "../css/subChart.css";
 import { YAxis } from "recharts";
 const Swap = ({ chosen }) => {
+
   if (chosen === "Pie") {
+
     const data = {
       labels: ["Pending", "Shipping", "Delivery", "Pickup"],
       datasets: [
@@ -15,6 +17,23 @@ const Swap = ({ chosen }) => {
         },
       ],
     };
+
+    // Pie
+    // data={
+    //   labels:[]
+    //   datasets:[
+    //     {
+    //       data:[],
+    //       backgroundColor:[""]
+    //     }
+    //   ]
+    // }
+
+
+
+
+
+
     return (
       <div
         className="graph-contain"
@@ -50,6 +69,23 @@ const Swap = ({ chosen }) => {
       </div>
     );
   } else if (chosen === "Line") {
+
+    //if dataset in y axis > 1  graph will compare between 2 dataset
+    //Line
+    // data={
+    // //xAxis  
+      // labels:[""],
+      //yAxis
+    //   datasets:[
+    //     {
+    //       label:"First data",
+    //       data:[]
+    //     },
+    //   ]
+    // }
+
+
+
     const data = {
       labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
       datasets: [
@@ -105,6 +141,18 @@ const Swap = ({ chosen }) => {
     function changeBarType(bool) {
       setverticalBar(bool);
     }
+
+
+    // //bar 
+    // data={
+    //   //xAxis
+    //   labels:[""],
+    //   datasets:[
+    //     {
+          
+    //     }
+    // ]
+    // }
     const dataBar = {
       labels: ["January", "February", "March", "April", "May", "June", "July"],
       datasets: [
@@ -365,17 +413,32 @@ const Swap = ({ chosen }) => {
     );
   }
 };
+
 const SubChart = (props) => {
+
   const graphType = props.graphType;
+  console.log("x : ",props.x);
+  console.log("y : ",props.y);
   const [currentChart, setcurrentChart] = useState(graphType);
+  const [disableChart, setdisableChart] = useState(true);
   function changeChart(nameChart) {
     setcurrentChart(nameChart);
   }
+  useEffect(() => {
+    changeChart(props.graphType);
+    if(props.x === "" || props.y ===" "){
+      setdisableChart(true)
+    }
+    else{
+      setdisableChart(false)
+    }
+  }, [props.graphType,props.x,props.y])
+  
   return (
     <div className="containChart">
       <div className="top-content">
         {/* */}
-        <div className="header-font">Attribute Name</div>
+        <div className="header-font">Attribute Name  X : {props.x} / Y : {props.y}   </div>
         <div className="header-font">
           <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
