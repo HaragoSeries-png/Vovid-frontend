@@ -328,6 +328,15 @@ const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
           hoverBorderColor: "rgba(255,99,132,1)",
           data: newCase,
         },
+        {
+          label: "new Death",
+          backgroundColor: "red",
+          borderColor: "red",
+          borderWidth: 1,
+          hoverBackgroundColor: "rgba(255,99,132,0.4)",
+          hoverBorderColor: "rgba(255,99,132,1)",
+          data: death,
+        },
       ],
     };
     const optionx = {
