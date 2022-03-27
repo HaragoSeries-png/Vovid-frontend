@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "../css/customSection.css";
 export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
-    const axisType =["Location","New cases","Total cases","New deaths","Total deaths","Date"];
-   
+    const axisxType =["Location","Date"];
+    const axisyType =["New cases","Total cases","New deaths","Total deaths"];
     const changeXaxis=(topic)=>{
       const a = topic;
       if(a === xAxis){
@@ -64,7 +64,7 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
         <div className="axis-type">
 
             <div className="axis-list">
-              {axisType.map((item,index)=>{
+              {axisxType.map((item,index)=>{
                 return <div 
                   key={item}
                   className={ "bgAxis " + (item === xAxis ? "bgAxis-active" : "")}
@@ -78,7 +78,7 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
             </div>
 
             <div className="axis-list">
-              {axisType.map((item,index)=>{
+              {axisyType.map((item,index)=>{
                 return <div key={item} 
                 className={ "bgAxis " + (item === yAxis ? "bgAxis-active" : "")}
                 onClick={()=>changeYaxis(item)}

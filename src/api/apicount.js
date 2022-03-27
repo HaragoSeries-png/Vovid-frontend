@@ -15,17 +15,8 @@ export const fetchData = async (country) => {
     //déconstruction de l'objet
     const {data: { confirmed, recovered, deaths, lastUpdate }
   } = await axios.get(changeableUrl);
-
     return { confirmed, recovered, deaths, lastUpdate };
-    /* OR
-    const modifiedData = {
-      confirmed: data.confirmed,
-      recovered: data.confirmed,
-      deaths: data.deaths,
-      lastUpdate: data.lastUpdate
-    }; */
 
-    //return modifiedData;
   } catch (error) {
     console.log(error);
   }

@@ -4,10 +4,9 @@ import { Bar, Doughnut, Line, Radar, Scatter } from "react-chartjs-2";
 import HorizontalBar from "react-chartjs-2";
 import "../css/subChart.css";
 import { YAxis } from "recharts";
-const Swap = ({ chosen,disableChart }) => {
 
+const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
   if (chosen === "Pie") {
-
     const data = {
       labels: ["Pending", "Shipping", "Delivery", "Pickup"],
       datasets: [
@@ -29,62 +28,51 @@ const Swap = ({ chosen,disableChart }) => {
     //   ]
     // }
 
-    if(disableChart ==="true"){
-    return (
-      <div
-        className="graph-contain"
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+    if (disableChart === "true") {
+      return (
         <div
-          className="graph_donut"
-          style={{ width: "500px", paddingTop: "0px", marginTop: "0px" }}
+          className="graph-contain"
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <Doughnut
-            data={data}
-            options={{
-              cutoutPercentage: 50,
-              maintainAspectRatio: true,
-              plugins: {
-                legend: {
-                  display: true,
-                  position: "right",
-                  align: "left",
-                  labels: {
-                    color: "white",
+          <div
+            className="graph_donut"
+            style={{ width: "500px", paddingTop: "0px", marginTop: "0px" }}
+          >
+            <Doughnut
+              data={data}
+              options={{
+                cutoutPercentage: 50,
+                maintainAspectRatio: true,
+                plugins: {
+                  legend: {
+                    display: true,
+                    position: "right",
+                    align: "left",
+                    labels: {
+                      color: "white",
+                    },
                   },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
-      </div>
-    )
-          }
-          else{
-            return(
-              <div>
-                Can not visualize
-              </div>
-            )
-          }
-
-
-
-
-
+      );
+    } else {
+      return <div>Can not visualize</div>;
+    }
   } else if (chosen === "Line") {
-
     //if dataset in y axis > 1  graph will compare between 2 dataset
     //Line
     // data={
-    // //xAxis  
-      // labels:[""],
-      //yAxis
+    // //xAxis
+    // labels:[""],
+    //yAxis
     //   datasets:[
     //     {
     //       label:"First data",
@@ -93,36 +81,100 @@ const Swap = ({ chosen,disableChart }) => {
     //   ]
     // }
 
-
-
+    let newCase = [];
+    let totalCase = [];
+    let location = [];
+    let date = [];
+    let newDeath = [];
+    let death = [];
+    let storageAxis= ["",""];
+    function pullAllValue() {
+      newCase = dataGraph?.map((value) => {
+        return value.newCase;
+      });
+      totalCase = dataGraph?.map((value) => {
+        return value.totalCase;
+      });
+      location = dataGraph?.map((value) => {
+        return value.location;
+      });
+      date = dataGraph?.map((value) => {
+        return value.date;
+      });
+      newDeath = dataGraph?.map((value) => {
+        return value.newDeath;
+      });
+      death = dataGraph?.map((value) => {
+        return value.death;
+      });
+    }
+    function chooseRealShow(axisValue,axis){
+        let setValue = 0;
+        if(axis === 0){
+          setValue = 0
+        }else if(axis===1){
+          setValue = 1
+        }
+        //before do function
+        console.log("axisValue : ",axisValue);
+        console.log("axis : ",setValue + " axis :",axis);
+        if(axisValue ==="Location"){
+          storageAxis[setValue] = location
+        }
+        else if(axisValue === "New cases"){
+          storageAxis[setValue] = newCase
+        }
+        else if(axisValue === "Total cases"){
+          storageAxis[setValue] = totalCase
+        }
+        else if(axisValue === "New deaths"){
+          storageAxis[setValue] = newDeath
+        }
+        else if(axisValue === "Total deaths"){
+          storageAxis[setValue] = death
+        }
+        else if(axisValue === "Date"){
+          storageAxis[setValue] = date
+        }
+        else{
+          storageAxis[setValue] = location
+        }
+    }
+    console.log("x : ",x);
+    console.log("y : ",y);
+    pullAllValue();
+    chooseRealShow(x,0);
+    chooseRealShow(y,1);
+   
     const data = {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      //x label
+      labels: storageAxis[0],
       datasets: [
         {
           label: "First dataset",
-          data: [33, 53, 85, 41, 44, 65],
+          //y label
+          data: storageAxis[1],
           fill: true,
-          backgroundColor: "rgba(75,192,192,0.2)",
-          borderColor: "rgba(75,192,192,1)",
-        },
-        {
-          label: "Second dataset",
-          data: [33, 25, 35, 51, 54, 76],
-          fill: false,
-          borderColor: "#742774",
+          backgroundColor: "orange",
+          borderColor: "orange",
         },
       ],
     };
 
     return (
-      <div style={{width:"100%",height:"100%"}}>
+      <div style={{ width: "100%", height: "100%" }}>
         <Line
-          style={{width:"100%",height:"400px",marginTop:"3.5%"}}
+          style={{
+            width: "100%",
+            height: "400px",
+            marginTop: "3.5%",
+            overflowX: "auto",
+          }}
           data={data}
           options={{
             plugins: {
               legend: {
-                display: true,
+                display: false,
 
                 labels: {
                   color: "white",
@@ -138,6 +190,9 @@ const Swap = ({ chosen,disableChart }) => {
               x: {
                 ticks: {
                   color: "white",
+                  //data can show all province but space in x axis is too low
+                  autoSkip: true,
+                  stepSize: 0.5,
                 },
               },
             },
@@ -152,37 +207,126 @@ const Swap = ({ chosen,disableChart }) => {
       setverticalBar(bool);
     }
 
-
-    // //bar 
+    // //bar
     // data={
     //   //xAxis
     //   labels:[""],
     //   datasets:[
     //     {
-          
+
     //     }
     // ]
     // }
+    
+    let newCase = [];
+    let totalCase = [];
+    let location = [];
+    let date = [];
+    let newDeath = [];
+    let death = [];
+    let storageAxis= ["",""];
+    function pullAllValue() {
+      newCase = dataGraph?.map((value) => {
+        return value.newCase;
+      });
+      totalCase = dataGraph?.map((value) => {
+        return value.totalCase;
+      });
+      location = dataGraph?.map((value) => {
+        return value.location;
+      });
+      date = dataGraph?.map((value) => {
+        return value.date;
+      });
+      newDeath = dataGraph?.map((value) => {
+        return value.newDeath;
+      });
+      death = dataGraph?.map((value) => {
+        return value.death;
+      });
+    }
+    function chooseRealShow(axisValue,axis){
+        let setValue = 0;
+        if(axis === 0){
+          setValue = 0
+        }else if(axis===1){
+          setValue = 1
+        }
+        //before do function
+        console.log("axisValue : ",axisValue);
+        console.log("axis : ",setValue + " axis :",axis);
+        if(axisValue ==="Location"){
+          storageAxis[setValue] = location
+        }
+        else if(axisValue === "New cases"){
+          storageAxis[setValue] = newCase
+        }
+        else if(axisValue === "Total cases"){
+          storageAxis[setValue] = totalCase
+        }
+        else if(axisValue === "New deaths"){
+          storageAxis[setValue] = newDeath
+        }
+        else if(axisValue === "Total deaths"){
+          storageAxis[setValue] = death
+        }
+        else if(axisValue === "Date"){
+          storageAxis[setValue] = date
+        }
+        else{
+          storageAxis[setValue] = location
+        }
+    }
+    console.log("x : ",x);
+    console.log("y : ",y);
+    pullAllValue();
+    chooseRealShow(x,0);
+    chooseRealShow(y,1);
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const dataBar = {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      labels: storageAxis[0],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Total Case",
           backgroundColor: "#EC932F",
           borderColor: "rgba(255,99,132,1)",
           borderWidth: 1,
           hoverBackgroundColor: "rgba(255,99,132,0.4)",
           hoverBorderColor: "rgba(255,99,132,1)",
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: storageAxis[1],
         },
         {
-          label: "My First dataset 2",
+          label: "new Cases",
           backgroundColor: "rgba(255,99,132,0.2)",
           borderColor: "rgba(255,99,132,1)",
           borderWidth: 1,
           hoverBackgroundColor: "rgba(255,99,132,0.4)",
           hoverBorderColor: "rgba(255,99,132,1)",
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: newCase,
         },
       ],
     };
@@ -195,27 +339,43 @@ const Swap = ({ chosen,disableChart }) => {
             color: "white",
           },
         },
+        zoom: {
+          zoom: {
+            wheel: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true
+            },
+            mode: 'xy',
+
+          },
+          pan: {
+            enabled: true,
+            mode: 'x',
+          },
+        }
       },
       scales: {
         y: {
           ticks: {
             color: "white",
           },
-          title:{
-            display:true,
-            text:'y-axis',
-            color:'white'
-          }
+          title: {
+            display: true,
+            text: "y-axis",
+            color: "white",
+          },
         },
         x: {
           ticks: {
             color: "white",
           },
-          title:{
-            display:true,
-            text:'x-axis',
-            color:'white'
-          }
+          title: {
+            display: true,
+            text: "x-axis",
+            color: "white",
+          },
         },
       },
     };
@@ -234,26 +394,26 @@ const Swap = ({ chosen,disableChart }) => {
           ticks: {
             color: "white",
           },
-          title:{
-            display:true,
-            text:'y-axis',
-            color:'white'
-          }
+          title: {
+            display: true,
+            text: "y-axis",
+            color: "white",
+          },
         },
         x: {
           ticks: {
             color: "white",
           },
-          title:{
-            display:true,
-            text:'x-axis',
-            color:'white'
-          }
+          title: {
+            display: true,
+            text: "x-axis",
+            color: "white",
+          },
         },
       },
     };
     return (
-      <div style={{marginTo:"30%"}}>
+      <div style={{ marginTo: "30%" }}>
         <div className="bar-header">
           <p
             className={
@@ -382,7 +542,7 @@ const Swap = ({ chosen,disableChart }) => {
       ],
     };
     return (
-      <div style={{marginTop:"4%"}}>
+      <div style={{ marginTop: "4%" }}>
         <Scatter
           data={data}
           options={{
@@ -400,21 +560,21 @@ const Swap = ({ chosen,disableChart }) => {
                 ticks: {
                   color: "white",
                 },
-                title:{
-                  display:true,
-                  text:'y-axis',
-                  color:'white'
-                }
+                title: {
+                  display: true,
+                  text: y,
+                  color: "white",
+                },
               },
               x: {
                 ticks: {
                   color: "white",
                 },
-                title:{
-                  display:true,
-                  text:'x-axis',
-                  color:'white'
-                }
+                title: {
+                  display: true,
+                  text: x,
+                  color: "white",
+                },
               },
             },
           }}
@@ -425,31 +585,30 @@ const Swap = ({ chosen,disableChart }) => {
 };
 
 const SubChart = (props) => {
-
   const graphType = props.graphType;
-  console.log("x : ",props.x);
-  console.log("y : ",props.y);
+  const dataGraph = props.dataGraph;
   const [currentChart, setcurrentChart] = useState(graphType);
   const [disableChart, setdisableChart] = useState("true");
-
   function changeChart(nameChart) {
     setcurrentChart(nameChart);
   }
   useEffect(() => {
     changeChart(props.graphType);
-    if(props.x === "" || props.y ===""){
-      setdisableChart("true")
+    if (props.x === "" || props.y === "") {
+      setdisableChart("true");
+    } else {
+      setdisableChart("false");
     }
-    else{
-      setdisableChart("false")
-    }
-  }, [props.graphType,props.x,props.y])
-  
+  }, [props.graphType, props.x, props.y]);
+
   return (
     <div className="containChart">
       <div className="top-content">
         {/* */}
-        <div className="header-font">Attribute Name  X : {props.x} / Y : {props.y} | disable chart state : {disableChart}  </div>
+        <div className="header-font">
+          Visualize data between {props.x} and {props.y} 
+          {/* {disableChart}{" "} */}
+        </div>
         <div className="header-font">
           <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
@@ -486,7 +645,14 @@ const SubChart = (props) => {
       <hr style={{ backgroundColor: "black" }}></hr>
       <div className="btm-content">
         {/* {currentChart == "Bar" ? <div>Bar</div> :currentChart=="Pie"?<div>Pie</div>:<div>Soon</div>} */}
-        <Swap chosen={currentChart} disableChart={disableChart} x={props.x} y={props.y} />
+        <Swap
+          chosen={currentChart}
+          disableChart={disableChart}
+          x={props.x}
+          y={props.y}
+          dataGraph={dataGraph}
+          style={{ width: "100%", overflowX: "auto" }}
+        />
       </div>
     </div>
   );

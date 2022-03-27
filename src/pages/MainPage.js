@@ -12,27 +12,45 @@ import { Card, Grid } from "@material-ui/core";
 import MainFirstChart from "../components/MainFirstChart";
 import CustomizeSection from "../components/CustomizeSection";
 import SelectGraph from "../components/SelectGraph";
-  
+import { fecthThAPI } from "../api/apiCountrySelection";
+
 const MainPage = () => {
   const [data, setdata] = useState({});
   const [country, setcountry] = useState();
   const [xAxis, setxAxis] = useState("Location");
   const [yAxis, setyAxis] = useState("");
-  const [graphSelector, setgraphSelector] = useState("Pie")
-  
+  const [graphSelector, setgraphSelector] = useState("Line")
+  const [dataGraph, setdataGraph] = useState()
+
   useEffect(async () => {
     const fetchedData = await fetchData();
     setdata(fetchedData);
-  
-  }, []);
+    console.log("web begin");
 
-  const handleCountryChange = async (country) => {
+
+  }, [])
+
+
+
+
+
+ const handleCountryChange = async (country) => {
     //fetch the data for a specific country
     const fetchedData = await fetchData(country);
     //set the state
     setdata(fetchedData);
     setcountry(country);
+    console.log("current : ",country);
+    if(country ==="Thailand"){
+    setdataGraph(await fecthThAPI());
+    console.log("data graph 1: ",dataGraph);
+    }
+    console.log("data graph 2: ",dataGraph);
   };
+
+
+
+
   return (
     <div className="container">
       <Topic />
@@ -68,7 +86,7 @@ const MainPage = () => {
           </div>
           <div className="wid-100-2">
             <div> 
-            <SubChart graphType={graphSelector} x={xAxis} y={yAxis}  /> 
+            <SubChart graphType={graphSelector} dataGraph={dataGraph} x={xAxis} y={yAxis}  /> 
             </div>
 
           </div>
