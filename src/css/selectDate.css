@@ -1,0 +1,25 @@
+.dateContainer .MuiFormControl-root{
+    display: flex;
+    width: 300px;
+}
+.dateContainer{
+    padding-top:2%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dateContainer .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+    background-color: #454D55;
+    border-radius: 11px;
+    user-select: none;
+    cursor: pointer;
+}
+.dateContainer .MuiInputLabel-root{
+    color: #ececec;
+}
+.dateContainer .MuiOutlinedInput-root{
+    color: #ececec;
+}
+.dateContainer .MuiOutlinedInput-input:focus{
+   
+}

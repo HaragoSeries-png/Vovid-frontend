@@ -19,15 +19,13 @@ const MainPage = () => {
   const [country, setcountry] = useState();
   const [xAxis, setxAxis] = useState("Location");
   const [yAxis, setyAxis] = useState("");
-  const [graphSelector, setgraphSelector] = useState("Line")
+  const [graphSelector, setgraphSelector] = useState(null)
   const [dataGraph, setdataGraph] = useState()
 
   useEffect(async () => {
     const fetchedData = await fetchData();
     setdata(fetchedData);
     console.log("web begin");
-
-
   }, [])
 
 
@@ -43,9 +41,7 @@ const MainPage = () => {
     console.log("current : ",country);
     if(country ==="Thailand"){
     setdataGraph(await fecthThAPI());
-    console.log("data graph 1: ",dataGraph);
     }
-    console.log("data graph 2: ",dataGraph);
   };
 
 

@@ -1,11 +1,19 @@
 import { current } from "@reduxjs/toolkit";
 import React, { useEffect, useState } from "react";
+import {Chart} from 'chart.js';
 import { Bar, Doughnut, Line, Radar, Scatter } from "react-chartjs-2";
 import HorizontalBar from "react-chartjs-2";
 import "../css/subChart.css";
 import { YAxis } from "recharts";
+import zoomPlugin from "chartjs-plugin-zoom";
+import SelectDate from "./SelectDate";
 
-const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
+Chart.register(zoomPlugin); // REGISTER PLUGIN
+
+const Swap = ({ chosen, disableChart, x, y, dataGraph,valueDate }) => {
+  console.log(valueDate);
+  console.log("dtg  :",chosen);
+  
   if (chosen === "Pie") {
     const data = {
       labels: ["Pending", "Shipping", "Delivery", "Pickup"],
@@ -81,33 +89,64 @@ const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
     //   ]
     // }
 
-    let newCase = [];
+    let newCase ;
     let totalCase = [];
-    let location = [];
+    let location ;
     let date = [];
     let newDeath = [];
     let death = [];
     let storageAxis= ["",""];
+    let dataStorage = [];
+    let ddate ;
+    let realLocate =[];
+    let testDatax =['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul'];
+    let testDatay =[1,2,3,4,5];
     function pullAllValue() {
-      newCase = dataGraph?.map((value) => {
-        return value.newCase;
+
+    let returnData = dataGraph?.filter((val)=>{
+      return val.date == ddate
+    })
+      newCase = returnData?.map((value) => {
+        let a = value.result;
+        let result = a.map(x => x.newCase)
+        return result
       });
-      totalCase = dataGraph?.map((value) => {
-        return value.totalCase;
+      console.log("real : ",newCase);
+      totalCase = returnData?.map((value) => {
+        let a = value.result;
+        let result = a.map(x => x.totalCase)
+        return result
       });
-      location = dataGraph?.map((value) => {
-        return value.location;
+      location = returnData?.map((value) => {
+        let a = value.result;
+        let result = a.map(x => x.location)
+        return result
       });
+      console.log("lct",location);
       date = dataGraph?.map((value) => {
-        return value.date;
+        date.push(value.date)
       });
-      newDeath = dataGraph?.map((value) => {
-        return value.newDeath;
+      newDeath = returnData?.map((value) => {
+        let a = value.result;
+        let result = a.map(x => x.newDeath)
+        return result
       });
-      death = dataGraph?.map((value) => {
-        return value.death;
+      death = returnData?.map((value) => {
+        let a = value.result;
+        let result = a.map(x => x.death)
+        return result
       });
     }
+    // console.log("data is : ",dataGraph);
+    // console.log("totalCase : ",totalCase);
+    // console.log("location : ",location);
+    // console.log("date : ",date);
+    // console.log("newDeath : ",newDeath);
+    // console.log("death : ",death);
+    // let testlo = location.split(',');
+    // console.log(testlo);
+    // console.log();
+
     function chooseRealShow(axisValue,axis){
         let setValue = 0;
         if(axis === 0){
@@ -140,20 +179,21 @@ const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
           storageAxis[setValue] = location
         }
     }
-    console.log("x : ",x);
-    console.log("y : ",y);
+    
     pullAllValue();
     chooseRealShow(x,0);
     chooseRealShow(y,1);
-   
+    console.log(storageAxis);
+    // let spit = location?.split(',');
+    
     const data = {
       //x label
-      labels: storageAxis[0],
+      labels: testDatax,
       datasets: [
         {
           label: "First dataset",
           //y label
-          data: storageAxis[1],
+          data: testDatay,
           fill: true,
           backgroundColor: "orange",
           borderColor: "orange",
@@ -172,7 +212,22 @@ const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
           }}
           data={data}
           options={{
+
             plugins: {
+              // zoom: {
+              //   zoom: {
+              //     wheel: {
+              //       enabled: true // SET SCROOL ZOOM TO TRUE
+              //     },
+              //     mode: "x",
+              //     speed: 100
+              //   },
+              //   pan: {
+              //     enabled: true,
+              //     mode: "x",
+              //     speed: 100
+              //   }
+              // },
               legend: {
                 display: false,
 
@@ -180,6 +235,7 @@ const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
                   color: "white",
                 },
               },
+              
             },
             scales: {
               y: {
@@ -283,23 +339,6 @@ const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
     chooseRealShow(x,0);
     chooseRealShow(y,1);
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -451,7 +490,7 @@ const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
         )}
       </div>
     );
-  } else if (chosen == "Radar") {
+  } else if (chosen === "Radar") {
     const data = {
       labels: [
         "Eating",
@@ -524,6 +563,8 @@ const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
                   color: "white",
                 },
               },
+              
+              
             },
           }}
         />
@@ -591,6 +632,15 @@ const Swap = ({ chosen, disableChart, x, y, dataGraph }) => {
       </div>
     );
   }
+  else{
+      return  (
+        <div>
+          <button>
+              Visualization 
+          </button>
+        </div>
+      )
+  }
 };
 
 const SubChart = (props) => {
@@ -598,20 +648,28 @@ const SubChart = (props) => {
   const dataGraph = props.dataGraph;
   const [currentChart, setcurrentChart] = useState(graphType);
   const [disableChart, setdisableChart] = useState("true");
+  const [valueDate, setValueDate] = React.useState(null);
+
+
   function changeChart(nameChart) {
     setcurrentChart(nameChart);
   }
   useEffect(() => {
+    console.log("value date : ".valueDate);
     changeChart(props.graphType);
+    
     if (props.x === "" || props.y === "") {
       setdisableChart("true");
     } else {
       setdisableChart("false");
     }
-  }, [props.graphType, props.x, props.y]);
-
+  }, [props.graphType, props.x, props.y,valueDate]);
+  
   return (
     <div className="containChart">
+      <div className="dateSelectContainer">
+      <SelectDate  valueDate={valueDate} setValueDate={setValueDate} />
+      </div>
       <div className="top-content">
         {/* */}
         <div className="header-font">
@@ -619,30 +677,32 @@ const SubChart = (props) => {
           {/* {disableChart}{" "} */}
         </div>
         <div className="header-font">
-          <button
+          
+          <button     
+                  
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Line")}
           >
             Line
           </button>
-          <button
+          {/* <button
             className={currentChart === "Pie" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Pie")}
           >
             Pie
-          </button>
+          </button> */}
           <button
             className={currentChart === "Bar" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Bar")}
           >
             Bar
           </button>
-          <button
+          {/* <button
             className={currentChart === "Radar" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Radar")}
           >
             Radar
-          </button>
+          </button> */}
           <button
             className={currentChart === "Scatter" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Scatter")}
@@ -652,17 +712,27 @@ const SubChart = (props) => {
         </div>
       </div>
       <hr style={{ backgroundColor: "black" }}></hr>
-      <div className="btm-content">
+     
+      <div className="btm-content"  >
         {/* {currentChart == "Bar" ? <div>Bar</div> :currentChart=="Pie"?<div>Pie</div>:<div>Soon</div>} */}
         <Swap
+        
           chosen={currentChart}
           disableChart={disableChart}
           x={props.x}
           y={props.y}
           dataGraph={dataGraph}
+          valueDate = {valueDate}
           style={{ width: "100%", overflowX: "auto" }}
         />
+     
+     
+     
       </div>
+   
+   
+   
+   
     </div>
   );
 };

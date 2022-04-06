@@ -4,7 +4,9 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
     const axisxType =["Location","Date"];
     const axisyType =["New cases","Total cases","New deaths","Total deaths"];
     const changeXaxis=(topic)=>{
+      console.log("eieiei");
       const a = topic;
+      console.log("location : ",a);
       if(a === xAxis){
         setxAxis("")
       }
@@ -14,7 +16,7 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
     }
     const changeYaxis=(topic)=>{
       const b = topic;
-      
+      console.log("change y");
       if(b === yAxis){
         setyAxis("")
       }
