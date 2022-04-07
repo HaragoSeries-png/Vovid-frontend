@@ -18,14 +18,14 @@ const MainPage = () => {
   const [data, setdata] = useState({});
   const [country, setcountry] = useState();
   const [xAxis, setxAxis] = useState("Location");
-  const [yAxis, setyAxis] = useState("");
-  const [graphSelector, setgraphSelector] = useState(null)
+  const [yAxis, setyAxis] = useState("New cases");
+  const [graphSelector, setgraphSelector] = useState()
   const [dataGraph, setdataGraph] = useState()
 
   useEffect(async () => {
     const fetchedData = await fetchData();
     setdata(fetchedData);
-    console.log("web begin");
+    
   }, [])
 
 
@@ -38,7 +38,7 @@ const MainPage = () => {
     //set the state
     setdata(fetchedData);
     setcountry(country);
-    console.log("current : ",country);
+    
     if(country ==="Thailand"){
     setdataGraph(await fecthThAPI());
     }
@@ -73,16 +73,19 @@ const MainPage = () => {
         {/* <SubChart graphType={graphSelector} x={xAxis} y={yAxis}  /> */}
         
         <div className="layout-customize">
+          
           <div className="wid-100-1">
-            <CustomizeSection
+          <CustomizeSection
           xAxis={xAxis}
           yAxis={yAxis}
           setxAxis={setxAxis}
-          setyAxis={setyAxis}          />
+          setyAxis={setyAxis}/>
           </div>
+
+
           <div className="wid-100-2">
             <div> 
-            <SubChart graphType={graphSelector} dataGraph={dataGraph} x={xAxis} y={yAxis}  /> 
+            <SubChart  dataGraph={dataGraph} x={xAxis} y={yAxis}  /> 
             </div>
 
           </div>

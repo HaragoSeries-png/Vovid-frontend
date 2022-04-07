@@ -16,7 +16,7 @@ const getLocationName = (event) => {
 const handleLocationFocus = (event)=>{
 const currentLocate =getLocationName(event)
 setFocusedLocation(currentLocate)
-console.log(focusedLocation);
+// console.log(focusedLocation);
 }
 const thMap = (
 <div>

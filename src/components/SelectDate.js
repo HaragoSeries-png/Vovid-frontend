@@ -105,7 +105,7 @@ const SelectDate = ({valueDate,setValueDate}) =>{
     tyear = selectedDay.year;
     if(tday <10){
       tday = "0"+ String(selectedDay.day);
-      console.log(tday); 
+    
     }
     if(tmonth <10){
       tmonth = "0"+String(selectedDay.month) 
@@ -113,9 +113,7 @@ const SelectDate = ({valueDate,setValueDate}) =>{
     strDate = String(tyear)+"-"+String(tmonth)+"-"+String(tday)
     a = strDate
     }
-    // setValueDate(realValue)
-    // console.log("day : ",day);
-    // console.log("month : ",month);
+
   }
 
   //set date and check null if nll then go disable buttomn

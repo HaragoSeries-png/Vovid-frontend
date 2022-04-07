@@ -35,7 +35,7 @@ const cookSlice = createSlice({
             state.status = 'pending'
         })
         builder.addCase(getAllFood.fulfilled,(state,action)=>{
-            console.log("action-fullfield : ",action);
+
             state.loading = false;
             state.status = 'success'
             state.data = action.payload.data

@@ -3,7 +3,6 @@ import { NativeSelect, FormControl } from "@material-ui/core";
 import { fetchCountries } from "../api/apicount";
 import "../css/countryPicker.css"
 const CountryPicker = (props) => {
-  console.log("crp : ",props);
   // const [fetchedCountries, setFetchedCountries] = useState([]);
   //effect will only activate if the values in the list change
   //by adding setFechedCountries as parameterts thats enables to pick different countries

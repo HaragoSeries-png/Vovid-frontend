@@ -7,18 +7,96 @@ import "../css/subChart.css";
 import { YAxis } from "recharts";
 import zoomPlugin from "chartjs-plugin-zoom";
 import SelectDate from "./SelectDate";
-import { fetchDateth } from "../api/apiCountrySelection";
+import { fecthThAPI, fetchDateth } from "../api/apiCountrySelection";
+import { async } from "q";
 
 Chart.register(zoomPlugin); // REGISTER PLUGIN
 
-const Swap = ({ chosen, disableChart, x, y, dataGraph,valueDate,dateData }) => {
+const Swap = ({ chosen, disableChart, x, y, dataGraph,valueDate,dateD0ata,setcurrentChart }) => {
+let keepData = ""
+let allDate
+let currentState 
+const [dateProp, setdateProp] = useState("")
+const [dateSelect, setdateSelect] = useState("")
+const [verticalBar, setverticalBar] = useState(true)
+let apidata = dateProp[0]
+let newCase=[] ;
+let totalCase = [];
+let location=[] ;
+let date = [];
+let newDeath = [];
+let death = [];
+let storageAxis= [" "," "];
+console.log("chosen : ",chosen);
+
+function pullAllValue() {
+newCase = apidata?.result.map((val)=>{
+    let a = val.newCase
+    return a
+
+  })
+  location = apidata?.result.map((val)=>{
+    let a = val.location
+    // console.log(a);
+    return a
+  })
+  totalCase = apidata?.result.map((val)=>{
+    let a = val.totalCase
+    // console.log(a);
+    return a
+  })
+  newDeath = apidata?.result.map((val)=>{
+    let a = val.newDeath
+    // console.log(a);
+    return a
+  })
+  death = apidata?.result.map((val)=>{
+    let a = val.death
+    // console.log(a);
+    return a
+  })
+}
+
+
+function chooseRealShow(axisValue,axis){
+    let setValue = 0;
+    if(axis === 0){
+      setValue = 0
+    }else if(axis===1){
+      setValue = 1
+    }
+    if(axisValue ==="Location"){
+      storageAxis[setValue] = location
+    }
+    else if(axisValue === "New cases"){
+      storageAxis[setValue] = newCase
+    }
+    else if(axisValue === "Total cases"){
+      storageAxis[setValue] = totalCase
+    }
+    else if(axisValue === "New deaths"){
+      storageAxis[setValue] = newDeath
+    }
+    else if(axisValue === "Total deaths"){
+      storageAxis[setValue] = death
+    }
+    else if(axisValue === "Date"){
+      storageAxis[setValue] = date
+    }
+    else{
+      storageAxis[setValue] = location
+    }
+}
+pullAllValue();
+chooseRealShow(x,0);
+chooseRealShow(y,1);
 
 useEffect(async() => {
-  let fetchDataDateapi = await fetchDateth(valueDate)
-  console.log("use : ",fetchDataDateapi);
-
+  keepData = await fetchDateth(valueDate)
+  allDate  = await fecthThAPI();
+  setdateSelect(allDate);
+  setdateProp(keepData)
 }, [valueDate])
-
 
   if (chosen === "Pie") {
     const data = {
@@ -95,111 +173,16 @@ useEffect(async() => {
     //   ]
     // }
 
-    let newCase ;
-    let totalCase = [];
-    let location ;
-    let date = [];
-    let newDeath = [];
-    let death = [];
-    let storageAxis= ["",""];
-    let dataStorage = [];
-    let ddate ;
-    let realLocate =[];
-    let testDatax =['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul'];
-    let testDatay =[1,2,3,4,5];
-    function pullAllValue() {
-
-    let returnData = dataGraph?.filter((val)=>{
-      return val.date == ddate
-    })
-      newCase = returnData?.map((value) => {
-        let a = value.result;
-        let result = a.map(x => x.newCase)
-        return result
-      });
-      console.log("real : ",newCase);
-      totalCase = returnData?.map((value) => {
-        let a = value.result;
-        let result = a.map(x => x.totalCase)
-        return result
-      });
-      location = returnData?.map((value) => {
-        let a = value.result;
-        let result = a.map(x => x.location)
-        return result
-      });
-      console.log("lct",location);
-      date = dataGraph?.map((value) => {
-        date.push(value.date)
-      });
-      newDeath = returnData?.map((value) => {
-        let a = value.result;
-        let result = a.map(x => x.newDeath)
-        return result
-      });
-      death = returnData?.map((value) => {
-        let a = value.result;
-        let result = a.map(x => x.death)
-        return result
-      });
-    }
-    // console.log("data is : ",dataGraph);
-    // console.log("totalCase : ",totalCase);
-    // console.log("location : ",location);
-    // console.log("date : ",date);
-    // console.log("newDeath : ",newDeath);
-    // console.log("death : ",death);
-    // let testlo = location.split(',');
-    // console.log(testlo);
-    // console.log();
-
-    function chooseRealShow(axisValue,axis){
-        let setValue = 0;
-        if(axis === 0){
-          setValue = 0
-        }else if(axis===1){
-          setValue = 1
-        }
-        //before do function
-        console.log("axisValue : ",axisValue);
-        console.log("axis : ",setValue + " axis :",axis);
-        if(axisValue ==="Location"){
-          storageAxis[setValue] = location
-        }
-        else if(axisValue === "New cases"){
-          storageAxis[setValue] = newCase
-        }
-        else if(axisValue === "Total cases"){
-          storageAxis[setValue] = totalCase
-        }
-        else if(axisValue === "New deaths"){
-          storageAxis[setValue] = newDeath
-        }
-        else if(axisValue === "Total deaths"){
-          storageAxis[setValue] = death
-        }
-        else if(axisValue === "Date"){
-          storageAxis[setValue] = date
-        }
-        else{
-          storageAxis[setValue] = location
-        }
-    }
     
-    pullAllValue();
-    chooseRealShow(x,0);
-    chooseRealShow(y,1);
-    console.log(storageAxis);
-    // let spit = location?.split(',');
-    
+ 
     const data = {
       //x label
-      labels: testDatax,
+      labels: storageAxis[0],
       datasets: [
         {
           label: "First dataset",
           //y label
-          data: testDatay,
+          data: storageAxis[1],
           fill: true,
           backgroundColor: "orange",
           borderColor: "orange",
@@ -220,20 +203,20 @@ useEffect(async() => {
           options={{
 
             plugins: {
-              // zoom: {
-              //   zoom: {
-              //     wheel: {
-              //       enabled: true // SET SCROOL ZOOM TO TRUE
-              //     },
-              //     mode: "x",
-              //     speed: 100
-              //   },
-              //   pan: {
-              //     enabled: true,
-              //     mode: "x",
-              //     speed: 100
-              //   }
-              // },
+              zoom: {
+                zoom: {
+                  wheel: {
+                    enabled: true // SET SCROOL ZOOM TO TRUE
+                  },
+                  mode: "x",
+                  speed: 100
+                },
+                pan: {
+                  enabled: true,
+                  mode: "x",
+                  speed: 100
+                }
+              },
               legend: {
                 display: false,
 
@@ -247,6 +230,7 @@ useEffect(async() => {
               y: {
                 ticks: {
                   color: "white",
+                  autoSkip: true,
                 },
               },
               x: {
@@ -254,7 +238,7 @@ useEffect(async() => {
                   color: "white",
                   //data can show all province but space in x axis is too low
                   autoSkip: true,
-                  stepSize: 0.5,
+                  
                 },
               },
             },
@@ -263,97 +247,15 @@ useEffect(async() => {
       </div>
     );
   } else if (chosen === "Bar") {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [verticalBar, setverticalBar] = useState(true);
+
+  
+   
     function changeBarType(bool) {
       setverticalBar(bool);
     }
 
-    // //bar
-    // data={
-    //   //xAxis
-    //   labels:[""],
-    //   datasets:[
-    //     {
-
-    //     }
-    // ]
-    // }
-    
-    let newCase = [];
-    let totalCase = [];
-    let location = [];
-    let date = [];
-    let newDeath = [];
-    let death = [];
-    let storageAxis= ["",""];
-    function pullAllValue() {
-      newCase = dataGraph?.map((value) => {
-        return value.newCase;
-      });
-      totalCase = dataGraph?.map((value) => {
-        return value.totalCase;
-      });
-      location = dataGraph?.map((value) => {
-        return value.location;
-      });
-      date = dataGraph?.map((value) => {
-        return value.date;
-      });
-      newDeath = dataGraph?.map((value) => {
-        return value.newDeath;
-      });
-      death = dataGraph?.map((value) => {
-        return value.death;
-      });
-    }
-    function chooseRealShow(axisValue,axis){
-        let setValue = 0;
-        if(axis === 0){
-          setValue = 0
-        }else if(axis===1){
-          setValue = 1
-        }
-        //before do function
-        console.log("axisValue : ",axisValue);
-        console.log("axis : ",setValue + " axis :",axis);
-        if(axisValue ==="Location"){
-          storageAxis[setValue] = location
-        }
-        else if(axisValue === "New cases"){
-          storageAxis[setValue] = newCase
-        }
-        else if(axisValue === "Total cases"){
-          storageAxis[setValue] = totalCase
-        }
-        else if(axisValue === "New deaths"){
-          storageAxis[setValue] = newDeath
-        }
-        else if(axisValue === "Total deaths"){
-          storageAxis[setValue] = death
-        }
-        else if(axisValue === "Date"){
-          storageAxis[setValue] = date
-        }
-        else{
-          storageAxis[setValue] = location
-        }
-    }
-    console.log("x : ",x);
-    console.log("y : ",y);
-    pullAllValue();
-    chooseRealShow(x,0);
-    chooseRealShow(y,1);
-   
-
-
-
-
-
-
-
     const dataBar = {
-      labels: storageAxis[0],
+      labels:storageAxis[0],
       datasets: [
         {
           label: "Total Case",
@@ -364,24 +266,24 @@ useEffect(async() => {
           hoverBorderColor: "rgba(255,99,132,1)",
           data: storageAxis[1],
         },
-        {
-          label: "new Cases",
-          backgroundColor: "rgba(255,99,132,0.2)",
-          borderColor: "rgba(255,99,132,1)",
-          borderWidth: 1,
-          hoverBackgroundColor: "rgba(255,99,132,0.4)",
-          hoverBorderColor: "rgba(255,99,132,1)",
-          data: newCase,
-        },
-        {
-          label: "new Death",
-          backgroundColor: "red",
-          borderColor: "red",
-          borderWidth: 1,
-          hoverBackgroundColor: "rgba(255,99,132,0.4)",
-          hoverBorderColor: "rgba(255,99,132,1)",
-          data: death,
-        },
+        // {
+        //   label: "new Cases",
+        //   backgroundColor: "rgba(255,99,132,0.2)",
+        //   borderColor: "rgba(255,99,132,1)",
+        //   borderWidth: 1,
+        //   hoverBackgroundColor: "rgba(255,99,132,0.4)",
+        //   hoverBorderColor: "rgba(255,99,132,1)",
+        //   data: newCase,
+        // },
+        // {
+        //   label: "new Death",
+        //   backgroundColor: "red",
+        //   borderColor: "red",
+        //   borderWidth: 1,
+        //   hoverBackgroundColor: "rgba(255,99,132,0.4)",
+        //   hoverBorderColor: "rgba(255,99,132,1)",
+        //   data: death,
+        // },
       ],
     };
     const optionx = {
@@ -442,6 +344,22 @@ useEffect(async() => {
             color: "white",
           },
         },
+        zoom: {
+          zoom: {
+            wheel: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true
+            },
+            mode: 'xy',
+
+          },
+          pan: {
+            enabled: true,
+            mode: 'x',
+          },
+        }
       },
       scales: {
         y: {
@@ -486,17 +404,20 @@ useEffect(async() => {
             Horizontal Display
           </p>
         </div>
-        {/* if(verticalBar === true){
-          <Bar data={dataBar}/>
-        } */}
+
         {verticalBar === true ? (
           <Bar data={dataBar} options={optiony} />
         ) : (
           <Bar data={dataBar} options={optionx} />
         )}
+
+
+        
       </div>
     );
-  } else if (chosen === "Radar") {
+  } 
+  
+  else if (chosen === "Radar") {
     const data = {
       labels: [
         "Eating",
@@ -650,9 +571,9 @@ useEffect(async() => {
 };
 
 const SubChart = (props) => {
-  const graphType = props.graphType;
+
   const dataGraph = props.dataGraph;
-  const [currentChart, setcurrentChart] = useState(graphType);
+  const [currentChart, setcurrentChart] = useState(null);
   const [disableChart, setdisableChart] = useState("true");
   const [valueDate, setValueDate] = useState("");
   let usedDataDate =""
@@ -663,7 +584,6 @@ const SubChart = (props) => {
 
 
   useEffect(async() => {
-    changeChart(props.graphType);
     if (props.x === "" || props.y === "") {
       setdisableChart("true");
     } else {
@@ -771,6 +691,7 @@ const SubChart = (props) => {
         <Swap
           dateData = {usedDataDate}
           chosen={currentChart}
+          setcurrentChart={setcurrentChart}
           disableChart={disableChart}
           x={props.x}
           y={props.y}

@@ -8,7 +8,7 @@ export const fecthThAPI = async () => {
   try {
     //déconstruction de l'objet
     const data = await axios.get(apiUrl);
-    console.log("from api ",data.data);
+    // console.log("from api ",data.data);
     return data.data;
 
   } catch (error) {

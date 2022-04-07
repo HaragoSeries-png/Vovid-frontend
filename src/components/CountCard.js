@@ -29,7 +29,7 @@ const CountCard = ({ data }) => {
   }
   return (
     <div>
-      {console.log(data)}
+
       <Grid container spacing={1} justify="space-around">
         <Grid item sm={12} md={3} className="type-box">
           <CardContent>

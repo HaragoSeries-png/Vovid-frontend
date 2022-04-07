@@ -1,29 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/customSection.css";
 export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
     const axisxType =["Location","Date"];
     const axisyType =["New cases","Total cases","New deaths","Total deaths"];
+    let x;
+    let y;
     const changeXaxis=(topic)=>{
-      console.log("eieiei");
       const a = topic;
-      console.log("location : ",a);
+      console.log("x axis : ",a);
       if(a === xAxis){
         setxAxis("")
       }
       else{
       setxAxis(topic);
+      x= topic
       }
     }
     const changeYaxis=(topic)=>{
       const b = topic;
-      console.log("change y");
+      console.log("y axis : ",b);
       if(b === yAxis){
         setyAxis("")
       }
       else{
       setyAxis(topic);
+      y=topic
       }
     }
+
   //   const firstData =[
   //   {
   //     name:1,
@@ -70,7 +74,7 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
                 return <div 
                   key={item}
                   className={ "bgAxis " + (item === xAxis ? "bgAxis-active" : "")}
-                  onClick={()=>changeXaxis(item)}
+                  onClick={()=>setxAxis(item)}
                   
                   >
                   {item}
@@ -83,7 +87,7 @@ export default function CustomizeSection({xAxis,yAxis,setxAxis,setyAxis}){
               {axisyType.map((item,index)=>{
                 return <div key={item} 
                 className={ "bgAxis " + (item === yAxis ? "bgAxis-active" : "")}
-                onClick={()=>changeYaxis(item)}
+                onClick={()=>setyAxis(item)}
                 >
                   {item}
                 </div>
