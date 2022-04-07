@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
 import "../css/selectDate.css"
 import { Calendar, utils } from "react-modern-calendar-datepicker";
 const SelectDate = ({valueDate,setValueDate}) =>{
-  console.log("from component : ",valueDate);
+
   const [selectedDay, setSelectedDay] = useState(null);
+  let a = "";
   const useDate = {
     year:2022,
     day:0,
@@ -17,15 +18,11 @@ const SelectDate = ({valueDate,setValueDate}) =>{
     month:0
   }
 
-
-
-
   function checkDate(){
     let fDay;
     let fmonth;
     let mDay;
     let mMonth
-    
     mDay = utils().getToday().day;
     mMonth = utils().getToday().month;
     if(mDay - 1 ==0){
@@ -41,9 +38,6 @@ const SelectDate = ({valueDate,setValueDate}) =>{
     }
     maxDate.day = mDay;
     maxDate.month = mMonth;
-  
-
-
     fDay = utils().getToday().day;
     fmonth = utils().getToday().month;
     if(fDay - 7 <=0){
@@ -98,18 +92,39 @@ const SelectDate = ({valueDate,setValueDate}) =>{
      useDate.day = fDay;
      useDate.month = fmonth;
     }
-    console.log("select day : ",selectedDay);
+    
   }
   function toISOFormat(){
-    let day;
-    let month;
-    let year;
-    day = selectedDay.day;
-    month = selectedDay.month;
-    year = selectedDay.year
+    let tday = 0
+    let tmonth = 0
+    let tyear = 0
+    let strDate;
+    if(selectedDay !== null){
+    tday = selectedDay.day;
+    tmonth = selectedDay.month;
+    tyear = selectedDay.year;
+    if(tday <10){
+      tday = "0"+ String(selectedDay.day);
+      console.log(tday); 
+    }
+    if(tmonth <10){
+      tmonth = "0"+String(selectedDay.month) 
+    }
+    strDate = String(tyear)+"-"+String(tmonth)+"-"+String(tday)
+    a = strDate
+    }
+    // setValueDate(realValue)
+    // console.log("day : ",day);
+    // console.log("month : ",month);
   }
-  checkDate();
 
+  //set date and check null if nll then go disable buttomn
+  checkDate();
+  toISOFormat();
+  useEffect(() => {
+    setValueDate(a)
+  }, [selectedDay])
+  
     return (
         <div className='dateContainer'>
       <DatePicker
@@ -119,7 +134,7 @@ const SelectDate = ({valueDate,setValueDate}) =>{
       shouldHighlightWeekends
       minimumDate={useDate}
       maximumDate={maxDate}
-    
+      
     />
       </div>
     );

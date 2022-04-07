@@ -7,13 +7,19 @@ import "../css/subChart.css";
 import { YAxis } from "recharts";
 import zoomPlugin from "chartjs-plugin-zoom";
 import SelectDate from "./SelectDate";
+import { fetchDateth } from "../api/apiCountrySelection";
 
 Chart.register(zoomPlugin); // REGISTER PLUGIN
 
-const Swap = ({ chosen, disableChart, x, y, dataGraph,valueDate }) => {
-  console.log(valueDate);
-  console.log("dtg  :",chosen);
-  
+const Swap = ({ chosen, disableChart, x, y, dataGraph,valueDate,dateData }) => {
+
+useEffect(async() => {
+  let fetchDataDateapi = await fetchDateth(valueDate)
+  console.log("use : ",fetchDataDateapi);
+
+}, [valueDate])
+
+
   if (chosen === "Pie") {
     const data = {
       labels: ["Pending", "Shipping", "Delivery", "Pickup"],
@@ -648,38 +654,30 @@ const SubChart = (props) => {
   const dataGraph = props.dataGraph;
   const [currentChart, setcurrentChart] = useState(graphType);
   const [disableChart, setdisableChart] = useState("true");
-  const [valueDate, setValueDate] = React.useState(null);
-
+  const [valueDate, setValueDate] = useState("");
+  let usedDataDate =""
 
   function changeChart(nameChart) {
     setcurrentChart(nameChart);
   }
-  useEffect(() => {
-    console.log("value date : ".valueDate);
+
+
+  useEffect(async() => {
     changeChart(props.graphType);
-    
     if (props.x === "" || props.y === "") {
       setdisableChart("true");
     } else {
       setdisableChart("false");
     }
-  }, [props.graphType, props.x, props.y,valueDate]);
   
-  return (
-    <div className="containChart">
-      <div className="dateSelectContainer">
-      <SelectDate  valueDate={valueDate} setValueDate={setValueDate} />
-      </div>
-      <div className="top-content">
-        {/* */}
-        <div className="header-font">
-          Visualize data between {props.x} and {props.y} 
-          {/* {disableChart}{" "} */}
-        </div>
-        <div className="header-font">
-          
+    
+ 
+  }, [props.graphType, props.x, props.y,valueDate]);
+  const BtnDisplay =()=> {
+      if(valueDate !== ""){
+      return(
+          <div className="header-font">
           <button     
-                  
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Line")}
           >
@@ -710,13 +708,68 @@ const SubChart = (props) => {
             Scatter
           </button>
         </div>
+   
+      )
+      }  
+      else{
+        return(
+          <div className="header-font">
+          <button     
+            className="disableButton"
+          >
+            Line
+          </button>
+          {/* <button
+            className={currentChart === "Pie" ? "active-btn" : "btn-chart"}
+            onClick={() => changeChart("Pie")}
+          >
+            Pie
+          </button> */}
+          <button
+            className="disableButton"
+          >
+            Bar
+          </button>
+          {/* <button
+            className={currentChart === "Radar" ? "active-btn" : "btn-chart"}
+            onClick={() => changeChart("Radar")}
+          >
+            Radar
+          </button> */}
+          <button
+            className="disableButton"
+          >
+            Scatter
+          </button>
+        </div>
+        )
+      }
+    
+  }
+  return (
+    <div className="containChart">
+      <div className="dateSelectContainer">
+      <SelectDate  valueDate={valueDate}  setValueDate={setValueDate} />
+      </div>
+      <div className="top-content">
+        {/* */}
+        <div className="header-font">
+          Visualize data between {props.x} and {props.y} 
+          {/* {disableChart}{" "} */}
+        </div>
+
+
+    <BtnDisplay/>
+
+
+
       </div>
       <hr style={{ backgroundColor: "black" }}></hr>
      
       <div className="btm-content"  >
         {/* {currentChart == "Bar" ? <div>Bar</div> :currentChart=="Pie"?<div>Pie</div>:<div>Soon</div>} */}
         <Swap
-        
+          dateData = {usedDataDate}
           chosen={currentChart}
           disableChart={disableChart}
           x={props.x}
