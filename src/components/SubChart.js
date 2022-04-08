@@ -1,6 +1,6 @@
 import { current } from "@reduxjs/toolkit";
 import React, { useEffect, useState } from "react";
-import {Chart} from 'chart.js';
+import { Chart } from "chart.js";
 import { Bar, Doughnut, Line, Radar, Scatter } from "react-chartjs-2";
 import HorizontalBar from "react-chartjs-2";
 import "../css/subChart.css";
@@ -10,93 +10,103 @@ import SelectDate from "./SelectDate";
 import { fecthThAPI, fetchDateth } from "../api/apiCountrySelection";
 import { async } from "q";
 
+
 Chart.register(zoomPlugin); // REGISTER PLUGIN
 
-const Swap = ({ chosen, disableChart, x, y, dataGraph,valueDate,dateD0ata,setcurrentChart }) => {
-let keepData = ""
-let allDate
-let currentState 
-const [dateProp, setdateProp] = useState("")
-const [dateSelect, setdateSelect] = useState("")
-const [verticalBar, setverticalBar] = useState(true)
-let apidata = dateProp[0]
-let newCase=[] ;
-let totalCase = [];
-let location=[] ;
-let date = [];
-let newDeath = [];
-let death = [];
-let storageAxis= [" "," "];
-console.log("chosen : ",chosen);
+const Swap = ({
+  chosen,
+  disableChart,
+  x,
+  y,
+  dataGraph,
+  valueDate,
+  dateD0ata,
+  setcurrentChart,
+}) => {
+  let keepData = "";
+  let allDate;
+  let currentState;
+  const [dateProp, setdateProp] = useState("");
+  const [dateSelect, setdateSelect] = useState("");
+  const [verticalBar, setverticalBar] = useState(true);
+  const [apiWait, setapiWait] = useState(false);
+  let apidata = dateProp[0];
+  let newCase = [];
+  let totalCase = [];
+  let location = [];
+  let date = [];
+  let newDeath = [];
+  let death = [];
+  let storageAxis = [" ", " "];
 
-function pullAllValue() {
-newCase = apidata?.result.map((val)=>{
-    let a = val.newCase
-    return a
+  function pullAllValue() {
+    newCase = apidata?.result.map((val) => {
+      let a = val.newCase;
+      return a;
+    });
+    location = apidata?.result.map((val) => {
+      let a = val.location;
+      // console.log(a);
+      return a;
+    });
+    totalCase = apidata?.result.map((val) => {
+      let a = val.totalCase;
+      // console.log(a);
+      return a;
+    });
+    newDeath = apidata?.result.map((val) => {
+      let a = val.newDeath;
+      // console.log(a);
+      return a;
+    });
+    death = apidata?.result.map((val) => {
+      let a = val.death;
+      // console.log(a);
+      return a;
+    });
+  }
 
-  })
-  location = apidata?.result.map((val)=>{
-    let a = val.location
-    // console.log(a);
-    return a
-  })
-  totalCase = apidata?.result.map((val)=>{
-    let a = val.totalCase
-    // console.log(a);
-    return a
-  })
-  newDeath = apidata?.result.map((val)=>{
-    let a = val.newDeath
-    // console.log(a);
-    return a
-  })
-  death = apidata?.result.map((val)=>{
-    let a = val.death
-    // console.log(a);
-    return a
-  })
-}
-
-
-function chooseRealShow(axisValue,axis){
+  function chooseRealShow(axisValue, axis) {
     let setValue = 0;
-    if(axis === 0){
-      setValue = 0
-    }else if(axis===1){
-      setValue = 1
+    if (axis === 0) {
+      setValue = 0;
+    } else if (axis === 1) {
+      setValue = 1;
     }
-    if(axisValue ==="Location"){
-      storageAxis[setValue] = location
+    if (axisValue === "Location") {
+      storageAxis[setValue] = location;
+    } else if (axisValue === "New cases") {
+      storageAxis[setValue] = newCase;
+    } else if (axisValue === "Total cases") {
+      storageAxis[setValue] = totalCase;
+    } else if (axisValue === "New deaths") {
+      storageAxis[setValue] = newDeath;
+    } else if (axisValue === "Total deaths") {
+      storageAxis[setValue] = death;
+    } else if (axisValue === "Date") {
+      storageAxis[setValue] = date;
+    } else {
+      storageAxis[setValue] = location;
     }
-    else if(axisValue === "New cases"){
-      storageAxis[setValue] = newCase
-    }
-    else if(axisValue === "Total cases"){
-      storageAxis[setValue] = totalCase
-    }
-    else if(axisValue === "New deaths"){
-      storageAxis[setValue] = newDeath
-    }
-    else if(axisValue === "Total deaths"){
-      storageAxis[setValue] = death
-    }
-    else if(axisValue === "Date"){
-      storageAxis[setValue] = date
-    }
-    else{
-      storageAxis[setValue] = location
-    }
-}
-pullAllValue();
-chooseRealShow(x,0);
-chooseRealShow(y,1);
+  }
+  pullAllValue();
+  chooseRealShow(x, 0);
+  chooseRealShow(y, 1);
 
-useEffect(async() => {
-  keepData = await fetchDateth(valueDate)
-  allDate  = await fecthThAPI();
-  setdateSelect(allDate);
-  setdateProp(keepData)
-}, [valueDate])
+  useEffect(async () => {
+   
+    await fetchDateth(valueDate).then((keepData)=>{
+      setapiWait(true)
+      setdateProp(keepData.data);
+        setapiWait(false)
+        console.log("success laodidng : ",apiWait);
+    })
+   
+
+    allDate = await fecthThAPI();
+    setdateSelect(allDate);
+    // setdateProp(keepData.data);
+  }, [valueDate]);
 
   if (chosen === "Pie") {
     const data = {
@@ -173,8 +183,6 @@ useEffect(async() => {
     //   ]
     // }
 
-    
- 
     const data = {
       //x label
       labels: storageAxis[0],
@@ -201,21 +209,20 @@ useEffect(async() => {
           }}
           data={data}
           options={{
-
             plugins: {
               zoom: {
                 zoom: {
                   wheel: {
-                    enabled: true // SET SCROOL ZOOM TO TRUE
+                    enabled: true, // SET SCROOL ZOOM TO TRUE
                   },
                   mode: "x",
-                  speed: 100
+                  speed: 100,
                 },
                 pan: {
                   enabled: true,
                   mode: "x",
-                  speed: 100
-                }
+                  speed: 100,
+                },
               },
               legend: {
                 display: false,
@@ -224,7 +231,6 @@ useEffect(async() => {
                   color: "white",
                 },
               },
-              
             },
             scales: {
               y: {
@@ -238,7 +244,6 @@ useEffect(async() => {
                   color: "white",
                   //data can show all province but space in x axis is too low
                   autoSkip: true,
-                  
                 },
               },
             },
@@ -247,15 +252,12 @@ useEffect(async() => {
       </div>
     );
   } else if (chosen === "Bar") {
-
-  
-   
     function changeBarType(bool) {
       setverticalBar(bool);
     }
 
     const dataBar = {
-      labels:storageAxis[0],
+      labels: storageAxis[0],
       datasets: [
         {
           label: "Total Case",
@@ -301,16 +303,15 @@ useEffect(async() => {
               enabled: true,
             },
             pinch: {
-              enabled: true
+              enabled: true,
             },
-            mode: 'xy',
-
+            mode: "xy",
           },
           pan: {
             enabled: true,
-            mode: 'x',
+            mode: "x",
           },
-        }
+        },
       },
       scales: {
         y: {
@@ -350,16 +351,15 @@ useEffect(async() => {
               enabled: true,
             },
             pinch: {
-              enabled: true
+              enabled: true,
             },
-            mode: 'xy',
-
+            mode: "xy",
           },
           pan: {
             enabled: true,
-            mode: 'x',
+            mode: "x",
           },
-        }
+        },
       },
       scales: {
         y: {
@@ -410,14 +410,9 @@ useEffect(async() => {
         ) : (
           <Bar data={dataBar} options={optionx} />
         )}
-
-
-        
       </div>
     );
-  } 
-  
-  else if (chosen === "Radar") {
+  } else if (chosen === "Radar") {
     const data = {
       labels: [
         "Eating",
@@ -490,8 +485,6 @@ useEffect(async() => {
                   color: "white",
                 },
               },
-              
-              
             },
           }}
         />
@@ -558,46 +551,38 @@ useEffect(async() => {
         />
       </div>
     );
-  }
-  else{
-      return  (
-        <div>
-          <button>
-              Visualization 
-          </button>
-        </div>
-      )
+  } else {
+    return (
+      <div>
+        <button>Visualization</button>
+      </div>
+    );
   }
 };
 
 const SubChart = (props) => {
-
   const dataGraph = props.dataGraph;
   const [currentChart, setcurrentChart] = useState(null);
   const [disableChart, setdisableChart] = useState("true");
   const [valueDate, setValueDate] = useState("");
-  let usedDataDate =""
+  let usedDataDate = "";
 
   function changeChart(nameChart) {
     setcurrentChart(nameChart);
   }
 
-
-  useEffect(async() => {
+  useEffect(async () => {
     if (props.x === "" || props.y === "") {
       setdisableChart("true");
     } else {
       setdisableChart("false");
     }
-  
-    
- 
-  }, [props.graphType, props.x, props.y,valueDate]);
-  const BtnDisplay =()=> {
-      if(valueDate !== ""){
-      return(
-          <div className="header-font">
-          <button     
+  }, [props.graphType, props.x, props.y, valueDate]);
+  const BtnDisplay = () => {
+    if (valueDate !== "") {
+      return (
+        <div className="header-font">
+          <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Line")}
           >
@@ -628,85 +613,59 @@ const SubChart = (props) => {
             Scatter
           </button>
         </div>
-   
-      )
-      }  
-      else{
-        return(
-          <div className="header-font">
-          <button     
-            className="disableButton"
-          >
-            Line
-          </button>
+      );
+    } else {
+      return (
+        <div className="header-font">
+          <button className="disableButton">Line</button>
           {/* <button
             className={currentChart === "Pie" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Pie")}
           >
             Pie
           </button> */}
-          <button
-            className="disableButton"
-          >
-            Bar
-          </button>
+          <button className="disableButton">Bar</button>
           {/* <button
             className={currentChart === "Radar" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Radar")}
           >
             Radar
           </button> */}
-          <button
-            className="disableButton"
-          >
-            Scatter
-          </button>
+          <button className="disableButton">Scatter</button>
         </div>
-        )
-      }
-    
-  }
+      );
+    }
+  };
   return (
     <div className="containChart">
       <div className="dateSelectContainer">
-      <SelectDate  valueDate={valueDate}  setValueDate={setValueDate} />
+        <SelectDate valueDate={valueDate} setValueDate={setValueDate} />
       </div>
       <div className="top-content">
         {/* */}
         <div className="header-font">
-          Visualize data between {props.x} and {props.y} 
+          Visualize data between {props.x} and {props.y}
           {/* {disableChart}{" "} */}
         </div>
 
-
-    <BtnDisplay/>
-
-
-
+        <BtnDisplay />
       </div>
       <hr style={{ backgroundColor: "black" }}></hr>
-     
-      <div className="btm-content"  >
+
+      <div className="btm-content">
         {/* {currentChart == "Bar" ? <div>Bar</div> :currentChart=="Pie"?<div>Pie</div>:<div>Soon</div>} */}
         <Swap
-          dateData = {usedDataDate}
+          dateData={usedDataDate}
           chosen={currentChart}
           setcurrentChart={setcurrentChart}
           disableChart={disableChart}
           x={props.x}
           y={props.y}
           dataGraph={dataGraph}
-          valueDate = {valueDate}
+          valueDate={valueDate}
           style={{ width: "100%", overflowX: "auto" }}
         />
-     
-     
-     
       </div>
-   
-   
-   
-   
     </div>
   );
 };

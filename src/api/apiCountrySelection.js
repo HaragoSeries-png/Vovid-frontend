@@ -6,7 +6,6 @@ export const fecthThAPI = async () => {
   let apiUrl = thUrl;
 
   try {
-    //déconstruction de l'objet
     const data = await axios.get(apiUrl);
     // console.log("from api ",data.data);
     return data.data;
@@ -17,12 +16,15 @@ export const fecthThAPI = async () => {
 };
 export const fetchDateth = async (dateData) =>{
   let api = String(datethUrl) + String(dateData)
-  
-  try {
-    let data = await axios.get(api);
-    return data.data
-  }
-  catch (error) {
-    console.log(error);
-  }
+
+  // try {
+  //   let data = await axios.get(api);
+
+  //   return data.data
+  // }
+  // catch (error) {
+
+  //   console.log(error);
+  // }
+  return await axios.get(api);
 }
