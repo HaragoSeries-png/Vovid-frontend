@@ -21,11 +21,38 @@ const MainPage = () => {
   const [yAxis, setyAxis] = useState("New cases");
   const [graphSelector, setgraphSelector] = useState()
   const [dataGraph, setdataGraph] = useState()
-
+  const [multiSelect, setmultiSelect] = useState(false)
+  
+  const optionType = [
+    {
+      name: "New cases",
+      selected: true,
+      data:[],
+      
+    },
+    {
+      name: "Total cases",
+      selected: true,
+      data:[],
+  
+    },
+    {
+      name: "New deaths",
+      selected: false,
+      data:[],
+     
+    },
+    {
+      name: "Total deaths",
+      selected: false,
+      data:[],
+      
+    },
+  ];
+  const [optionSelect, setoptionSelect] = useState(optionType)
   useEffect(async () => {
     const fetchedData = await fetchData();
     setdata(fetchedData);
-    
   }, [])
 
 
@@ -79,13 +106,26 @@ const MainPage = () => {
           xAxis={xAxis}
           yAxis={yAxis}
           setxAxis={setxAxis}
-          setyAxis={setyAxis}/>
+          setyAxis={setyAxis}
+          multiSelect={multiSelect}
+          setmultiSelect={setmultiSelect}
+          optionSelect = {optionSelect}
+          setoptionSelect = {setoptionSelect}
+          
+          />
           </div>
 
 
           <div className="wid-100-2">
             <div> 
-            <SubChart  dataGraph={dataGraph} x={xAxis} y={yAxis}  /> 
+            <SubChart  
+            dataGraph={dataGraph} 
+            x={xAxis} 
+            y={yAxis} 
+            multiSelect={multiSelect} 
+            setmultiSelect={setmultiSelect}
+            optionSelect={optionSelect}
+              /> 
             </div>
 
           </div>
@@ -95,7 +135,7 @@ const MainPage = () => {
       {/* <div style={{ marginTop: "2%" }}>
         <Map country={country} />
       </div> */}
-
+{/* 
       <div style={{ marginTop: "2%" }}>
         <Grid container spacing={2}>
           <Grid item md={6}>
@@ -105,8 +145,8 @@ const MainPage = () => {
             <SubChart graphType="Pie" />
           </Grid>
         </Grid>
-      </div>
-      <div style={{ marginTop: "2%" }}>
+      </div> */}
+      {/* <div style={{ marginTop: "2%" }}>
         <Grid container spacing={2}>
           <Grid item md={6}>
             <SubChart graphType="Bar" />
@@ -115,8 +155,8 @@ const MainPage = () => {
             <SubChart graphType="Radar" />
           </Grid>
         </Grid>
-      </div>
-      <div style={{ marginTop: "2%" }}>
+      </div> */}
+      {/* <div style={{ marginTop: "2%" }}>
         <Grid container spacing={2}>
           <Grid item md={6}>
             <SubChart graphType="Bar" />
@@ -125,7 +165,7 @@ const MainPage = () => {
             <SubChart graphType="Scatter" />
           </Grid>
         </Grid>
-      </div>
+      </div> */}
       {/* <div className='row' style={{marginTop:"6%"}}>
                     <div className='col-md-4'>
                     <div style={cardStyle}>BarChart</div>

@@ -130,7 +130,6 @@ const SelectDate = ({valueDate,setValueDate}) =>{
       value={selectedDay}
       onChange={setSelectedDay}
       inputPlaceholder="Select a day"
-      shouldHighlightWeekends
       minimumDate={useDate}
       maximumDate={maxDate}
       

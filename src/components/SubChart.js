@@ -8,8 +8,9 @@ import { YAxis } from "recharts";
 import zoomPlugin from "chartjs-plugin-zoom";
 import SelectDate from "./SelectDate";
 import { fecthThAPI, fetchDateth } from "../api/apiCountrySelection";
-import { async } from "q";
-
+import randomColor from "random-color";
+import { colors } from "@material-ui/core";
+import { color } from "d3-color";
 
 Chart.register(zoomPlugin); // REGISTER PLUGIN
 
@@ -22,6 +23,8 @@ const Swap = ({
   valueDate,
   dateD0ata,
   setcurrentChart,
+  optionSelect,
+  multiSelect
 }) => {
   let keepData = "";
   let allDate;
@@ -31,41 +34,76 @@ const Swap = ({
   const [verticalBar, setverticalBar] = useState(true);
   const [apiWait, setapiWait] = useState(false);
   let apidata = dateProp[0];
-  let newCase = [];
-  let totalCase = [];
-  let location = [];
-  let date = [];
-  let newDeath = [];
-  let death = [];
+  let [newCase, setnewCase] = useState([])
+  let [totalCase, settotalCase] = useState([])
+  let [location, setlocation] = useState([])
+  let [newDeath, setnewDeath] = useState([])
+  let [death, setdeath] = useState([])
+  let [lineMultiSelect, setlineMultiSelect] = useState([{}])
+  const [barMultiSelect, setbarMultiSelect] = useState([{}])
+  var date = [];
   let storageAxis = [" ", " "];
+  let AssumVal;
 
-  function pullAllValue() {
-    newCase = apidata?.result.map((val) => {
-      let a = val.newCase;
-      return a;
-    });
-    location = apidata?.result.map((val) => {
-      let a = val.location;
-      // console.log(a);
-      return a;
-    });
-    totalCase = apidata?.result.map((val) => {
-      let a = val.totalCase;
-      // console.log(a);
-      return a;
-    });
-    newDeath = apidata?.result.map((val) => {
-      let a = val.newDeath;
-      // console.log(a);
-      return a;
-    });
-    death = apidata?.result.map((val) => {
-      let a = val.death;
-      // console.log(a);
-      return a;
-    });
+
+
+
+
+
+
+
+
+
+
+  newCase = apidata?.result.map((val) => {
+    let a = val.newCase;
+    return a;
+  });
+  
+  location = apidata?.result.map((val) => {
+    let a = val.location;
+    // console.log(a);
+    return a;
+  });
+  totalCase = apidata?.result.map((val) => {
+    let a = val.totalCase;
+    // console.log(a);
+    return a;
+  });
+  newDeath = apidata?.result.map((val) => {
+    let a = val.newDeath;
+    // console.log(a);
+    return a;
+  });
+  death = apidata?.result.map((val) => {
+    let a = val.death;
+    return a;
+  });
+
+  // const realMulti = multiData.filter((x)=>{
+  //   if(multiData[0].name == optionSelect){
+  //     return multiData.data
+  //   }
+  // })
+  // console.log("real multi : ",realMulti);
+  // console.log(multiData);
+  // console.log("opt : ",optionSelect);
+  async function changeValueArray(){
+    optionSelect.map((val,index)=>{
+      if(val.name === "New cases"){
+      return val.data = newCase
+      }
+      else if(val.name === "Total cases"){
+        return val.data = totalCase
+      }
+      else if(val.name ==="New deaths"){
+        return val.data = newDeath
+      }
+      else if(val.name ==="Total deaths"){
+        return val.data = death
+      }
+    })
   }
-
   function chooseRealShow(axisValue, axis) {
     let setValue = 0;
     if (axis === 0) {
@@ -89,24 +127,56 @@ const Swap = ({
       storageAxis[setValue] = location;
     }
   }
-  pullAllValue();
+  if(multiSelect === true){
+   
+    changeValueArray(); 
+    // console.log("after change value : ",optionSelect);
+  }
   chooseRealShow(x, 0);
   chooseRealShow(y, 1);
 
   useEffect(async () => {
-   
     await fetchDateth(valueDate).then((keepData)=>{
-      setapiWait(true)
       setdateProp(keepData.data);
-        setapiWait(false)
-        console.log("success laodidng : ",apiWait);
     })
-   
-
     allDate = await fecthThAPI();
     setdateSelect(allDate);
-    // setdateProp(keepData.data);
-  }, [valueDate]);
+    changeValueArray();
+    // console.log("opt swap : ",optionSelect);
+  }, [valueDate,optionSelect]);
+
+
+lineMultiSelect = optionSelect.filter((value)=>{
+  return value.selected === true
+})
+
+
+lineMultiSelect = lineMultiSelect.map((item)=>{
+  
+  let {name:label,...rest} = item;
+  return {label,...rest}
+})
+let colorArray = [
+  "red","blue","orange"
+]
+
+lineMultiSelect = lineMultiSelect.map((item,index)=>(
+
+  {
+  ...item,backgroundColor:colorArray[index],borderColor:colorArray[index]
+}))
+
+
+
+
+
+
+
+
+
+
+
+
 
   if (chosen === "Pie") {
     const data = {
@@ -169,20 +239,8 @@ const Swap = ({
       return <div>Can not visualize</div>;
     }
   } else if (chosen === "Line") {
-    //if dataset in y axis > 1  graph will compare between 2 dataset
-    //Line
-    // data={
-    // //xAxis
-    // labels:[""],
-    //yAxis
-    //   datasets:[
-    //     {
-    //       label:"First data",
-    //       data:[]
-    //     },
-    //   ]
-    // }
-
+      if(multiSelect === false){
+        console.log("single : ",storageAxis[1]);
     const data = {
       //x label
       labels: storageAxis[0],
@@ -191,9 +249,9 @@ const Swap = ({
           label: "First dataset",
           //y label
           data: storageAxis[1],
-          fill: true,
-          backgroundColor: "orange",
-          borderColor: "orange",
+          fill: false,
+          backgroundColor: "red",
+          borderColor: "red",
         },
       ],
     };
@@ -225,7 +283,7 @@ const Swap = ({
                 },
               },
               legend: {
-                display: false,
+                display: true,
 
                 labels: {
                   color: "white",
@@ -251,6 +309,69 @@ const Swap = ({
         />
       </div>
     );
+    }
+    else{
+      console.log("opt",optionSelect);
+      const data = {
+        //x label
+        labels: storageAxis[0],
+        datasets: lineMultiSelect,
+      };
+
+      return(
+        <div style={{ width: "100%", height: "100%" }}>
+        <Line
+          style={{
+            width: "100%",
+            height: "400px",
+            marginTop: "3.5%",
+            overflowX: "auto",
+          }}
+          data={data}
+          options={{
+            plugins: {
+              zoom: {
+                zoom: {
+                  wheel: {
+                    enabled: true, // SET SCROOL ZOOM TO TRUE
+                  },
+                  mode: "x",
+                  speed: 100,
+                },
+                pan: {
+                  enabled: true,
+                  mode: "x",
+                  speed: 100,
+                },
+              },
+              legend: {
+                display: true,
+
+                labels: {
+                  color: "white",
+                },
+              },
+            },
+            scales: {
+              y: {
+                ticks: {
+                  color: "white",
+                  autoSkip: true,
+                },
+              },
+              x: {
+                ticks: {
+                  color: "white",
+                  //data can show all province but space in x axis is too low
+                  autoSkip: true,
+                },
+              },
+            },
+          }}
+        />
+      </div>
+      )
+    }
   } else if (chosen === "Bar") {
     function changeBarType(bool) {
       setverticalBar(bool);
@@ -560,8 +681,7 @@ const Swap = ({
   }
 };
 
-const SubChart = (props) => {
-  const dataGraph = props.dataGraph;
+const SubChart = ({dataGraph,x,y,multiSelect,setmultiSelect,optionSelect}) => {
   const [currentChart, setcurrentChart] = useState(null);
   const [disableChart, setdisableChart] = useState("true");
   const [valueDate, setValueDate] = useState("");
@@ -570,14 +690,18 @@ const SubChart = (props) => {
   function changeChart(nameChart) {
     setcurrentChart(nameChart);
   }
-
+  function changeMultiSelect(){
+    setmultiSelect(!multiSelect)
+  }
   useEffect(async () => {
-    if (props.x === "" || props.y === "") {
-      setdisableChart("true");
-    } else {
-      setdisableChart("false");
-    }
-  }, [props.graphType, props.x, props.y, valueDate]);
+    // if (x === "" || y === "") {
+    //   setdisableChart("true");
+    // } else {
+    //   setdisableChart("false");
+    // }
+    
+  }, [dataGraph, x, y, valueDate,multiSelect]);
+
   const BtnDisplay = () => {
     if (valueDate !== "") {
       return (
@@ -606,12 +730,7 @@ const SubChart = (props) => {
           >
             Radar
           </button> */}
-          <button
-            className={currentChart === "Scatter" ? "active-btn" : "btn-chart"}
-            onClick={() => changeChart("Scatter")}
-          >
-            Scatter
-          </button>
+
         </div>
       );
     } else {
@@ -631,7 +750,7 @@ const SubChart = (props) => {
           >
             Radar
           </button> */}
-          <button className="disableButton">Scatter</button>
+
         </div>
       );
     }
@@ -639,12 +758,23 @@ const SubChart = (props) => {
   return (
     <div className="containChart">
       <div className="dateSelectContainer">
-        <SelectDate valueDate={valueDate} setValueDate={setValueDate} />
+        <div >
+        <div style={{display:"flex",color:"white",justifyContent:"flex-end"}}>
+          <div  onClick={()=>{changeMultiSelect()}} >
+           set  {multiSelect}
+          </div>
+          <div>
+          <SelectDate valueDate={valueDate} setValueDate={setValueDate} />
+          </div>
+
+          </div>
+        </div>
+
       </div>
       <div className="top-content">
         {/* */}
         <div className="header-font">
-          Visualize data between {props.x} and {props.y}
+          Visualize data between {x} and {y}
           {/* {disableChart}{" "} */}
         </div>
 
@@ -659,10 +789,12 @@ const SubChart = (props) => {
           chosen={currentChart}
           setcurrentChart={setcurrentChart}
           disableChart={disableChart}
-          x={props.x}
-          y={props.y}
+          x={x}
+          y={y}
           dataGraph={dataGraph}
+          multiSelect = {multiSelect}
           valueDate={valueDate}
+          optionSelect = {optionSelect}
           style={{ width: "100%", overflowX: "auto" }}
         />
       </div>
