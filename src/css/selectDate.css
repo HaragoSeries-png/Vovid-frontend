@@ -20,6 +20,7 @@
 .dateContainer .MuiOutlinedInput-root{
     color: #ececec;
 }
-.dateContainer .MuiOutlinedInput-input:focus{
-   
+
+.dateContainer .DatePicker__input::placeholder{
+    color: black;
 }

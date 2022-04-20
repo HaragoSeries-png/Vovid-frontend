@@ -8,54 +8,53 @@ export default function CustomizeSection({
   multiSelect,
   setmultiSelect,
   optionSelect,
-  setoptionSelect
+  setoptionSelect,
+  currentChart,
+  optionSelectx,
+  setoptionSelectx
 }) {
-  const axisxType = ["Location", "Date"];
-  const axisyType = ["New cases", "Total cases", "New deaths", "Total deaths"];
-  let x;
-  let y;
- 
-  const changeXaxis = (topic) => {
-    const a = topic;
-    console.log("x axis : ", a);
-    if (a === xAxis) {
-      setxAxis("");
-    } else {
-      setxAxis(topic);
-      x = topic;
-    }
-  };
-  const changeYaxis = (topic) => {
-    const b = topic;
-    console.log("y axis : ", b);
-    if (b === yAxis) {
-      setyAxis("");
-    } else {
-      setyAxis(topic);
-      y = topic;
-    }
-  };
   const addOptionArray = (index) => {
     let temp_state = [...optionSelect];
-
     // 2. Make a shallow copy of the element you want to mutate
     let temp_element = { ...temp_state[index] };
-
     // 3. Update the property you're interested in
     temp_element.selected = !temp_element.selected;
-
     // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
     temp_state[index] = temp_element;
-
     // 5. Set the state to our new copy
     setoptionSelect(temp_state);
   };
 
-  useEffect(() => {
-    
-  }, [optionSelect]);
+  const addOptionArrayx = (index)=>{
+    let temp_state = [...optionSelectx];
+    // 2. Make a shallow copy of the element you want to mutate
 
-  if (!multiSelect) {
+    let temp_element = { ...temp_state[index] };
+    if(temp_element.name ==="Location"){
+      let anoter_temp = {...temp_state[index+1]}
+      anoter_temp.selected = false;
+      temp_state[index+1] = anoter_temp
+      setoptionSelectx(temp_state)
+    }
+    else{
+      let anoter_temp = {...temp_state[index-1]}
+      anoter_temp.selected = false;
+      temp_state[index-1] = anoter_temp
+      setoptionSelectx(temp_state)
+    }
+    // 3. Update the property you're interested in
+    temp_element.selected = !temp_element.selected;
+    // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
+    temp_state[index] = temp_element;
+    // 5. Set the state to our new copy
+    setoptionSelectx(temp_state);
+  }
+
+  useEffect(() => {
+  
+
+  }, [optionSelect,currentChart,optionSelectx]);
+
     return (
       <div className="main-container-visual">
         <div className="header-axis">
@@ -65,59 +64,16 @@ export default function CustomizeSection({
 
         <div className="axis-type">
           <div className="axis-list">
-            {axisxType.map((item, index) => {
+            {optionSelectx.map((item, index) => {
               return (
                 <div
-                  key={item}
+                  key={item.name}
                   className={
-                    "bgAxis " + (item === xAxis ? "bgAxis-active" : "")
+                    "bgAxis " + (item.selected === true ? "bgAxis-active" : "")
                   }
-                  onClick={() => setxAxis(item)}
+                  onClick={() => addOptionArrayx(index)}
                 >
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="axis-list">
-            {axisyType.map((item, index) => {
-              return (
-                <div
-                  key={item}
-                  className={
-                    "bgAxis " + (item === yAxis ? "bgAxis-active" : "")
-                  }
-                  onClick={() => setyAxis(item)}
-                >
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="main-container-visual">
-        <div className="header-axis">
-          <div>X-Axis</div>
-          <div>Y-Axis(multiple)</div>
-        </div>
-
-        <div className="axis-type">
-          <div className="axis-list">
-            {axisxType.map((item, index) => {
-              return (
-                <div
-                  key={item}
-                  className={
-                    "bgAxis " + (item === xAxis ? "bgAxis-active" : "")
-                  }
-                  onClick={() => setxAxis(item)}
-                >
-                  {item}
+                  {item.name}
                 </div>
               );
             })}
@@ -127,9 +83,9 @@ export default function CustomizeSection({
             {optionSelect.map((item, index) => {
               return (
                 <div
-                  key={index}
+                  key={index.name}
                   className={
-                    "bgAxis " + (item.selected ? "bgAxis-active" : "adasdasdsa")
+                    "bgAxis " + (item.selected ? "bgAxis-active" : "")
                   }
                   onClick={() => addOptionArray(index)}
                 >
@@ -141,5 +97,5 @@ export default function CustomizeSection({
         </div>
       </div>
     );
-  }
+  
 }

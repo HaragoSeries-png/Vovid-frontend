@@ -21,11 +21,27 @@ const MainPage = () => {
   const [yAxis, setyAxis] = useState("New cases");
   const [graphSelector, setgraphSelector] = useState()
   const [dataGraph, setdataGraph] = useState()
-  const [multiSelect, setmultiSelect] = useState(false)
-  
-  const optionType = [
+  const [multiSelect, setmultiSelect] = useState(true)
+  const [currentChart, setcurrentChart] = useState(null);
+  const optionTypeX = [
     {
-      name: "New cases",
+      name: "Location",
+      selected: true,
+      data:[],
+      
+    },
+    {
+      name: "Date",
+      selected: false,
+      data:[],
+  
+    },
+  ]
+
+
+  const optionTypeY = [
+    {
+      name: "Total deaths",
       selected: true,
       data:[],
       
@@ -37,23 +53,51 @@ const MainPage = () => {
   
     },
     {
+      name: "New cases",
+      selected: false,
+      data:[],
+      
+    },
+
+    {
       name: "New deaths",
       selected: false,
       data:[],
      
     },
-    {
-      name: "Total deaths",
-      selected: false,
-      data:[],
-      
-    },
+
   ];
-  const [optionSelect, setoptionSelect] = useState(optionType)
+  const [optionSelect, setoptionSelect] = useState(optionTypeY)
+  const [optionSelectx, setoptionSelectx] = useState(optionTypeX)
+
   useEffect(async () => {
     const fetchedData = await fetchData();
     setdata(fetchedData);
-  }, [])
+    
+
+    // if(currentChart ==="Pie"){
+    //   console.log(".....")
+    //   let a = optionType.map((p)=>p.selected === false ?{...p,selected:true}:p)
+    //   console.log("a : ",a)
+    //   optionType = a
+    //   console.log("ot : ",optionType)
+    // }
+    
+    
+    
+    if(currentChart ===null){
+      setcurrentChart("Line")
+      
+    }
+
+
+    
+    if(currentChart==="Bar"){
+      console.log("form main : bar")
+    }
+    console.log("from main",optionSelectx)
+  },
+  [currentChart,optionSelectx])
 
 
 
@@ -81,24 +125,6 @@ const MainPage = () => {
       <CountryPicker handleCountryChange={handleCountryChange} />
       <CountCard data={data} />
       <div style={{ marginTop: "5%" }}>
-        {/* <Grid container rowspacing={2} columnspacing={{ xs: 1, sm: 2, md: 3 }}  >
-        <Grid item xs={12}>
-          <Card sx={{ minWidth: 275 }}>
-           <MainFirstChart data={data} country={country} />
-          </Card>
-        </Grid>
-        </Grid> */}
-
-        {/* <CustomizeSection
-          xAxis={xAxis}
-          yAxis={yAxis}
-          setxAxis={setxAxis}
-          setyAxis={setyAxis}
-        /> */}
-        {/* <SelectGraph  graphSelector={graphSelector} setgraphSelector ={setgraphSelector} /> */}
-       
-        {/* <SubChart graphType={graphSelector} x={xAxis} y={yAxis}  /> */}
-        
         <div className="layout-customize">
           
           <div className="wid-100-1">
@@ -111,7 +137,9 @@ const MainPage = () => {
           setmultiSelect={setmultiSelect}
           optionSelect = {optionSelect}
           setoptionSelect = {setoptionSelect}
-          
+          currentChart = {currentChart}
+          optionSelectx = {optionSelectx}
+          setoptionSelectx = {setoptionSelectx}
           />
           </div>
 
@@ -122,9 +150,14 @@ const MainPage = () => {
             dataGraph={dataGraph} 
             x={xAxis} 
             y={yAxis} 
+            setxAxis={setxAxis}
+            setyAxis={setyAxis}
             multiSelect={multiSelect} 
             setmultiSelect={setmultiSelect}
             optionSelect={optionSelect}
+            currentChart = {currentChart}
+            setcurrentChart = {setcurrentChart}
+            optionSelectx = {optionSelectx}
               /> 
             </div>
 

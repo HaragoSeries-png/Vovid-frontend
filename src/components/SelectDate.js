@@ -4,9 +4,11 @@ import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
 import "../css/selectDate.css"
 import { Calendar, utils } from "react-modern-calendar-datepicker";
 const SelectDate = ({valueDate,setValueDate}) =>{
+const [selectedDay, setSelectedDay] = useState(null);
 
-  const [selectedDay, setSelectedDay] = useState(null);
   let a = "";
+  let b = "";
+  let c ="";
   const useDate = {
     year:2022,
     day:0,
@@ -18,6 +20,19 @@ const SelectDate = ({valueDate,setValueDate}) =>{
     month:0
   }
 
+  function getYesterday(){
+    let toDay = utils().getToday().day-1;
+    let toMonth = utils().getToday().month;
+    let toYear = utils().getToday().year;
+    if(Number(toMonth)<10){
+      toMonth = "0"+String(toMonth) 
+    }
+    if(Number(toDay)<10){
+      toDay = "0"+String(toDay)
+    }
+    b = toYear+"/"+toMonth+"/"+toDay
+    
+  }
   function checkDate(){
     let fDay;
     let fmonth;
@@ -114,14 +129,24 @@ const SelectDate = ({valueDate,setValueDate}) =>{
     strDate = String(tyear)+"-"+String(tmonth)+"-"+String(tday)
     a = strDate
     }
+    else{
+      setSelectedDay(b)
+    }
 
   }
-
+  
   //set date and check null if nll then go disable buttomn
   checkDate();
   toISOFormat();
+  getYesterday();
   useEffect(() => {
+    if(selectedDay === ""){ 
+      let c  = b.replaceAll('/','-')
+      setValueDate(c)
+    }else{
+
     setValueDate(a)
+    }
   }, [selectedDay])
   
     return (
@@ -129,7 +154,7 @@ const SelectDate = ({valueDate,setValueDate}) =>{
       <DatePicker
       value={selectedDay}
       onChange={setSelectedDay}
-      inputPlaceholder="Select a day"
+      inputPlaceholder={b}
       minimumDate={useDate}
       maximumDate={maxDate}
       

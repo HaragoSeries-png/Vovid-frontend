@@ -7,10 +7,11 @@ import "../css/subChart.css";
 import { YAxis } from "recharts";
 import zoomPlugin from "chartjs-plugin-zoom";
 import SelectDate from "./SelectDate";
-import { fecthThAPI, fetchDateth } from "../api/apiCountrySelection";
+import { fecthThAPI, fetchDateth, fetchPie } from "../api/apiCountrySelection";
 import randomColor from "random-color";
 import { colors } from "@material-ui/core";
 import { color } from "d3-color";
+import { fecthDateApi } from "../api/apiDate";
 
 Chart.register(zoomPlugin); // REGISTER PLUGIN
 
@@ -24,7 +25,11 @@ const Swap = ({
   dateD0ata,
   setcurrentChart,
   optionSelect,
-  multiSelect
+  multiSelect,
+  setxAxis,
+  setyAxis,
+  setoptionSelect,
+  optionSelectx
 }) => {
   let keepData = "";
   let allDate;
@@ -39,17 +44,22 @@ const Swap = ({
   let [location, setlocation] = useState([])
   let [newDeath, setnewDeath] = useState([])
   let [death, setdeath] = useState([])
-  let [lineMultiSelect, setlineMultiSelect] = useState([{}])
-  const [barMultiSelect, setbarMultiSelect] = useState([{}])
+  let [optionMultiSelect, setoptionMultiSelect] = useState([{}])
+  let [dialyPieData, setdialyPieData] = useState()
+  let  pieDataContain
+  let  dialyPieLabel= [];
+  let  dialyPieValue = [];
+  let weeklydateContain
+  let weeklydate= [];
+  let [dateMultiSelect, setdateMultiSelect] = useState(null)
+  const [weeklyMultiSelect, setweeklyMultiSelect] = useState([{}])
+
+
   var date = [];
+  var newsDate = [];
   let storageAxis = [" ", " "];
-  let AssumVal;
-
-
-
-
-
-
+  
+  
 
 
 
@@ -80,14 +90,7 @@ const Swap = ({
     return a;
   });
 
-  // const realMulti = multiData.filter((x)=>{
-  //   if(multiData[0].name == optionSelect){
-  //     return multiData.data
-  //   }
-  // })
-  // console.log("real multi : ",realMulti);
-  // console.log(multiData);
-  // console.log("opt : ",optionSelect);
+
   async function changeValueArray(){
     optionSelect.map((val,index)=>{
       if(val.name === "New cases"){
@@ -136,32 +139,130 @@ const Swap = ({
   chooseRealShow(y, 1);
 
   useEffect(async () => {
+
     await fetchDateth(valueDate).then((keepData)=>{
       setdateProp(keepData.data);
     })
     allDate = await fecthThAPI();
     setdateSelect(allDate);
     changeValueArray();
-    // console.log("opt swap : ",optionSelect);
-  }, [valueDate,optionSelect]);
+    if(optionSelectx[1].selected === true){
+    await fecthDateApi().then((value)=>{
+        setdateMultiSelect(value.data)
+      })
+    }
+    await fetchPie(valueDate).then((value)=>{
+      setdialyPieData(value.data)
+    })
+  }, [valueDate,optionSelect,optionSelectx]);
 
 
-lineMultiSelect = optionSelect.filter((value)=>{
+
+//set line filter
+optionMultiSelect = optionSelect.filter((value)=>{
   return value.selected === true
 })
-
-
-lineMultiSelect = lineMultiSelect.map((item)=>{
-  
+optionMultiSelect = optionMultiSelect.map((item)=>{
   let {name:label,...rest} = item;
   return {label,...rest}
 })
 let colorArray = [
-  "red","blue","orange"
+  "red","blue","orange","green"
 ]
+optionMultiSelect = optionMultiSelect.map((item,index)=>(
+  {
+  ...item,backgroundColor:colorArray[index],borderColor:colorArray[index]
+}))
 
-lineMultiSelect = lineMultiSelect.map((item,index)=>(
+//handle pie dialy data
+//data format
 
+// data :[
+//   {
+//  name : String,
+//  value : number
+//   }
+//  ]
+pieDataContain = optionSelect.filter((value)=>{
+  return value.selected === true
+})
+pieDataContain.map((val)=>{
+
+  if(val.name === "New deaths"){
+   return val.data =  dialyPieData?.new_deaths
+  }else if(val.name === "Total deaths"){
+    return val.data = dialyPieData?.total_deaths
+  }
+  else if(val.name === "Total cases"){
+    return val.data = dialyPieData?.total_cases
+  }
+  else if(val.name ==="New cases"){
+    return val.data = dialyPieData?.new_cases
+  }
+})
+
+pieDataContain.filter((value)=>{
+  dialyPieLabel.push(value.name)
+})
+
+pieDataContain.filter((value)=>{
+  dialyPieValue.push(value.data)
+})
+
+
+
+
+weeklydateContain = optionSelect.filter((value)=>{
+  return value.selected === true
+})
+
+// Problem cant display weekply value 
+
+let newCaseDate = [];
+let newDeathDate = [];
+let totalCaseDate = [];
+let totalDeathsDate = [];
+let xlabelDate = [];
+dateMultiSelect?.map((val)=>{
+  if(val.new_cases !== ""){
+    newCaseDate.push(val.new_cases)
+  }
+  if(val.new_deaths !== ""){
+    newDeathDate.push(val.new_deaths)
+  }
+  if(val.total_cases!== ""){
+    totalCaseDate.push(val.total_cases)
+  }
+  if(val.total_deaths!== ""){
+    totalDeathsDate.push(val.total_deaths)
+  }
+})
+// date weekly label
+weeklydateContain.map((val)=>{
+  if(val.name === "Total deaths"){
+    val.data = totalDeathsDate
+  }
+  if(val.name  === "Total cases"){
+    val.data = totalCaseDate
+  }
+  if(val.name ==="New cases"){
+    val.data = newCaseDate
+  }
+  if(val.name === "New deaths"){
+    val.data = newDeathDate
+  }
+})
+//date for x label
+dateMultiSelect?.map((val)=>{
+xlabelDate.push(val.date)
+})
+
+weeklydateContain = weeklydateContain.map((item)=>{
+  let {name:label,...rest} = item;
+  return {label,...rest}
+})
+
+weeklydateContain = weeklydateContain.map((item,index)=>(
   {
   ...item,backgroundColor:colorArray[index],borderColor:colorArray[index]
 }))
@@ -178,29 +279,40 @@ lineMultiSelect = lineMultiSelect.map((item,index)=>(
 
 
 
+
+
+
+
+console.log("af : ",weeklydateContain)
+// weeklydateContain.map((val)=>{
+//   if(val.name === "New deaths"){
+//     return val.data =  dateMultiSelect?.new_deaths
+//    }else if(val.name === "Total deaths"){
+//      return val.data = dateMultiSelect?.total_deaths
+//    }
+//    else if(val.name === "Total cases"){
+//      return val.data = dateMultiSelect?.total_cases
+//    }
+//    else if(val.name ==="New cases"){
+//      return val.data = dateMultiSelect?.new_cases
+//    }
+// })
+
+// dateMultiSelect?.filter((val)=>{
+//   weeklydate.push(val.date)
+// })
+
+
   if (chosen === "Pie") {
     const data = {
-      labels: ["Pending", "Shipping", "Delivery", "Pickup"],
+      labels: dialyPieLabel,
       datasets: [
         {
-          data: [10, 10, 10, 10],
-          backgroundColor: ["#F77F00", "#5BC0BE", "green", "#281a91"],
+          data: dialyPieValue,
+          backgroundColor: ["red","green","blue","orange  "],
         },
       ],
     };
-
-    // Pie
-    // data={
-    //   labels:[]
-    //   datasets:[
-    //     {
-    //       data:[],
-    //       backgroundColor:[""]
-    //     }
-    //   ]
-    // }
-
-    if (disableChart === "true") {
       return (
         <div
           className="graph-contain"
@@ -235,29 +347,18 @@ lineMultiSelect = lineMultiSelect.map((item,index)=>(
           </div>
         </div>
       );
-    } else {
-      return <div>Can not visualize</div>;
-    }
+    
   } else if (chosen === "Line") {
-      if(multiSelect === false){
-        console.log("single : ",storageAxis[1]);
+      if(optionSelectx[1].selected === true){
     const data = {
       //x label
-      labels: storageAxis[0],
-      datasets: [
-        {
-          label: "First dataset",
-          //y label
-          data: storageAxis[1],
-          fill: false,
-          backgroundColor: "red",
-          borderColor: "red",
-        },
-      ],
+      labels: xlabelDate,
+      datasets: weeklydateContain
     };
 
     return (
       <div style={{ width: "100%", height: "100%" }}>
+        
         <Line
           style={{
             width: "100%",
@@ -311,11 +412,11 @@ lineMultiSelect = lineMultiSelect.map((item,index)=>(
     );
     }
     else{
-      console.log("opt",optionSelect);
+      
       const data = {
         //x label
         labels: storageAxis[0],
-        datasets: lineMultiSelect,
+        datasets: optionMultiSelect,
       };
 
       return(
@@ -373,42 +474,6 @@ lineMultiSelect = lineMultiSelect.map((item,index)=>(
       )
     }
   } else if (chosen === "Bar") {
-    function changeBarType(bool) {
-      setverticalBar(bool);
-    }
-
-    const dataBar = {
-      labels: storageAxis[0],
-      datasets: [
-        {
-          label: "Total Case",
-          backgroundColor: "#EC932F",
-          borderColor: "rgba(255,99,132,1)",
-          borderWidth: 1,
-          hoverBackgroundColor: "rgba(255,99,132,0.4)",
-          hoverBorderColor: "rgba(255,99,132,1)",
-          data: storageAxis[1],
-        },
-        // {
-        //   label: "new Cases",
-        //   backgroundColor: "rgba(255,99,132,0.2)",
-        //   borderColor: "rgba(255,99,132,1)",
-        //   borderWidth: 1,
-        //   hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        //   hoverBorderColor: "rgba(255,99,132,1)",
-        //   data: newCase,
-        // },
-        // {
-        //   label: "new Death",
-        //   backgroundColor: "red",
-        //   borderColor: "red",
-        //   borderWidth: 1,
-        //   hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        //   hoverBorderColor: "rgba(255,99,132,1)",
-        //   data: death,
-        // },
-      ],
-    };
     const optionx = {
       indexAxis: "y",
       plugins: {
@@ -505,184 +570,99 @@ lineMultiSelect = lineMultiSelect.map((item,index)=>(
         },
       },
     };
-    return (
-      <div style={{ marginTo: "30%" }}>
-        <div className="bar-header">
-          <p
-            className={
-              verticalBar === true ? "typeBar-active" : "typeBar-non-active"
-            }
-            onClick={() => changeBarType(true)}
-          >
-            Vertical Display
-          </p>
-          <p
-            className={
-              verticalBar === false ? "typeBar-active" : "typeBar-non-active"
-            }
-            onClick={() => changeBarType(false)}
-          >
-            Horizontal Display
-          </p>
+    function changeBarType(bool) {
+      setverticalBar(bool);
+    }
+
+    if(optionSelectx[1].selected === true){
+      const dataBar = {
+        labels: xlabelDate,
+        datasets:weeklydateContain,
+      };
+      return (
+        <div style={{ marginTo: "30%" }}>
+          <div className="bar-header">
+            <p
+              className={
+                verticalBar === true ? "typeBar-active" : "typeBar-non-active"
+              }
+              onClick={() => changeBarType(true)}
+            >
+              Vertical Display
+            </p>
+            <p
+              className={
+                verticalBar === false ? "typeBar-active" : "typeBar-non-active"
+              }
+              onClick={() => changeBarType(false)}
+            >
+              Horizontal Display
+            </p>
+          </div>
+  
+          {verticalBar === true ? (
+            <Bar data={dataBar} options={optiony} />
+          ) : (
+            <Bar data={dataBar} options={optionx} />
+          )}
         </div>
+      );
+    }
+    else{
+      const dataBar = {
+        labels: storageAxis[0],
+        datasets:optionMultiSelect,
+      };
+      return(
+      <div style={{ marginTo: "30%" }}>
+      <div className="bar-header">
+        <p
+          className={
+            verticalBar === true ? "typeBar-active" : "typeBar-non-active"
+          }
+          onClick={() => changeBarType(true)}
+        >
+          Vertical Display
+        </p>
+        <p
+          className={
+            verticalBar === false ? "typeBar-active" : "typeBar-non-active"
+          }
+          onClick={() => changeBarType(false)}
+        >
+          Horizontal Display
+        </p>
+      </div>
 
-        {verticalBar === true ? (
-          <Bar data={dataBar} options={optiony} />
-        ) : (
-          <Bar data={dataBar} options={optionx} />
-        )}
-      </div>
-    );
-  } else if (chosen === "Radar") {
-    const data = {
-      labels: [
-        "Eating",
-        "Drinking",
-        "Sleeping",
-        "Designing",
-        "Coding",
-        "Cycling",
-        "Running",
-      ],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [65, 59, 90, 81, 56, 55, 40],
-          fill: true,
-          backgroundColor: "rgba(255, 99, 132, 0.2)",
-          borderColor: "rgb(255, 99, 132)",
-          pointBackgroundColor: "rgb(255, 99, 132)",
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: "rgb(255, 99, 132)",
-        },
-        {
-          label: "My Second Dataset",
-          data: [28, 48, 40, 19, 96, 27, 100],
-          fill: true,
-          backgroundColor: "rgba(54, 162, 235, 0.2)",
-          borderColor: "rgb(54, 162, 235)",
-          pointBackgroundColor: "rgb(54, 162, 235)",
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: "rgb(54, 162, 235)",
-        },
-      ],
-    };
-    const options = {
-      scales: {
-        maintainAspectRatio: false,
-      },
-    };
-    return (
-      <div style={{ width: "100%" }}>
-        <Radar
-          data={data}
-          width={"100%"}
-          height={"500px"}
-          options={{
-            maintainAspectRatio: false,
-            scales: {
-              r: {
-                ticks: {
-                  color: "white",
-                  backdropColor: "#343A40",
-                  maxTicksLimit: "3",
-                },
-                grid: {
-                  color: "black",
-                },
-                angleLines: {
-                  color: "black",
-                },
-                pointLabels: {
-                  color: "white",
-                },
-              },
-            },
-            plugins: {
-              legend: {
-                labels: {
-                  color: "white",
-                },
-              },
-            },
-          }}
-        />
-      </div>
-    );
-  } else if (chosen === "Scatter") {
-    const data = {
-      datasets: [
-        {
-          label: "Dataset 1",
-          data: [
-            { x: 100, y: 1 },
-            { x: 1, y: 2 },
-          ],
-          backgroundColor: "#F39C12",
-        },
-        {
-          label: "Dataset 2",
-          data: [
-            { x: 4, y: 5 },
-            { x: 6, y: 7 },
-          ],
-          backgroundColor: "#DC3545",
-        },
-      ],
-    };
-    return (
-      <div style={{ marginTop: "4%" }}>
-        <Scatter
-          data={data}
-          options={{
-            plugins: {
-              legend: {
-                display: true,
+      {verticalBar === true ? (
+        <Bar data={dataBar} options={optiony} />
+      ) : (
+        <Bar data={dataBar} options={optionx} />
+      )}
+    </div>
+      )
+    }
 
-                labels: {
-                  color: "white",
-                },
-              },
-            },
-            scales: {
-              y: {
-                ticks: {
-                  color: "white",
-                },
-                title: {
-                  display: true,
-                  text: y,
-                  color: "white",
-                },
-              },
-              x: {
-                ticks: {
-                  color: "white",
-                },
-                title: {
-                  display: true,
-                  text: x,
-                  color: "white",
-                },
-              },
-            },
-          }}
-        />
-      </div>
-    );
+
+
+
+
+
+
+
+
   } else {
     return (
       <div>
-        <button>Visualization</button>
+        <button>Something Wrong</button>
       </div>
     );
   }
 };
 
-const SubChart = ({dataGraph,x,y,multiSelect,setmultiSelect,optionSelect}) => {
-  const [currentChart, setcurrentChart] = useState(null);
+const SubChart = ({dataGraph,x,y,multiSelect,setmultiSelect,optionSelect,setxAxis,
+  setyAxis,setoptionSelect,currentChart,setcurrentChart,optionSelectx}) => {
+
   const [disableChart, setdisableChart] = useState("true");
   const [valueDate, setValueDate] = useState("");
   let usedDataDate = "";
@@ -694,14 +674,17 @@ const SubChart = ({dataGraph,x,y,multiSelect,setmultiSelect,optionSelect}) => {
     setmultiSelect(!multiSelect)
   }
   useEffect(async () => {
-    // if (x === "" || y === "") {
-    //   setdisableChart("true");
-    // } else {
-    //   setdisableChart("false");
-    // }
-    
-  }, [dataGraph, x, y, valueDate,multiSelect]);
 
+
+
+   
+    // if(currentChart ==="Pie"){
+   
+    //   optionSelect =  optionSelect.map((p)=>p.selected === false ?{...p,selected:true}:p)
+      
+    // }
+  }, [dataGraph, x, y, valueDate,optionSelectx]);
+  
   const BtnDisplay = () => {
     if (valueDate !== "") {
       return (
@@ -712,12 +695,12 @@ const SubChart = ({dataGraph,x,y,multiSelect,setmultiSelect,optionSelect}) => {
           >
             Line
           </button>
-          {/* <button
+          <button
             className={currentChart === "Pie" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Pie")}
           >
             Pie
-          </button> */}
+          </button>
           <button
             className={currentChart === "Bar" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Bar")}
@@ -760,9 +743,7 @@ const SubChart = ({dataGraph,x,y,multiSelect,setmultiSelect,optionSelect}) => {
       <div className="dateSelectContainer">
         <div >
         <div style={{display:"flex",color:"white",justifyContent:"flex-end"}}>
-          <div  onClick={()=>{changeMultiSelect()}} >
-           set  {multiSelect}
-          </div>
+
           <div>
           <SelectDate valueDate={valueDate} setValueDate={setValueDate} />
           </div>
@@ -791,11 +772,15 @@ const SubChart = ({dataGraph,x,y,multiSelect,setmultiSelect,optionSelect}) => {
           disableChart={disableChart}
           x={x}
           y={y}
+          setxAxis = {setxAxis}
+          setyAxis = {setyAxis}
           dataGraph={dataGraph}
           multiSelect = {multiSelect}
           valueDate={valueDate}
+          setoptionSelect= {setoptionSelect}
           optionSelect = {optionSelect}
           style={{ width: "100%", overflowX: "auto" }}
+          optionSelectx= {optionSelectx}
         />
       </div>
     </div>
