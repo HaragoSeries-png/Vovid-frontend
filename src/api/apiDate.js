@@ -1,10 +1,10 @@
 import axios from "axios";
 
 
-const apiData = "https://vovid-backend-th.herokuapp.com/api/sum-of"
+const apiData = "https://vovid-backend-th.herokuapp.com/api/sum-of?date="
 
-export const fecthDateApi = async () =>{
-    let api = String(apiData)
+export const fecthDateApi = async (dateValue) =>{
+    let api = String(apiData) + dateValue
     // try {
     //   let data = await axios.get(api);
     //   return data.data

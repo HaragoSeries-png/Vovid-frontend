@@ -146,17 +146,14 @@ const Swap = ({
     allDate = await fecthThAPI();
     setdateSelect(allDate);
     changeValueArray();
-    if(optionSelectx[1].selected === true){
-    await fecthDateApi().then((value)=>{
+    await fecthDateApi(valueDate).then((value)=>{
         setdateMultiSelect(value.data)
       })
-    }
+    
     await fetchPie(valueDate).then((value)=>{
       setdialyPieData(value.data)
     })
   }, [valueDate,optionSelect,optionSelectx]);
-
-
 
 //set line filter
 optionMultiSelect = optionSelect.filter((value)=>{
@@ -216,7 +213,6 @@ weeklydateContain = optionSelect.filter((value)=>{
   return value.selected === true
 })
 
-// Problem cant display weekply value 
 
 let newCaseDate = [];
 let newDeathDate = [];
@@ -237,6 +233,14 @@ dateMultiSelect?.map((val)=>{
     totalDeathsDate.push(val.total_deaths)
   }
 })
+newCaseDate = newCaseDate.reverse()
+newDeathDate = newDeathDate.reverse()
+totalCaseDate = totalCaseDate.reverse()
+totalDeathsDate = totalDeathsDate.reverse()
+
+
+
+
 // date weekly label
 weeklydateContain.map((val)=>{
   if(val.name === "Total deaths"){
@@ -256,7 +260,7 @@ weeklydateContain.map((val)=>{
 dateMultiSelect?.map((val)=>{
 xlabelDate.push(val.date)
 })
-
+xlabelDate = xlabelDate.reverse()
 weeklydateContain = weeklydateContain.map((item)=>{
   let {name:label,...rest} = item;
   return {label,...rest}
@@ -270,40 +274,8 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-console.log("af : ",weeklydateContain)
-// weeklydateContain.map((val)=>{
-//   if(val.name === "New deaths"){
-//     return val.data =  dateMultiSelect?.new_deaths
-//    }else if(val.name === "Total deaths"){
-//      return val.data = dateMultiSelect?.total_deaths
-//    }
-//    else if(val.name === "Total cases"){
-//      return val.data = dateMultiSelect?.total_cases
-//    }
-//    else if(val.name ==="New cases"){
-//      return val.data = dateMultiSelect?.new_cases
-//    }
-// })
-
-// dateMultiSelect?.filter((val)=>{
-//   weeklydate.push(val.date)
-// })
-
-
   if (chosen === "Pie") {
+    if(optionSelectx[0].selected === false && optionSelectx[1].selected === false){
     const data = {
       labels: dialyPieLabel,
       datasets: [
@@ -347,7 +319,12 @@ console.log("af : ",weeklydateContain)
           </div>
         </div>
       );
-    
+    }
+    else{
+      return(
+        <div>can not visulize pie chart with x axis</div>
+      )
+    }
   } else if (chosen === "Line") {
       if(optionSelectx[1].selected === true){
     const data = {
@@ -411,7 +388,7 @@ console.log("af : ",weeklydateContain)
       </div>
     );
     }
-    else{
+    else if(optionSelectx[0].selected ===true){
       
       const data = {
         //x label
@@ -471,6 +448,11 @@ console.log("af : ",weeklydateContain)
           }}
         />
       </div>
+      )
+    }
+    else{
+      return(
+        <div>cant visualiz</div>
       )
     }
   } else if (chosen === "Bar") {
@@ -608,7 +590,7 @@ console.log("af : ",weeklydateContain)
         </div>
       );
     }
-    else{
+    else if(optionSelectx[0]?.selected === true){
       const dataBar = {
         labels: storageAxis[0],
         datasets:optionMultiSelect,
@@ -642,15 +624,11 @@ console.log("af : ",weeklydateContain)
     </div>
       )
     }
-
-
-
-
-
-
-
-
-
+    else{
+      return(
+        <div> cannot visulza</div>
+      )
+    }
   } else {
     return (
       <div>
