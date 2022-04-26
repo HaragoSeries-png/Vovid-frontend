@@ -155,8 +155,8 @@ const Map = () => {
 
     colorAxis: {
       min: 0,
-      minColor: "white",
-      maxColor: "black",
+      minColor: "green",
+      maxColor: "red",
     },
     tooltip: {
       headerFormat: "",
