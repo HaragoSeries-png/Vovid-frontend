@@ -165,9 +165,7 @@ const MainPage = () => {
         </div>
       </div>
 
-      <div style={{ marginTop: "2%" }}>
-        <Map country={country} />
-      </div>
+
 {/* 
       <div style={{ marginTop: "2%" }}>
         <Grid container spacing={2}>

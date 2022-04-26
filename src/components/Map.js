@@ -13,7 +13,7 @@ import highchartsMap from "highcharts/modules/map";
 import mapDataIE from "@highcharts/map-collection/countries/th/th-all.geo.json";
 
 highchartsMap(Highcharts);
-const Map = ({ country }) => {
+const Map = () => {
   var topology;
   const [focusedLocation, setFocusedLocation] = useState(null);
   const getLocationName = (event) => {
@@ -117,9 +117,17 @@ const Map = ({ country }) => {
     chart: {
       map: "countries/th/th-all",
       backgroundColor: "#343A40",
+      height:"450px",
+      events:{
+        load:function(){
+          this.mapZoom(0.2)
+        }
+      }
     },
     title: {
-      text: "Map Demo",
+      text: "Thailand Map",
+      color:"white",
+      fill:"white"
     },
     credits: {
       enabled: false,
@@ -127,8 +135,20 @@ const Map = ({ country }) => {
 
     mapNavigation: {
       enabled: true,
+      buttons:{
+        zoomIn:{
+          x:150
+        },
+        zoomOut:{
+          x:150
+        }
+      },
       buttonOptions: {
+        theme: {
+          r: 5
+        },
         verticalAlign: "bottom",
+       
       },
       backgroundColor: "#ececec",
     },
@@ -173,57 +193,46 @@ const Map = ({ country }) => {
 
   const thMap = (
     <div>
-      <Grid container spacing={1} style={{ marginLeft: "1px" }}>
-        <Grid
-          item
-          xs={8}
-          className="map-section section"
-          style={{ padding: "0px" }}
-        >
+
+
           <div>
-            {/* <SVGMap  style={{padding:"0px"}}
-        className="onMap"
-        customize={stateCustom}
-        onLocationFocus={handleLocationFocus}
-        map={TH} /> */}
+            
             <HighchartsReact
               constructorType={"mapChart"}
               highcharts={Highcharts}
               options={mapOptions}
-              style={{ fill: "#343A40" }}
+              style={{ fill: "#343A40",padding:"30px",height:"600px" }}
             />
           </div>
-        </Grid>
-        <Grid item xs={4} style={{ padding: "3px", paddingTop: "0px" }}>
-          <div style={{ width: "100%" }}>{focusedLocation}</div>
-        </Grid>
-      </Grid>
+   
+
+
     </div>
   );
-  const usMap = (
-    <div>
-      <Grid container spacing={1} style={{ marginLeft: "1px" }}>
-        <Grid
-          item
-          xs={8}
-          className="map-section section"
-          style={{ padding: "0px" }}
-        >
-          <div style={{ backgroundColor: "#343A40" }}>
-            <SVGMap
-              style={{ padding: "0px" }}
-              className="onMap"
-              onLocationFocus={handleLocationFocus}
-              map={USA}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={4} style={{ padding: "3px", paddingTop: "0px" }}>
-          <div style={{ width: "100%" }}>{focusedLocation}</div>
-        </Grid>
-      </Grid>
-    </div>
-  );
+  // const usMap = (
+  //   <div>
+  //     <Grid container spacing={1} style={{ marginLeft: "1px" }}>
+  //       <Grid
+  //         item
+  //         xs={8}
+  //         className="map-section section"
+  //         style={{ padding: "0px" }}
+  //       >
+  //         <div style={{ backgroundColor: "#343A40" }}>
+  //           <SVGMap
+  //             style={{ padding: "0px" }}
+  //             className="onMap"
+  //             onLocationFocus={handleLocationFocus}
+  //             map={USA}
+  //           />
+  //         </div>
+  //       </Grid>
+  //       <Grid item xs={4} style={{ padding: "3px", paddingTop: "0px" }}>
+  //         <div style={{ width: "100%" }}>{focusedLocation}</div>
+  //       </Grid>
+  //     </Grid>
+  //   </div>
+  // );
   return <div> {thMap} </div>;
 };
 

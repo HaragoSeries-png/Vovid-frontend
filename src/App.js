@@ -1,14 +1,14 @@
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.css';
 import { BrowserRouter,Routes,Route} from 'react-router-dom'
 import { Navbar } from './components/Navbar'; 
-import DashBoard from './pages/DashBoard';
 import HomePage from './pages/HomePage';
 import MainPage from './pages/MainPage';
-import TestPage from './pages/testPage';
+import ClusterPage from './pages/ClusterPage';
 //bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
+import LoadingPage from './components/Loading';
 //components
 
 
@@ -25,15 +25,16 @@ function App() {
   
   return (
 <div className='head'>
-    <Navbar/>
-      <div className="content">
         <BrowserRouter>
+        <Navbar/>
+        <Suspense fallback={<LoadingPage />}>
           <Routes>
             <Route exact path="/" element={<MainPage/>}></Route>
-            <Route exact path="/test" element={<TestPage/>}></Route>
+            <Route exact path="/Cluster" element={<ClusterPage/>}></Route>
           </Routes>
+        </Suspense>
        </BrowserRouter>
-    </div>
+
 </div>
   );
 }
