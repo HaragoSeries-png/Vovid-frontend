@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Nav } from "react-bootstrap";
+import { Link, NavLink } from "react-router-dom";
 import "../css/nav.css";
 export const Navbar = () => {
+
+var activePage = window.location.pathname
+
+useEffect(() => {
+  console.log("active :",activePage)
+}, [activePage])
+
+
   return (
     <Nav activeKey="/home">
       <div className="navMain">
@@ -12,12 +21,18 @@ export const Navbar = () => {
         </div>
 
         <div className="right-nav">
-          <Nav.Item>
-            <Nav.Link href="/home">Overview statistic</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link>Clustering</Nav.Link>
-          </Nav.Item>
+      
+            <NavLink
+             to="/"
+             className={({isActive}) => (isActive ? "active" : "default")}
+
+             >Overview statistic</NavLink>
+   
+            <NavLink  to="/Cluster"
+           className={({isActive}) => (isActive ? "active" : "default")}
+            
+            >Clustering</NavLink>
+      
         </div>
       </div>
     </Nav>
