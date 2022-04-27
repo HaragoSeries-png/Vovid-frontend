@@ -30,8 +30,8 @@ const CountCard = ({ data }) => {
   return (
     <div>
 
-      <Grid container spacing={1} justify="space-around">
-        <Grid item sm={12} md={3} className="type-box">
+      <Grid container spacing={1}  style={{marginTop:"40px"}}>
+        <Grid item sm={12} md={12} className="type-box" style={{marginTop:"10px"}}>
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>
@@ -67,7 +67,7 @@ const CountCard = ({ data }) => {
           </CardContent>
         </Grid>
 
-        <Grid item sm={12} md={3} className="type-box">
+        <Grid item sm={12} md={12} className="type-box" style={{marginTop:"10px"}}>
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>
@@ -104,7 +104,7 @@ const CountCard = ({ data }) => {
           </CardContent>
         </Grid>
 
-        <Grid item sm={12} md={3} className="type-box">
+        <Grid item sm={12} md={12} className="type-box" style={{marginTop:"10px"}}>
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>

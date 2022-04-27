@@ -58,8 +58,8 @@ export default function CustomizeSection({
     return (
       <div className="main-container-visual">
         <div className="header-axis">
-          <div>X-Axis</div>
-          <div>Y-Axis</div>
+          <div className="leftBorder">X-Axis</div>
+          <div className="leftBorder" style={{paddingTop:"22px"}}>Y-Axis</div>
         </div>
 
         <div className="axis-type">
@@ -79,7 +79,7 @@ export default function CustomizeSection({
             })}
           </div>
 
-          <div className="axis-list">
+          <div className="axis-list y-area">
             {optionSelect.map((item, index) => {
               return (
                 <div
@@ -95,6 +95,12 @@ export default function CustomizeSection({
             })}
           </div>
         </div>
+
+
+
+
+
+
       </div>
     );
   

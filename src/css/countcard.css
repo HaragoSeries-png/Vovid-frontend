@@ -16,7 +16,8 @@
   .type-box{
     background-color: #343A40;
     border-radius: 12px;
-    height: 110px;
+    height: 115px;
+    margin-top:20%;
   }
   
   .deaths {

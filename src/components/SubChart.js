@@ -54,7 +54,6 @@ const Swap = ({
   let [dateMultiSelect, setdateMultiSelect] = useState(null)
   const [weeklyMultiSelect, setweeklyMultiSelect] = useState([{}])
 
-
   var date = [];
   var newsDate = [];
   let storageAxis = [" ", " "];
@@ -723,7 +722,7 @@ const SubChart = ({dataGraph,x,y,multiSelect,setmultiSelect,optionSelect,setxAxi
         <div style={{display:"flex",color:"white",justifyContent:"flex-end"}}>
 
           <div>
-          <SelectDate valueDate={valueDate} setValueDate={setValueDate} />
+    
           </div>
 
           </div>
@@ -733,7 +732,7 @@ const SubChart = ({dataGraph,x,y,multiSelect,setmultiSelect,optionSelect,setxAxi
       <div className="top-content">
         {/* */}
         <div className="header-font">
-          Visualize data between {x} and {y}
+        <SelectDate valueDate={valueDate} setValueDate={setValueDate} />
           {/* {disableChart}{" "} */}
         </div>
 

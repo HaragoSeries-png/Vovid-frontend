@@ -43,3 +43,22 @@
     letter-spacing: 0.3em;
     font-size: 3em;
 }
+.highcharts-coloraxis-labels .highcharts-axis-labels{
+  color: white !important;
+  fill: white !important;
+}
+
+.highcharts-axis-labels{
+  fill: white !important;
+  color: white !important;
+}
+
+.highcharts-legend-item .highcharts-map-series .highcharts-color-undefined .highcharts-series-0{
+  color: white !important;
+}
+.highcharts-series-0 text{
+  color: white;
+}
+.highcharts-legend-item{
+  color: white;
+}

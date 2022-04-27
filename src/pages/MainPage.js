@@ -120,11 +120,19 @@ const MainPage = () => {
 
   return (
     <div className="container">
-      <Topic />
-      <hr></hr>
-      <CountryPicker handleCountryChange={handleCountryChange} />
-      <CountCard data={data} />
-      <div style={{ marginTop: "5%" }}>
+      {/* <Topic />
+      <hr></hr> */}
+      {/* <CountryPicker handleCountryChange={handleCountryChange} /> */}
+
+  <Grid container spacing={1}>
+  <Grid item xs={3} md={3}>
+      
+  <CountCard data={data} />
+  </Grid>
+
+  <Grid item xs={9} md={9}>
+   
+  <div style={{ marginTop: "5%" }}>
         <div className="layout-customize">
           
           <div className="wid-100-1">
@@ -164,6 +172,13 @@ const MainPage = () => {
           </div>
         </div>
       </div>
+  </Grid>
+
+</Grid>
+
+
+
+
 
 
 {/* 

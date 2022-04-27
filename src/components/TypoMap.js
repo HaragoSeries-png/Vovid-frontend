@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import styles from "../css/countcard.css";
 import Button from '@mui/material/Button';
 import CountUp from "react-countup";
-
+import "../css/typomap.css"
 //For applying multiples classes
 import cx from "classnames";
 
@@ -29,10 +29,11 @@ const TypoMap = ({ data }) => {
     return "Loading...";
   }
   return (
-    <div>
+    <div style={{overflowX:"none"}}>
 
-      <Grid container spacing={0} justify="space-around">
-        <Grid item sm={12} md={3} className="type-box">
+      <Grid container spacing={0} style={{justifyContent:"center"}} >
+
+        <Grid item sm={12} md={10} className="type-box" style={{marginTop:"10%"}} >
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>
@@ -68,7 +69,7 @@ const TypoMap = ({ data }) => {
           </CardContent>
         </Grid>
 
-        <Grid item sm={12} md={3} className="type-box">
+        <Grid item sm={10} md={10} className="type-box" style={{marginTop:"10%"}}>
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>
@@ -105,7 +106,7 @@ const TypoMap = ({ data }) => {
           </CardContent>
         </Grid>
 
-        <Grid item sm={12} md={3} className="type-box">
+        <Grid item sm={10} md={10} className="type-box"  style={{marginTop:"10%"}}>
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>

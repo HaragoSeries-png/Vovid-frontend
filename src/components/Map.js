@@ -117,22 +117,23 @@ const Map = () => {
     chart: {
       map: "countries/th/th-all",
       backgroundColor: "#343A40",
-      height:"450px",
+      height:"600px",
       events:{
         load:function(){
-          this.mapZoom(0.2)
+          this.mapZoom(2)
         }
       }
     },
     title: {
       text: "Thailand Map",
       color:"white",
-      fill:"white"
+      fill:"white",
+      y:25,
     },
+    
     credits: {
       enabled: false,
     },
-
     mapNavigation: {
       enabled: true,
       buttons:{
@@ -158,15 +159,18 @@ const Map = () => {
       minColor: "green",
       maxColor: "red",
     },
+    
     tooltip: {
       headerFormat: "",
       pointFormat: "<b>{point.freq}</b><br><b>{point.name}</b> ",
+      
     },
     series: [
       {
         data: dataProvince,
-        name: "Thailand",
+        name: "จังหวัดที่มีความเสี่ยงสูง",
         mapData: mapDataIE,
+        showInLegend: true,
         states: {
           hover: {
             color: "#BADA55",
@@ -176,8 +180,23 @@ const Map = () => {
           enabled: true,
           format: "{point.name}",
         },
+        color:"red",
+        fill:"red",
       },
+      {
+        data:dataProvince,
+        name:"จังหวัดที่มีความเสี่ยงต่ำ",
+        showInLegend:true,
+        color:"green",
+        fill:"white"
+      }
+      
     ],
+    legend: {
+      itemStyle: {
+          color: 'white'
+      }  
+  },
     plotOptions: {
       series: {
         point: {
@@ -188,6 +207,7 @@ const Map = () => {
           },
         },
       },
+      
     },
   };
 
@@ -201,7 +221,7 @@ const Map = () => {
               constructorType={"mapChart"}
               highcharts={Highcharts}
               options={mapOptions}
-              style={{ fill: "#343A40",padding:"30px",height:"600px" }}
+              style={{ fill: "#343A40",padding:"30px",height:"600px"}}
             />
           </div>
    
