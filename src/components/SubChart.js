@@ -53,7 +53,7 @@ const Swap = ({
   let weeklydate= [];
   let [dateMultiSelect, setdateMultiSelect] = useState(null)
   const [weeklyMultiSelect, setweeklyMultiSelect] = useState([{}])
-
+  const [isLoading, setisLoading] = useState(false)
   var date = [];
   var newsDate = [];
   let storageAxis = [" ", " "];
@@ -138,21 +138,28 @@ const Swap = ({
   chooseRealShow(y, 1);
 
   useEffect(async () => {
-
+    setisLoading(true)
+    console.log("loading ; ",isLoading)
     await fetchDateth(valueDate).then((keepData)=>{
       setdateProp(keepData.data);
+      
     })
-    allDate = await fecthThAPI();
-    setdateSelect(allDate);
+
+
+    // allDate = await fecthThAPI();
+    // setdateSelect(allDate);
     changeValueArray();
+
+
     await fecthDateApi(valueDate).then((value)=>{
         setdateMultiSelect(value.data)
       })
-    
     await fetchPie(valueDate).then((value)=>{
       setdialyPieData(value.data)
     })
-  }, [valueDate,optionSelect,optionSelectx]);
+
+    setisLoading(false)
+  }, [valueDate]);
 
 //set line filter
 optionMultiSelect = optionSelect.filter((value)=>{
@@ -284,6 +291,15 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
         },
       ],
     };
+
+    if(isLoading === true){
+      return(
+        <div>
+        waiting for data 
+      </div>
+      )
+    }
+    else{
       return (
         <div
           className="graph-contain"
@@ -318,6 +334,7 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
           </div>
         </div>
       );
+            }
     }
     else{
       return(
@@ -332,6 +349,14 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
       datasets: weeklydateContain
     };
 
+    if( isLoading === true  ){
+    return(
+      <div>
+      waiting for data 
+    </div>
+    )
+    }
+    else{
     return (
       <div style={{ width: "100%", height: "100%" }}>
         
@@ -386,15 +411,23 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
         />
       </div>
     );
+      }
     }
     else if(optionSelectx[0].selected ===true){
-      
       const data = {
         //x label
         labels: storageAxis[0],
         datasets: optionMultiSelect,
       };
 
+      if( isLoading === true  ){
+        return(
+          <div>
+            waiting for data 
+          </div>
+        )
+      }
+      else{
       return(
         <div style={{ width: "100%", height: "100%" }}>
         <Line
@@ -448,6 +481,7 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
         />
       </div>
       )
+      }
     }
     else{
       return(
@@ -560,6 +594,13 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
         labels: xlabelDate,
         datasets:weeklydateContain,
       };
+      if( isLoading === true  ){
+        return(
+          <div>
+            waiting for data 
+          </div>
+        )
+      }else{
       return (
         <div style={{ marginTo: "30%" }}>
           <div className="bar-header">
@@ -588,12 +629,20 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
           )}
         </div>
       );
+      }
     }
     else if(optionSelectx[0]?.selected === true){
       const dataBar = {
         labels: storageAxis[0],
         datasets:optionMultiSelect,
       };
+      if( isLoading === true  ){
+        return(
+          <div>
+            waiting for data 
+          </div>
+        )
+      }else{
       return(
       <div style={{ marginTo: "30%" }}>
       <div className="bar-header">
@@ -614,7 +663,7 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
           Horizontal Display
         </p>
       </div>
-
+      
       {verticalBar === true ? (
         <Bar data={dataBar} options={optiony} />
       ) : (
@@ -622,6 +671,7 @@ weeklydateContain = weeklydateContain.map((item,index)=>(
       )}
     </div>
       )
+      }
     }
     else{
       return(

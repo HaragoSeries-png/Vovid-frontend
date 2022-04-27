@@ -7,9 +7,9 @@ import {createStore} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import rootReducer from './reducers/index';
 import {QueryClient,QueryClientProvider} from 'react-query'
-import store from './store/store'
+import loadingReducer from './reducers/loadingReducer';
 
-
+const store = createStore(loadingReducer)
 const queryClient = new QueryClient(); 
 ReactDOM.render(
   <React.StrictMode>

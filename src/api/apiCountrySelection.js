@@ -8,7 +8,7 @@ export const fecthThAPI = async () => {
 
   try {
     const data = await axios.get(apiUrl);
-    // console.log("from api ",data.data);
+    console.log("from api ",data.data);
     return data.data;
 
   } catch (error) {
@@ -17,6 +17,8 @@ export const fecthThAPI = async () => {
 };
 
 export const fetchDateth = async (dateData) =>{
+
+
   let api = String(datethUrl) + String(dateData)
   // try {
   //   let data = await axios.get(api);

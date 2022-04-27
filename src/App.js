@@ -9,6 +9,7 @@ import ClusterPage from './pages/ClusterPage';
 //bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingPage from './components/Loading';
+
 //components
 
 
@@ -19,8 +20,6 @@ import LoadingPage from './components/Loading';
 // const ReactQuery   = React.lazy(()=>import('./pages/Reactquery'))
 // const MainPage    = React.lazy(()=>import('./pages/MainPage'))
 function App() {
-
-
 
   
   return (

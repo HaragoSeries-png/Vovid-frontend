@@ -6,7 +6,6 @@ const url = "https://covid19.mathdro.id/api";
 //if country is undefined we use url for all countries else we modify the url to get a specific country
 //returns the numbers of deaths,infections and recovered globally or of specific country
 export const fetchData = async (country) => {
-  console.log("fetch data : ",country);
   let changeableUrl = url;
   if (country) {
     changeableUrl = `${url}/countries/${country}`;
