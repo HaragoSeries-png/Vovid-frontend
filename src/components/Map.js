@@ -11,29 +11,21 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import highchartsMap from "highcharts/modules/map";
 import mapDataIE from "@highcharts/map-collection/countries/th/th-all.geo.json";
+import { fetchCluster } from "../api/apiCluster";
 
 highchartsMap(Highcharts);
-const Map = () => {
+const Map = ({selectProvince,setselectProvince}) => {
   var topology;
+  var api;
+  var testObj
+  var dataCluster;
+  var clusterNum;
   const [focusedLocation, setFocusedLocation] = useState(null);
-  const getLocationName = (event) => {
-    return event.target.attributes.name.value;
-  };
-  const handleLocationFocus = (event) => {
-    const currentLocate = getLocationName(event);
-
-    setFocusedLocation(currentLocate);
-    // console.log(focusedLocation);
-  };
-
-  useEffect(async () => {
-    topology = await fetch(
-      "https://code.highcharts.com/mapdata/countries/th/th-all.topo.json"
-    ).then((response) => response.json());
-    console.log("topology : ", topology);
-  }, []);
-
-  const dataProvince = [
+  const [realProvinceData, setrealProvinceData] = useState(null);
+  let provinceStorage = []
+  var contain;
+  var isSuc = false;
+  var dataProvince = [
     ["th-kr", 10], //กระบี่
     ["th-bm", 10], //กรุงเทพมหานคร
     ["th-kn", 0], //กาญจนบุรี
@@ -112,7 +104,38 @@ const Map = () => {
     ["th-pr", 0], //แพร่
     ["th-mh", 0], //แม่ฮ่องสอน
   ];
+  
+  //click locate and change state
+  const selectFunction = (name,cluster) =>{
+    provinceStorage[0] = name;
+    provinceStorage[1] = cluster
+  
+    setselectProvince(provinceStorage)
+  }
+  // testfun
+  const testFun = (data) =>{
+    console.log(data)
+  }
 
+  useEffect(async () => {
+  api = await fetchCluster();
+  dataCluster = api.data;
+  clusterNum = dataCluster.map((v)=>{
+    return v.cluster
+  })
+
+    for(let i =0;i<dataProvince.length;i++){
+    dataProvince[i][1] = clusterNum[i]
+    }
+    contain = dataProvince
+    if(clusterNum !== ""){
+      setrealProvinceData(contain)
+    }
+  }, []);
+  
+  
+
+  
   const mapOptions = {
     chart: {
       map: "countries/th/th-all",
@@ -156,8 +179,9 @@ const Map = () => {
 
     colorAxis: {
       min: 0,
-      minColor: "green",
-      maxColor: "red",
+      max:4,
+      minColor: "#238823",
+      maxColor: "#FF4500",
     },
     
     tooltip: {
@@ -167,13 +191,13 @@ const Map = () => {
     },
     series: [
       {
-        data: dataProvince,
+        data: realProvinceData,
         name: "จังหวัดที่มีความเสี่ยงสูง",
         mapData: mapDataIE,
         showInLegend: true,
         states: {
           hover: {
-            color: "#BADA55",
+            color: "#FFDE02",
           },
         },
         dataLabels: {
@@ -202,7 +226,8 @@ const Map = () => {
         point: {
           events: {
             click: function () {
-              alert(this.name);
+              selectFunction(this.name,this.value)
+              // testFun(this)
             },
           },
         },
@@ -211,12 +236,10 @@ const Map = () => {
     },
   };
 
-  const thMap = (
+  const ThMap = () =>(
+    
     <div>
-
-
           <div>
-            
             <HighchartsReact
               constructorType={"mapChart"}
               highcharts={Highcharts}
@@ -224,36 +247,23 @@ const Map = () => {
               style={{ fill: "#343A40",padding:"30px",height:"600px"}}
             />
           </div>
-   
-
-
     </div>
   );
-  // const usMap = (
-  //   <div>
-  //     <Grid container spacing={1} style={{ marginLeft: "1px" }}>
-  //       <Grid
-  //         item
-  //         xs={8}
-  //         className="map-section section"
-  //         style={{ padding: "0px" }}
-  //       >
-  //         <div style={{ backgroundColor: "#343A40" }}>
-  //           <SVGMap
-  //             style={{ padding: "0px" }}
-  //             className="onMap"
-  //             onLocationFocus={handleLocationFocus}
-  //             map={USA}
-  //           />
-  //         </div>
-  //       </Grid>
-  //       <Grid item xs={4} style={{ padding: "3px", paddingTop: "0px" }}>
-  //         <div style={{ width: "100%" }}>{focusedLocation}</div>
-  //       </Grid>
-  //     </Grid>
-  //   </div>
-  // );
-  return <div> {thMap} </div>;
+
+  return <div> <ThMap/> </div>;
 };
 
 export default Map;
+// const MapTest = (props) =>{
+
+//   return(
+//     <div>
+//     <HighchartsReact
+//       constructorType={"mapChart"}
+//       highcharts={Highcharts}
+//       options={props.mapOptions}
+//       style={{ fill: "#343A40",padding:"30px",height:"600px"}}
+//     />
+//   </div>
+//   )
+// }

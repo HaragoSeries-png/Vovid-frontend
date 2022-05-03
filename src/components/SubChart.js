@@ -44,7 +44,7 @@ const Swap = ({
   let [location, setlocation] = useState([]);
   let [newDeath, setnewDeath] = useState([]);
   let [death, setdeath] = useState([]);
-  let [optionMultiSelect, setoptionMultiSelect] = useState([{}]);
+  let [optionMultiSelect, setoptionMultiSelect] = useState(null);
   let [dialyPieData, setdialyPieData] = useState();
   let pieDataContain;
   let dialyPieLabel = [];
@@ -54,8 +54,11 @@ const Swap = ({
   let [dateMultiSelect, setdateMultiSelect] = useState(null);
   const [weeklyMultiSelect, setweeklyMultiSelect] = useState([{}]);
   const [isLoading, setisLoading] = useState(false);
+  var testMulti 
   var date = [];
   var newsDate = [];
+  var multipleAxis = false
+  var isToomuch = false
   let storageAxis = [" ", " "];
 
   newCase = apidata?.result.map((val) => {
@@ -128,9 +131,10 @@ const Swap = ({
 
   useEffect(async () => {
     setisLoading(true);
-    console.log("loading ; ", isLoading);
+
     await fetchDateth(valueDate).then((keepData) => {
       setdateProp(keepData.data);
+     
     });
 
     // allDate = await fecthThAPI();
@@ -142,25 +146,63 @@ const Swap = ({
     });
     await fetchPie(valueDate).then((value) => {
       setdialyPieData(value.data);
+
     });
 
     setisLoading(false);
   }, [valueDate]);
-
+  //total death,total cases,new cases,new death
+  
   //set line filter
   optionMultiSelect = optionSelect.filter((value) => {
     return value.selected === true;
   });
+
+
   optionMultiSelect = optionMultiSelect.map((item) => {
     let { name: label, ...rest } = item;
     return { label, ...rest };
   });
+
   let colorArray = ["red", "blue", "orange", "green"];
   optionMultiSelect = optionMultiSelect.map((item, index) => ({
     ...item,
     backgroundColor: colorArray[index],
     borderColor: colorArray[index],
   }));
+
+  testMulti = optionMultiSelect.map(obj=>({...obj,yAxisID:null}))
+
+  testMulti.map(val=>{
+    if(val.label==="Total deaths"){
+       val.yAxisID = "A"
+    }
+    else if(val.label ==="Total cases"){
+      val.yAxisID = "A"
+    }
+    else if(val.label ==="New cases"){
+      val.yAxisID = "B"
+    }
+    else if(val.label ==="New deaths"){
+      val.yAxisID = "B"
+    }
+  })
+
+  testMulti.map(check=>{
+    if(check.label === "New cases" || check.label ==="New deaths" ){
+      multipleAxis = true
+    }else{
+      multipleAxis = false
+    }
+  })
+
+  testMulti.map(check=>{
+    console.log("label : ",check.label)
+    if(check.label ==="Total deaths"){
+      isToomuch = true
+    }
+  })
+
 
   //handle pie dialy data
   //data format
@@ -331,11 +373,11 @@ const Swap = ({
   } else if (chosen === "Line") {
     if (optionSelectx[1].selected === true) {
       const data = {
-        //x label
+        //x label //date
         labels: xlabelDate,
         datasets: weeklydateContain,
       };
-
+      console.log(weeklydateContain)
       if (isLoading === true) {
         return (
           <div>
@@ -413,12 +455,23 @@ const Swap = ({
         );
       }
     } else if (optionSelectx[0].selected === true) {
+      // var testX = ['A', 'B', 'C', 'D', 'E']
+      // var testY = [{
+      //   label: 'A',
+      //   yAxisID: 'y',
+      //   data: [100, 96, 84, 76, 69]
+      // }, {
+      //   label: 'B',
+      //   yAxisID: 'y1',
+      //   data: [1000, 2000, 3000, 4000, 5000]
+      // }]
       const data = {
-        //x label
+        //x label //location
         labels: storageAxis[0],
-        datasets: optionMultiSelect,
+        datasets: testMulti,
+        // labels:testX,
+        // datasets:testY
       };
-
       if (isLoading === true) {
         return (
           <div>
@@ -441,7 +494,152 @@ const Swap = ({
           </div>
         );
       } else {
-        return (
+      
+      if(multipleAxis === true){
+        if(testMulti.length <=2 && !isToomuch){
+          return(
+            <div style={{ width: "100%", height: "100%" }}>
+              <Line
+                style={{
+                  width: "100%",
+                  height: "400px",
+                  marginTop: "3.5%",
+                  overflowX: "auto",
+                }}
+                data={data}
+                options={{
+                  plugins: {
+                    zoom: {
+                      zoom: {
+                        wheel: {
+                          enabled: true, // SET SCROOL ZOOM TO TRUE
+                        },
+                        mode: "x",
+                        speed: 100,
+                      },
+                      pan: {
+                        enabled: true,
+                        mode: "x",
+                        speed: 100,
+                      },
+                    },
+                    legend: {
+                      display: true,
+  
+                      labels: {
+                        color: "white",
+                      },
+                    },
+                  },
+                  scales: {
+                    x: {
+                      ticks: {
+                        color: "white",
+                        //data can show all province but space in x axis is too low
+                        autoSkip: true,
+                      },
+                    },
+                    
+                    B: {
+                      type: 'linear',
+                      display: true,
+                      position: 'left',
+                      title:{
+                        display:true,
+                        text:"คน",
+                        color: "white"
+                      },
+                      ticks: {
+                        color: "white",
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          )
+  
+        }
+        else{
+          return(
+            <div style={{ width: "100%", height: "100%" }}>
+              <Line
+                style={{
+                  width: "100%",
+                  height: "400px",
+                  marginTop: "3.5%",
+                  overflowX: "auto",
+                }}
+                data={data}
+                options={{
+                  plugins: {
+                    zoom: {
+                      zoom: {
+                        wheel: {
+                          enabled: true, // SET SCROOL ZOOM TO TRUE
+                        },
+                        mode: "x",
+                        speed: 100,
+                      },
+                      pan: {
+                        enabled: true,
+                        mode: "x",
+                        speed: 100,
+                      },
+                    },
+                    legend: {
+                      display: true,
+  
+                      labels: {
+                        color: "white",
+                      },
+                    },
+                  },
+                  scales: {
+                    x: {
+                      ticks: {
+                        color: "white",
+                        //data can show all province but space in x axis is too low
+                        autoSkip: true,
+                      },
+                    },
+                    A: {
+                      type: 'linear',
+                      display: true,
+                      position: 'left',
+                      title:{
+                        display:true,
+                        text:"คน",
+                        color: "white"
+                      },
+                      ticks: {
+                        color: "white",
+                      },
+                    },
+                    B: {
+                      type: 'linear',
+                      display: true,
+                      position: 'right',
+                      title:{
+                        display:true,
+                        text:"คน",
+                        color: "white"
+                      },
+                      ticks: {
+                        color: "white",
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          )
+  
+        }
+        
+      }
+      else{
+        return(
           <div style={{ width: "100%", height: "100%" }}>
             <Line
               style={{
@@ -476,12 +674,6 @@ const Swap = ({
                   },
                 },
                 scales: {
-                  y: {
-                    ticks: {
-                      color: "white",
-                      autoSkip: true,
-                    },
-                  },
                   x: {
                     ticks: {
                       color: "white",
@@ -489,11 +681,40 @@ const Swap = ({
                       autoSkip: true,
                     },
                   },
+                  A: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title:{
+                      display:true,
+                      text:"คน",
+                      color: "white"
+                    },
+                    ticks: {
+                      color: "white",
+                    },
+                  },
+                  B: {
+                    type: 'linear',
+                    display: false,
+                    position: 'right',
+                    title:{
+                      display:true,
+                      text:"คน",
+                      color: "white"
+                    },
+                    ticks: {
+                      color: "white",
+                    },
+                  },
                 },
               }}
             />
           </div>
-        );
+        )
+      }
+
+
       }
     } else {
       return <div>cant visualiz</div>;
@@ -516,7 +737,7 @@ const Swap = ({
             pinch: {
               enabled: true,
             },
-            mode: "xy",
+            mode: "x",
           },
           pan: {
             enabled: true,
@@ -531,7 +752,7 @@ const Swap = ({
           },
           title: {
             display: true,
-            text: "y-axis",
+            text: "จังหวัด",
             color: "white",
           },
         },
@@ -541,7 +762,7 @@ const Swap = ({
           },
           title: {
             display: true,
-            text: "x-axis",
+            text: "คน",
             color: "white",
           },
         },
@@ -564,7 +785,7 @@ const Swap = ({
             pinch: {
               enabled: true,
             },
-            mode: "xy",
+            mode: "x",
           },
           pan: {
             enabled: true,
@@ -573,23 +794,24 @@ const Swap = ({
         },
       },
       scales: {
-        y: {
-          ticks: {
-            color: "white",
-          },
-          title: {
-            display: true,
-            text: "y-axis",
-            color: "white",
-          },
-        },
+        
         x: {
           ticks: {
             color: "white",
           },
           title: {
             display: true,
-            text: "x-axis",
+            text: "จังหวัด",
+            color: "white",
+          },
+        },
+        y: {
+          ticks: {
+            color: "white",
+          },
+          title: {
+            display: true,
+            text: "คน",
             color: "white",
           },
         },
@@ -658,6 +880,7 @@ const Swap = ({
         );
       }
     } else if (optionSelectx[0]?.selected === true) {
+      console.log("from bar : ",optionMultiSelect)
       const dataBar = {
         labels: storageAxis[0],
         datasets: optionMultiSelect,
@@ -721,7 +944,24 @@ const Swap = ({
   } else {
     return (
       <div>
-        <button>Something Wrong</button>
+                 <div>
+          <div>
+          <img
+            src={loadingIcon}
+            width="60px"
+            style={{
+              paddingTop: "0px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              width:"200px",
+              paddingTop:"11%"
+            }}
+          />
+          </div>
+          <div style={{fontSize:"20px",color:"white",textAlign:"center",marginTop:"-25px"}}>
+            Loading. . . 
+          </div>
+        </div>
       </div>
     );
   }
@@ -859,3 +1099,16 @@ const SubChart = ({
 };
 
 export default SubChart;
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import { Card, CardContent, Typography, Grid } from "@material-ui/core";
 import CardActions from '@mui/material/CardActions';
@@ -24,7 +25,14 @@ const bull = (
 );
 
 var fakeBool = false;
-const TypoMap = ({ data }) => {
+const TypoMap = ({ selectProvince }) => {
+  console.log("type : ",selectProvince)
+  useEffect(() => {
+  
+  
+  }, [selectProvince])
+  
+
   if (fakeBool) {
     return "Loading...";
   }
@@ -57,12 +65,7 @@ const TypoMap = ({ data }) => {
                   variant="h5"
                   style={{ textAlign: "left", fontSize: "20px" }}
                 >
-                  <CountUp
-                    start={0}
-                    end={200}
-                    duration={2.5}
-                    separator=","
-                  />
+             {selectProvince[0]}
                 </Typography>
               </Grid>
             </Grid>
@@ -96,8 +99,9 @@ const TypoMap = ({ data }) => {
                 >
                   <CountUp
                     start={0}
-                    end={200}
-                    duration={2.5}
+                    end={selectProvince[1]}
+                    // end={100}
+                    duration={1}
                     separator=","
                   />
                 </Typography>
