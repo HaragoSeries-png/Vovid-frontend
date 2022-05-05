@@ -15,27 +15,44 @@ import infected from "../img/icon/virus.png";
 import recovery from "../img/icon/recovery.png"
 import death from "../img/icon/poison.png"
 //Data is the name of the prop object
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
 
 var fakeBool = false;
-const TypoMap = ({ selectProvince }) => {
-  console.log("type : ",selectProvince)
+
+
+const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
+
   useEffect(() => {
   
   
-  }, [selectProvince])
+  }, [selectProvince,selectedCases])
+  const selectOptionArray = (item) =>{
+    
+    let temp_state = [...selectedCases];
+    let temp_element = { ...temp_state[item] };
+    temp_element.selected = !temp_element.selected;
+    temp_state[item] = temp_element;
+
+    
+    let testAr = temp_state
+    testAr.map((value,i)=> {
+
+      if(item === i){
+        value.selected = true
+      }
+      else{
+        value.selected = false
+      }
+    })
+
+    
+    setselectedCases(testAr);
+  }
   
 
-  if (fakeBool) {
-    return "Loading...";
-  }
+
+
+
+
   return (
     <div style={{overflowX:"none"}}>
 
@@ -59,7 +76,7 @@ const TypoMap = ({ selectProvince }) => {
                   gutterBottom
                   style={{ textAlign: "left", fontSize: "20px" }}
                 >
-                จังหวัด
+                Province
                 </Typography>
                 <Typography
                   variant="h5"
@@ -91,7 +108,7 @@ const TypoMap = ({ selectProvince }) => {
                   gutterBottom
                   style={{ textAlign: "left", fontSize: "20px" }}
                 >
-                  คลัสเตอร์
+                  Cluster Group
                 </Typography>
                 <Typography
                   variant="h5"
@@ -110,39 +127,27 @@ const TypoMap = ({ selectProvince }) => {
           </CardContent>
         </Grid>
 
-        <Grid item sm={10} md={10} className="type-box"  style={{marginTop:"10%"}}>
+        <Grid item sm={10} md={10} className="type-box special-box"  style={{marginTop:"10%"}}>
           <CardContent>
-            <Grid container spacing={2} style={{ paddingTop: "0px" }}>
-              <Grid item md={3.5}>
-              <div style={{}}>   
-                {/* <img
-                  src={death}
-                  width="60px"
-                  justify="center"
-                  style={{ paddingTop: "0px",marginLeft:"auto",marginRight:"auto" }}
-                /> */}
+            <Grid container  style={{ paddingTop: "0px" }}>
+                <div style={{fontSize:"22px",textAlign:"center",paddingLeft:"25px",marginBottom:"10px"}}>
+                  Customize Select
                 </div>
-              </Grid>
-              <Grid item md={8.5}>
-                <Typography
-                  color="white"
-                  gutterBottom
-                  style={{ textAlign: "left", fontSize: "20px" }}
-                >
-                 Death
-                </Typography>
-                <Typography
-                  variant="h5"
-                  style={{ textAlign: "left", fontSize: "20px" }}
-                >
-                  <CountUp
-                    start={0}
-                    end={200}
-                    duration={2.5}
-                    separator=","
-                  />
-                </Typography>
-              </Grid>
+                <div className="grid-contain">
+                  {selectedCases.map((value,index)=>{
+                    return(
+                      <div
+                      key={index.name}
+                      style={{color:"white"}}
+                      className={"box-select "+(value.selected === true ? "option-active" : "option-inactive" )}
+                      onClick={()=>selectOptionArray(index)}
+                      >
+                        {value.name}
+                      </div>
+                    )
+                  })}
+                </div>
+            
             </Grid>
           </CardContent>
         </Grid>

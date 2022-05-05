@@ -1,3 +1,37 @@
 .box-text .MuiGrid-container{
     width: 130%;
 }
+.grid-contain{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px;
+}
+.box-select{
+    
+    font-size: 18px;
+    color: white;
+    padding: 3px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    
+    cursor: pointer;
+}
+.option-active{
+    color: black;
+    background-color: orange;
+}
+/* .box-select:hover{
+    background-color: orange;
+    transition: 0.5s;
+} */
+.special-box{
+    height: min-content;
+}
+
+.option-inactive{
+    background-color: transparent;
+}
+.option-inactive:hover{
+    background-color: orange;
+    transition: 0.5s;
+}

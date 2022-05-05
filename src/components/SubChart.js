@@ -197,8 +197,8 @@ const Swap = ({
   })
 
   testMulti.map(check=>{
-    console.log("label : ",check.label)
-    if(check.label ==="Total deaths"){
+
+    if(check.label ==="Total deaths" || check.label ==="Total cases"){
       isToomuch = true
     }
   })
@@ -377,7 +377,7 @@ const Swap = ({
         labels: xlabelDate,
         datasets: weeklydateContain,
       };
-      console.log(weeklydateContain)
+      console.log("wkd : ",weeklydateContain)
       if (isLoading === true) {
         return (
           <div>
@@ -435,17 +435,37 @@ const Swap = ({
                   },
                 },
                 scales: {
-                  y: {
-                    ticks: {
-                      color: "white",
-                      autoSkip: true,
-                    },
-                  },
                   x: {
                     ticks: {
                       color: "white",
                       //data can show all province but space in x axis is too low
                       autoSkip: true,
+                    },
+                  },
+                  A: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title:{
+                      display:true,
+                      text:"คน",
+                      color: "white"
+                    },
+                    ticks: {
+                      color: "white",
+                    },
+                  },
+                  B: {
+                    type: 'linear',
+                    display: false,
+                    position: 'right',
+                    title:{
+                      display:true,
+                      text:"คน",
+                      color: "white"
+                    },
+                    ticks: {
+                      color: "white",
                     },
                   },
                 },
@@ -496,7 +516,9 @@ const Swap = ({
       } else {
       
       if(multipleAxis === true){
+    
         if(testMulti.length <=2 && !isToomuch){
+  
           return(
             <div style={{ width: "100%", height: "100%" }}>
               <Line
@@ -561,6 +583,8 @@ const Swap = ({
   
         }
         else{
+     
+          
           return(
             <div style={{ width: "100%", height: "100%" }}>
               <Line
@@ -880,7 +904,7 @@ const Swap = ({
         );
       }
     } else if (optionSelectx[0]?.selected === true) {
-      console.log("from bar : ",optionMultiSelect)
+   
       const dataBar = {
         labels: storageAxis[0],
         datasets: optionMultiSelect,
