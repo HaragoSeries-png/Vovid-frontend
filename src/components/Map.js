@@ -45,28 +45,17 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
       return value.selected === true
     })
 
-    if(selectedData[0].name === "New cases"){
-      selectedData[0].name = "new-cases"
-    }
-    else if(selectedData[0].name === "Total cases"){
-      selectedData[0].name = "total-cases"
-    }
-    else if(selectedData[0].name ==="New deaths"){
-      selectedData[0].name ="new-deaths"
-    }
-    else if(selectedData[0].name === "Total deaths"){
-      selectedData[0].name = "total-deaths"
-    }
+
     
   }
   useEffect(async () => {
   setisLoading(true)
   handleDataAPI()
   
-  api = await fetchCluster(selectedData[0].name);
+  api = await fetchCluster(selectedData[0].api);
   dataCluster = api.data.dataProvince;
   setrealProvinceData(dataCluster)
-  
+  selectFunction("-","-")
     setisLoading(false)
     console.log(isLoading)
   }, [selectedCases]);
@@ -116,8 +105,8 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
     },
 
     colorAxis: {
-      min: 0,
-      max:4,
+      min: 1,
+      max:5,
       minColor: "#238823",
       maxColor: "#FF4500",
     },

@@ -17,7 +17,7 @@ import death from "../img/icon/poison.png"
 //Data is the name of the prop object
 
 var fakeBool = false;
-
+var onStart = "eiei";
 
 const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
 
@@ -115,10 +115,11 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
                   style={{ textAlign: "left", fontSize: "20px" }}
                 >
                   <CountUp
-                    start={0}
+                    start={"-"}
                     end={selectProvince[1]}
                     // end={100}
-                    duration={1}
+                    duration={0.5}
+                 
                     separator=","
                   />
                 </Typography>

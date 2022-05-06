@@ -11,22 +11,26 @@ const optionCases = [
   {
     name:"New cases",
     selected:true,
-    data:[]
+    data:[],
+    api:"new-cases"
   },
   {
     name:"Total cases",
     selected:false,
-    data:[]
+    data:[],
+    api:"total-cases"
   },
   {
     name:"New deaths",
     selected:false,
-    data:[]
+    data:[],
+    api:"new-deaths"
   },
   {
     name:"Total deaths",
     selected:false,
-    data:[]
+    data:[],
+    api:"total-deaths"
   },
 ]
 const [selectedCases, setselectedCases] = useState(optionCases)
