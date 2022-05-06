@@ -27,32 +27,31 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
   let provinceStorage = []
   var contain;
   var isSuc = false;
-  var oldData
+  var oldData = "";
   
   //click locate and change state
   function selectFunction(name,cluster){
     
     provinceStorage[0] = name;
     provinceStorage[1] = cluster
-    console.log("old ",oldData)
-    console.log("name : ",name)
-    if(oldData === name){
-      console.log("set default")
-      setTimeout(() => {
-        setselectProvince("-","-")
-      }, 100);
-    }
-    else{
-      setTimeout(() => {
-        
-        setselectProvince(provinceStorage)
-        oldData = selectProvince[0]
-      }, 100);
-        
 
-    }
-        
+
     
+      setTimeout(() => {
+        setselectProvince(provinceStorage)
+        oldData = selectProvince[0];
+        console.log("oldData : ",oldData)
+        if(oldData === name){
+          setselectProvince(["-","0"])
+        }
+      }, 10);
+
+
+
+      console.log("name : ",name)
+      console.log("storage : ",provinceStorage[0])  
+
+
   }
 
   function handleDataAPI(){
@@ -75,7 +74,7 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
   
   setisLoading(false)
     
-    console.log(isLoading)
+
   }, [selectedCases]);
   
   
