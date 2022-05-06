@@ -30,16 +30,15 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
  
   
   //click locate and change state
-  const selectFunction = (name,cluster) =>{
+  function selectFunction(name,cluster){
     provinceStorage[0] = name;
     provinceStorage[1] = cluster
-  
-    setselectProvince(provinceStorage)
+    setTimeout(() => {
+      setselectProvince(provinceStorage)
+    }, 100);
+   
   }
-  // testfun
-  const testFun = (data) =>{
-    console.log(data)
-  }
+
   function handleDataAPI(){
     selectedData = selectedCases.filter((value)=>{
       return value.selected === true
@@ -56,7 +55,10 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
   dataCluster = api.data.dataProvince;
   setrealProvinceData(dataCluster)
   selectFunction("-","-")
-    setisLoading(false)
+  
+  
+  setisLoading(false)
+    
     console.log(isLoading)
   }, [selectedCases]);
   
@@ -122,10 +124,16 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
         name: "High severity",
         mapData: mapDataIE,
         showInLegend: true,
+        allowPointSelect: true,
+        cursor:'pointer',
+
         states: {
           hover: {
             color: "#FFDE02",
           },
+          select: {
+            color: 'orange'
+      }
         },
         dataLabels: {
           enabled: true,
@@ -154,7 +162,6 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
           events: {
             click: function () {
               selectFunction(this.name,this.value)
-              // testFun(this)
             },
           },
         },
@@ -199,7 +206,6 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
     </div>
     )
   }else{
-    console.log("from sub : ",isLoading)
     return <div> <ThMap/> </div>;
   }
   
