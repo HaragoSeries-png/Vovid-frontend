@@ -40,7 +40,7 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
       setTimeout(() => {
         setselectProvince(provinceStorage)
         oldData = selectProvince[0];
-        console.log("oldData : ",oldData)
+
         if(oldData === name){
           setselectProvince(["-","0"])
         }
@@ -48,8 +48,6 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
 
 
 
-      console.log("name : ",name)
-      console.log("storage : ",provinceStorage[0])  
 
 
   }

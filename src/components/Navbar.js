@@ -7,7 +7,7 @@ export const Navbar = () => {
 var activePage = window.location.pathname
 
 useEffect(() => {
-  console.log("active :",activePage)
+
 }, [activePage])
 
 

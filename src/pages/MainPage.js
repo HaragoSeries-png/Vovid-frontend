@@ -93,9 +93,9 @@ const MainPage = () => {
 
     
     if(currentChart==="Bar"){
-      console.log("form main : bar")
+
     }
-    console.log("from main",optionSelectx)
+
   },
   [currentChart,optionSelectx])
 

@@ -11,7 +11,6 @@ export const fecthDateApi = async (dateValue) =>{
     // }
     // catch (error) {
     //   console.log(error);
-    // }
-    console.log("ans : ",axios.get(api))
+
     return await axios.get(api);
   }

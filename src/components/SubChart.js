@@ -35,7 +35,7 @@ const Swap = ({
   let allDate;
   let currentState;
   const [dateProp, setdateProp] = useState("");
-  const [dateSelect, setdateSelect] = useState("");
+
   const [verticalBar, setverticalBar] = useState(true);
   const [apiWait, setapiWait] = useState(false);
   let apidata = dateProp[0];
@@ -52,11 +52,11 @@ const Swap = ({
   let weeklydateContain;
   let weeklydate = [];
   let [dateMultiSelect, setdateMultiSelect] = useState(null);
-  const [weeklyMultiSelect, setweeklyMultiSelect] = useState([{}]);
+
   const [isLoading, setisLoading] = useState(false);
   var testMulti 
   var date = [];
-  var newsDate = [];
+  const [wrongData, setwrongData] = useState(false)
   var multipleAxis = false
   var isToomuch = false
   let storageAxis = [" ", " "];
@@ -134,7 +134,13 @@ const Swap = ({
 
     await fetchDateth(valueDate).then((keepData) => {
       setdateProp(keepData.data);
-     
+     if(keepData.data[0]?.result.length === 0){
+      setwrongData(true)
+
+     }else{
+       setwrongData(false)
+
+     }
     });
 
     // allDate = await fecthThAPI();
@@ -377,7 +383,7 @@ const Swap = ({
         labels: xlabelDate,
         datasets: weeklydateContain,
       };
-      console.log("wkd : ",weeklydateContain)
+
       if (isLoading === true) {
         return (
           <div>
@@ -475,16 +481,7 @@ const Swap = ({
         );
       }
     } else if (optionSelectx[0].selected === true) {
-      // var testX = ['A', 'B', 'C', 'D', 'E']
-      // var testY = [{
-      //   label: 'A',
-      //   yAxisID: 'y',
-      //   data: [100, 96, 84, 76, 69]
-      // }, {
-      //   label: 'B',
-      //   yAxisID: 'y1',
-      //   data: [1000, 2000, 3000, 4000, 5000]
-      // }]
+      console.log("con")
       const data = {
         //x label //location
         labels: storageAxis[0],
@@ -514,9 +511,17 @@ const Swap = ({
           </div>
         );
       } else {
+
+      if(wrongData === true){
+        return(
+          <div>
+            Data is not update
+          </div>
+        )
+      }else{
+
       
       if(multipleAxis === true){
-    
         if(testMulti.length <=2 && !isToomuch){
   
           return(
@@ -737,7 +742,7 @@ const Swap = ({
           </div>
         )
       }
-
+    }
 
       }
     } else {
@@ -931,6 +936,18 @@ const Swap = ({
         </div>
         )
       } else {
+
+        if(wrongData === true){
+          return(
+            <div>
+              Data is not update
+            </div>
+          )
+        }
+        else{
+
+
+
         return (
           <div style={{ marginTo: "30%" }}>
             <div className="bar-header">
@@ -961,6 +978,7 @@ const Swap = ({
             )}
           </div>
         );
+          }
       }
     } else {
       return <div> cannot visulza</div>;
