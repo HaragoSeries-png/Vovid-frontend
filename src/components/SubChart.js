@@ -52,13 +52,15 @@ const Swap = ({
   let weeklydateContain;
   let weeklydate = [];
   let [dateMultiSelect, setdateMultiSelect] = useState(null);
-
+  var barweeklyContain
   const [isLoading, setisLoading] = useState(false);
   var testMulti 
   var date = [];
   const [wrongData, setwrongData] = useState(false)
-  var multipleAxis = false
-  var isToomuch = false
+  var multipleAxis = false;
+  var isToomuch = false;
+  var dateRightAxis = false;
+
   let storageAxis = [" ", " "];
 
   newCase = apidata?.result.map((val) => {
@@ -301,6 +303,32 @@ const Swap = ({
     borderColor: colorArray[index],
   }));
 
+
+  barweeklyContain = weeklydateContain
+  weeklydateContain = weeklydateContain.map(obj=>({...obj,yAxisID:null}))
+  weeklydateContain.map(val=>{
+    if(val.label==="Total deaths"){
+       val.yAxisID = "A"
+    }
+    else if(val.label ==="Total cases"){
+      val.yAxisID = "A"
+    }
+    else if(val.label ==="New cases"){
+      val.yAxisID = "B"
+    }
+    else if(val.label ==="New deaths"){
+      val.yAxisID = "B"
+    }
+  })
+  weeklydateContain.map((check)=>{
+    
+    if(check.label ==="New cases" || check.label ==="New deaths"){
+      dateRightAxis = true
+    }
+    else{
+      dateRightAxis = false
+    }
+  })
   if (chosen === "Pie") {
     if (
       optionSelectx[0].selected === false &&
@@ -383,7 +411,7 @@ const Swap = ({
         labels: xlabelDate,
         datasets: weeklydateContain,
       };
-
+    
       if (isLoading === true) {
         return (
           <div>
@@ -405,9 +433,12 @@ const Swap = ({
           </div>
         </div>
         )
-      } else {
-        return (
-          <div style={{ width: "100%", height: "100%" }}>
+      } 
+      else {
+        //only is total
+        if(isToomuch ===true && multipleAxis === false){
+          return(
+            <div style={{ width: "100%", height: "100%" }}>
             <Line
               style={{
                 width: "100%",
@@ -461,9 +492,75 @@ const Swap = ({
                       color: "white",
                     },
                   },
+                },
+              }}
+            />
+          </div>
+          )
+        }
+        else{
+        //2 y axis  
+          if(isToomuch === true && multipleAxis === true){
+            return(
+ 
+                <div style={{ width: "100%", height: "100%" }}>
+                  <Line
+                    style={{
+                      width: "100%",
+                      height: "400px",
+                      marginTop: "3.5%",
+                      overflowX: "auto",
+                    }}
+                    data={data}
+                    options={{
+                      plugins: {
+                        zoom: {
+                          zoom: {
+                            wheel: {
+                              enabled: true, // SET SCROOL ZOOM TO TRUE
+                            },
+                            mode: "x",
+                            speed: 100,
+                          },
+                          pan: {
+                            enabled: true,
+                            mode: "x",
+                            speed: 100,
+                          },
+                        },
+                        legend: {
+                          display: true,
+      
+                          labels: {
+                            color: "white",
+                          },
+                        },
+                      },
+                      scales: {
+                        x: {
+                          ticks: {
+                            color: "white",
+                            //data can show all province but space in x axis is too low
+                            autoSkip: true,
+                          },
+                        },
+
+                     A: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title:{
+                      display:true,
+                      text:"คน",
+                      color: "white"
+                    },
+                    ticks: {
+                      color: "white",
+                    },
+                  },
                   B: {
                     type: 'linear',
-                    display: false,
+                    display: true,
                     position: 'right',
                     title:{
                       display:true,
@@ -474,14 +571,89 @@ const Swap = ({
                       color: "white",
                     },
                   },
+      
+                      },
+                    }}
+                  />
+                </div>
+      
+            )
+          }
+          else{
+   
+            return(
+    
+              <div style={{ width: "100%", height: "100%" }}>
+              <Line
+                style={{
+                  width: "100%",
+                  height: "400px",
+                  marginTop: "3.5%",
+                  overflowX: "auto",
+                }}
+                data={data}
+                options={{
+                  plugins: {
+                    zoom: {
+                      zoom: {
+                        wheel: {
+                          enabled: true, // SET SCROOL ZOOM TO TRUE
+                        },
+                        mode: "x",
+                        speed: 100,
+                      },
+                      pan: {
+                        enabled: true,
+                        mode: "x",
+                        speed: 100,
+                      },
+                    },
+                    legend: {
+                      display: true,
+  
+                      labels: {
+                        color: "white",
+                      },
+                    },
+                  },
+                  scales: {
+                    x: {
+                      ticks: {
+                        color: "white",
+                        //data can show all province but space in x axis is too low
+                        autoSkip: true,
+                      },
+                    },
+
+
+              B: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title:{
+                  display:true,
+                  text:"คน",
+                  color: "white"
                 },
-              }}
-            />
-          </div>
-        );
+                ticks: {
+                  color: "white",
+                },
+              },
+  
+                  },
+                }}
+              />
+            </div>
+            )
+          }
+
+        }
       }
+
+
     } else if (optionSelectx[0].selected === true) {
-      console.log("con")
+
+      
       const data = {
         //x label //location
         labels: storageAxis[0],
@@ -520,11 +692,12 @@ const Swap = ({
         )
       }else{
 
-      
+
       if(multipleAxis === true){
         if(testMulti.length <=2 && !isToomuch){
-  
+ 
           return(
+
             <div style={{ width: "100%", height: "100%" }}>
               <Line
                 style={{
@@ -588,8 +761,7 @@ const Swap = ({
   
         }
         else{
-     
-          
+
           return(
             <div style={{ width: "100%", height: "100%" }}>
               <Line
@@ -668,6 +840,7 @@ const Swap = ({
         
       }
       else{
+
         return(
           <div style={{ width: "100%", height: "100%" }}>
             <Line
@@ -746,115 +919,21 @@ const Swap = ({
 
       }
     } else {
-      return <div>cant visualiz</div>;
+      return <div>cant visualize</div>;
     }
   } else if (chosen === "Bar") {
-    const optionx = {
-      indexAxis: "y",
-      plugins: {
-        legend: {
-          display: true,
-          labels: {
-            color: "white",
-          },
-        },
-        zoom: {
-          zoom: {
-            wheel: {
-              enabled: true,
-            },
-            pinch: {
-              enabled: true,
-            },
-            mode: "x",
-          },
-          pan: {
-            enabled: true,
-            mode: "x",
-          },
-        },
-      },
-      scales: {
-        y: {
-          ticks: {
-            color: "white",
-          },
-          title: {
-            display: true,
-            text: "จังหวัด",
-            color: "white",
-          },
-        },
-        x: {
-          ticks: {
-            color: "white",
-          },
-          title: {
-            display: true,
-            text: "คน",
-            color: "white",
-          },
-        },
-      },
-    };
-    const optiony = {
-      indexAxis: "x",
-      plugins: {
-        legend: {
-          display: true,
-          labels: {
-            color: "white",
-          },
-        },
-        zoom: {
-          zoom: {
-            wheel: {
-              enabled: true,
-            },
-            pinch: {
-              enabled: true,
-            },
-            mode: "x",
-          },
-          pan: {
-            enabled: true,
-            mode: "x",
-          },
-        },
-      },
-      scales: {
-        
-        x: {
-          ticks: {
-            color: "white",
-          },
-          title: {
-            display: true,
-            text: "จังหวัด",
-            color: "white",
-          },
-        },
-        y: {
-          ticks: {
-            color: "white",
-          },
-          title: {
-            display: true,
-            text: "คน",
-            color: "white",
-          },
-        },
-      },
-    };
+
     function changeBarType(bool) {
       setverticalBar(bool);
     }
 
     if (optionSelectx[1].selected === true) {
+      console.log("bar ; ",weeklydateContain)
       const dataBar = {
         labels: xlabelDate,
-        datasets: weeklydateContain,
+        datasets: barweeklyContain,
       };
+      console.log("weekly : ",weeklydateContain)
       if (isLoading === true) {
         return (
           <div>
@@ -901,15 +980,129 @@ const Swap = ({
             </div>
 
             {verticalBar === true ? (
-              <Bar data={dataBar} options={optiony} />
+              <Bar data={dataBar}       
+              options={{
+                indexAxis:"x",
+                plugins: {
+                  zoom: {
+                    zoom: {
+                      wheel: {
+                        enabled: true, // SET SCROOL ZOOM TO TRUE
+                      },
+                      mode: "x",
+                      speed: 100,
+                    },
+                    pan: {
+                      enabled: true,
+                      mode: "x",
+                      speed: 100,
+                    },
+                    limits:{
+                      min:'original'
+                    }
+                  },
+                  legend: {
+                    display: true,
+
+                    labels: {
+                      color: "white",
+                    },
+                  },
+                },
+                scales: {
+                  x: {
+                    ticks: {
+                      color: "white",
+                      //data can show all province but space in x axis is too low
+                      autoSkip: true,
+                    },
+                  },
+
+
+            
+                  y: {
+                    ticks: {
+           
+                      color: 'white',
+                    }
+                  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                },
+              }} />
             ) : (
-              <Bar data={dataBar} options={optionx} />
+              <Bar data={dataBar}       options={{
+                indexAxis:"y",
+                plugins: {
+                  zoom: {
+                    zoom: {
+                      wheel: {
+                        enabled: true, // SET SCROOL ZOOM TO TRUE
+                      },
+                      mode: "x",
+                      speed: 100,
+                    },
+                    pan: {
+                      enabled: true,
+                      mode: "x",
+                      speed: 100,
+                    },
+                    limits:{
+                      x: { min: 0},
+                      y: { min: 0}
+                    }
+                  },
+                  legend: {
+                    display: true,
+
+                    labels: {
+                      color: "white",
+                    },
+                  },
+                },
+                scales: {
+                  x: {
+                    ticks: {
+                      color: "white",
+                      //data can show all province but space in x axis is too low
+                      autoSkip: true,
+                      
+                    },
+                  },
+                  y: {
+                    ticks: {
+           
+                      color: 'white',
+                    }
+                  }
+
+
+
+                },
+              }}/>
             )}
           </div>
         );
       }
     } else if (optionSelectx[0]?.selected === true) {
-   
       const dataBar = {
         labels: storageAxis[0],
         datasets: optionMultiSelect,
@@ -936,7 +1129,6 @@ const Swap = ({
         </div>
         )
       } else {
-
         if(wrongData === true){
           return(
             <div>
@@ -945,9 +1137,6 @@ const Swap = ({
           )
         }
         else{
-
-
-
         return (
           <div style={{ marginTo: "30%" }}>
             <div className="bar-header">
@@ -972,9 +1161,100 @@ const Swap = ({
             </div>
 
             {verticalBar === true ? (
-              <Bar data={dataBar} options={optiony} />
+              <Bar data={dataBar}       
+              options={{
+                indexAxis:"x",
+                plugins: {
+                  zoom: {
+                    zoom: {
+                      wheel: {
+                        enabled: true, // SET SCROOL ZOOM TO TRUE
+                      },
+                      mode: "x",
+                      speed: 100,
+                    },
+                    pan: {
+                      enabled: true,
+                      mode: "x",
+                      speed: 100,
+                    },
+                    limits:{
+                      min:'original'
+                    }
+                  },
+                  legend: {
+                    display: true,
+
+                    labels: {
+                      color: "white",
+                    },
+                  },
+                },
+                scales: {
+                  x: {
+                    ticks: {
+                      color: "white",
+                      //data can show all province but space in x axis is too low
+                      autoSkip: true,
+                    },
+                  },
+                  y: {
+                    ticks: {
+           
+                      color: 'white',
+                    }
+                  }
+                },
+              }} />
             ) : (
-              <Bar data={dataBar} options={optionx} />
+              <Bar data={dataBar}       options={{
+                indexAxis:"y",
+                plugins: {
+                  zoom: {
+                    zoom: {
+                      wheel: {
+                        enabled: true, // SET SCROOL ZOOM TO TRUE
+                      },
+                      mode: "x",
+                      speed: 100,
+                    },
+                    pan: {
+                      enabled: true,
+                      mode: "x",
+                      speed: 100,
+                    },
+                    limits:{
+                      x: { min: 0},
+                      y: { min: 0}
+                    }
+                  },
+                  legend: {
+                    display: true,
+
+                    labels: {
+                      color: "white",
+                    },
+                  },
+                },
+                scales: {
+                  x: {
+                    ticks: {
+                      color: "white",
+                      //data can show all province but space in x axis is too low
+                      autoSkip: true,
+                    },
+                  },
+                  y: {
+                    ticks: {
+           
+                      color: 'white',
+                    }
+                  }
+
+   
+
+                },
+              }} />
             )}
           </div>
         );

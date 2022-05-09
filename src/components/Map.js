@@ -83,9 +83,11 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
       map: "countries/th/th-all",
       backgroundColor: "#343A40",
       height:"600px",
+      expandSteps : 10,
+      expandDuration : 600,
       events:{
         load:function(){
-          this.mapZoom(2)
+          this.mapZoom(5)
         }
       }
     },
@@ -101,6 +103,7 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
     },
     mapNavigation: {
       enabled: true,
+      mouseWheelSensitivity: 1.5,
       buttons:{
         zoomIn:{
           x:150
