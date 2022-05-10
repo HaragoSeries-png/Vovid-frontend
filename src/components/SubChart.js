@@ -160,7 +160,7 @@ const Swap = ({
     await fecthDateApi(valueDate,selectedCountry[0].country).then((value) => {
       setdateMultiSelect(value.data);
     });
-    await fetchPie(valueDate).then((value) => {
+    await fetchPie(valueDate,selectedCountry[0].country).then((value) => {
       setdialyPieData(value.data);
     });
 
