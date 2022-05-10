@@ -7,7 +7,7 @@ import "../css/subChart.css";
 import { YAxis } from "recharts";
 import zoomPlugin from "chartjs-plugin-zoom";
 import SelectDate from "./SelectDate";
-import { fecthThAPI, fetchDateth, fetchPie } from "../api/apiCountrySelection";
+import { fecthThAPI, fetchDate, fetchPie } from "../api/apiCountrySelection";
 import randomColor from "random-color";
 import { colors } from "@material-ui/core";
 import { color } from "d3-color";
@@ -61,7 +61,7 @@ const Swap = ({
   var multipleAxis = false;
   var isToomuch = false;
   var dateRightAxis = false;
-
+  var selectedCountry
   let storageAxis = [" ", " "];
 
   newCase = apidata?.result.map((val) => {
@@ -88,7 +88,7 @@ const Swap = ({
     let a = val.death;
     return a;
   });
-
+  console.log("dateProp[0]",dateProp[0])
   async function changeValueArray() {
     optionSelect.map((val, index) => {
       if (val.name === "New cases") {
@@ -131,13 +131,21 @@ const Swap = ({
   }
   chooseRealShow(x, 0);
   chooseRealShow(y, 1);
-
+  function filterCountry(){
+    selectedCountry = country.filter((value) => {
+      return value.selected === true;
+    });
+  }
   useEffect(async () => {
     console.log("from subchart : ",country)
+    //filter country
+    filterCountry()
+    
     setisLoading(true);
 
-    await fetchDateth(valueDate).then((keepData) => {
+    await fetchDate(valueDate,selectedCountry[0].country).then((keepData) => {
       setdateProp(keepData.data);
+      console.log("result : ",dateProp)
       if (keepData.data[0]?.result.length === 0) {
         setwrongData(true);
       } else {
@@ -149,7 +157,7 @@ const Swap = ({
     // setdateSelect(allDate);
     changeValueArray();
 
-    await fecthDateApi(valueDate).then((value) => {
+    await fecthDateApi(valueDate,selectedCountry[0].country).then((value) => {
       setdateMultiSelect(value.data);
     });
     await fetchPie(valueDate).then((value) => {
@@ -157,14 +165,14 @@ const Swap = ({
     });
 
     setisLoading(false);
-  }, [valueDate]);
+  }, [valueDate,country]);
   //total death,total cases,new cases,new death
 
   //set line filter
   optionMultiSelect = optionSelect.filter((value) => {
     return value.selected === true;
   });
-
+  
   optionMultiSelect = optionMultiSelect.map((item) => {
     let { name: label, ...rest } = item;
     return { label, ...rest };
@@ -176,7 +184,7 @@ const Swap = ({
     backgroundColor: colorArray[index],
     borderColor: colorArray[index],
   }));
-
+  console.log("option : ",optionMultiSelect)
   testMulti = optionMultiSelect.map((obj) => ({ ...obj, yAxisID: null }));
 
   testMulti.map((val) => {
@@ -650,6 +658,10 @@ const Swap = ({
         // labels:testX,
         // datasets:testY
       };
+      console.log("staxss : ",storageAxis)
+      console.log("testMulti : ",testMulti)
+
+
       if (isLoading === true) {
         return (
           <div>
@@ -906,12 +918,12 @@ const Swap = ({
     }
 
     if (optionSelectx[1].selected === true) {
-      console.log("bar ; ", weeklydateContain);
+
       const dataBar = {
         labels: xlabelDate,
         datasets: barweeklyContain,
       };
-      console.log("weekly : ", weeklydateContain);
+ 
       if (isLoading === true) {
         return (
           <div>

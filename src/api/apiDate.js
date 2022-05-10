@@ -2,15 +2,16 @@ import axios from "axios";
 
 
 const apiData = "https://vovid-backend-th.herokuapp.com/api/sum-of?date="
+const apiData1 = "https://vovid-backend-"
+var selectedCountry
+export const fecthDateApi = async (dateValue,country) =>{
+  if(country==="Thai"){
+    selectedCountry = "th"
+  }else{
+    selectedCountry = "gb"
+  }
 
-export const fecthDateApi = async (dateValue) =>{
-    let api = String(apiData) + dateValue
-    // try {
-    //   let data = await axios.get(api);
-    //   return data.data
-    // }
-    // catch (error) {
-    //   console.log(error);
-
+    let api = String(apiData1)+String(selectedCountry) +".herokuapp.com/api/sum-of?date="+ dateValue
+ 
     return await axios.get(api);
   }

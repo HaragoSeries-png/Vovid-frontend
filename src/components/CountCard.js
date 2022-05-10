@@ -67,7 +67,7 @@ const CountCard = ({ data }) => {
           </CardContent>
         </Grid>
 
-        <Grid item sm={12} md={12} className="type-box" style={{marginTop:"10px"}}>
+        {/* <Grid item sm={12} md={12} className="type-box" style={{marginTop:"10px"}}>
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>
@@ -102,7 +102,7 @@ const CountCard = ({ data }) => {
               </Grid>
             </Grid>
           </CardContent>
-        </Grid>
+        </Grid> */}
 
         <Grid item sm={12} md={12} className="type-box" style={{marginTop:"10px"}}>
           <CardContent>
