@@ -16,8 +16,6 @@ import recovery from "../img/icon/recovery.png"
 import death from "../img/icon/poison.png"
 //Data is the name of the prop object
 
-var fakeBool = false;
-var onStart = "eiei";
 
 const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
 

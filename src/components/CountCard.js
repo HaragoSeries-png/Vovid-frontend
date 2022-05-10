@@ -30,7 +30,7 @@ const CountCard = ({ data }) => {
   return (
     <div>
 
-      <Grid container spacing={1}  style={{marginTop:"40px"}}>
+      <Grid container spacing={1}  style={{marginTop:"3px"}}>
         <Grid item sm={12} md={12} className="type-box" style={{marginTop:"10px"}}>
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>

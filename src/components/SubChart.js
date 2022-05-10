@@ -12,7 +12,7 @@ import randomColor from "random-color";
 import { colors } from "@material-ui/core";
 import { color } from "d3-color";
 import { fecthDateApi } from "../api/apiDate";
-import loadingIcon from "../img/icon/loading.svg"
+import loadingIcon from "../img/icon/loading.svg";
 Chart.register(zoomPlugin); // REGISTER PLUGIN
 
 const Swap = ({
@@ -30,6 +30,7 @@ const Swap = ({
   setyAxis,
   setoptionSelect,
   optionSelectx,
+  country
 }) => {
   let keepData = "";
   let allDate;
@@ -52,11 +53,11 @@ const Swap = ({
   let weeklydateContain;
   let weeklydate = [];
   let [dateMultiSelect, setdateMultiSelect] = useState(null);
-  var barweeklyContain
+  var barweeklyContain;
   const [isLoading, setisLoading] = useState(false);
-  var testMulti 
+  var testMulti;
   var date = [];
-  const [wrongData, setwrongData] = useState(false)
+  const [wrongData, setwrongData] = useState(false);
   var multipleAxis = false;
   var isToomuch = false;
   var dateRightAxis = false;
@@ -132,17 +133,16 @@ const Swap = ({
   chooseRealShow(y, 1);
 
   useEffect(async () => {
+    console.log("from subchart : ",country)
     setisLoading(true);
 
     await fetchDateth(valueDate).then((keepData) => {
       setdateProp(keepData.data);
-     if(keepData.data[0]?.result.length === 0){
-      setwrongData(true)
-
-     }else{
-       setwrongData(false)
-
-     }
+      if (keepData.data[0]?.result.length === 0) {
+        setwrongData(true);
+      } else {
+        setwrongData(false);
+      }
     });
 
     // allDate = await fecthThAPI();
@@ -154,18 +154,16 @@ const Swap = ({
     });
     await fetchPie(valueDate).then((value) => {
       setdialyPieData(value.data);
-
     });
 
     setisLoading(false);
   }, [valueDate]);
   //total death,total cases,new cases,new death
-  
+
   //set line filter
   optionMultiSelect = optionSelect.filter((value) => {
     return value.selected === true;
   });
-
 
   optionMultiSelect = optionMultiSelect.map((item) => {
     let { name: label, ...rest } = item;
@@ -179,38 +177,33 @@ const Swap = ({
     borderColor: colorArray[index],
   }));
 
-  testMulti = optionMultiSelect.map(obj=>({...obj,yAxisID:null}))
+  testMulti = optionMultiSelect.map((obj) => ({ ...obj, yAxisID: null }));
 
-  testMulti.map(val=>{
-    if(val.label==="Total deaths"){
-       val.yAxisID = "A"
+  testMulti.map((val) => {
+    if (val.label === "Total deaths") {
+      val.yAxisID = "A";
+    } else if (val.label === "Total cases") {
+      val.yAxisID = "A";
+    } else if (val.label === "New cases") {
+      val.yAxisID = "B";
+    } else if (val.label === "New deaths") {
+      val.yAxisID = "B";
     }
-    else if(val.label ==="Total cases"){
-      val.yAxisID = "A"
-    }
-    else if(val.label ==="New cases"){
-      val.yAxisID = "B"
-    }
-    else if(val.label ==="New deaths"){
-      val.yAxisID = "B"
-    }
-  })
+  });
 
-  testMulti.map(check=>{
-    if(check.label === "New cases" || check.label ==="New deaths" ){
-      multipleAxis = true
-    }else{
-      multipleAxis = false
+  testMulti.map((check) => {
+    if (check.label === "New cases" || check.label === "New deaths") {
+      multipleAxis = true;
+    } else {
+      multipleAxis = false;
     }
-  })
+  });
 
-  testMulti.map(check=>{
-
-    if(check.label ==="Total deaths" || check.label ==="Total cases"){
-      isToomuch = true
+  testMulti.map((check) => {
+    if (check.label === "Total deaths" || check.label === "Total cases") {
+      isToomuch = true;
     }
-  })
-
+  });
 
   //handle pie dialy data
   //data format
@@ -303,32 +296,29 @@ const Swap = ({
     borderColor: colorArray[index],
   }));
 
-
-  barweeklyContain = weeklydateContain
-  weeklydateContain = weeklydateContain.map(obj=>({...obj,yAxisID:null}))
-  weeklydateContain.map(val=>{
-    if(val.label==="Total deaths"){
-       val.yAxisID = "A"
+  barweeklyContain = weeklydateContain;
+  weeklydateContain = weeklydateContain.map((obj) => ({
+    ...obj,
+    yAxisID: null,
+  }));
+  weeklydateContain.map((val) => {
+    if (val.label === "Total deaths") {
+      val.yAxisID = "A";
+    } else if (val.label === "Total cases") {
+      val.yAxisID = "A";
+    } else if (val.label === "New cases") {
+      val.yAxisID = "B";
+    } else if (val.label === "New deaths") {
+      val.yAxisID = "B";
     }
-    else if(val.label ==="Total cases"){
-      val.yAxisID = "A"
+  });
+  weeklydateContain.map((check) => {
+    if (check.label === "New cases" || check.label === "New deaths") {
+      dateRightAxis = true;
+    } else {
+      dateRightAxis = false;
     }
-    else if(val.label ==="New cases"){
-      val.yAxisID = "B"
-    }
-    else if(val.label ==="New deaths"){
-      val.yAxisID = "B"
-    }
-  })
-  weeklydateContain.map((check)=>{
-    
-    if(check.label ==="New cases" || check.label ==="New deaths"){
-      dateRightAxis = true
-    }
-    else{
-      dateRightAxis = false
-    }
-  })
+  });
   if (chosen === "Pie") {
     if (
       optionSelectx[0].selected === false &&
@@ -347,24 +337,31 @@ const Swap = ({
       if (isLoading === true) {
         return (
           <div>
-          <div>
-          <img
-            src={loadingIcon}
-            width="60px"
-            style={{
-              paddingTop: "0px",
-              marginLeft: "auto",
-              marginRight: "auto",
-              width:"200px",
-              paddingTop:"11%"
-            }}
-          />
+            <div>
+              <img
+                src={loadingIcon}
+                width="60px"
+                style={{
+                  paddingTop: "0px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "-25px",
+              }}
+            >
+              Loading. . .
+            </div>
           </div>
-          <div style={{fontSize:"20px",color:"white",textAlign:"center",marginTop:"-25px"}}>
-            Loading. . . 
-          </div>
-        </div>
-        )
+        );
       } else {
         return (
           <div
@@ -411,98 +408,283 @@ const Swap = ({
         labels: xlabelDate,
         datasets: weeklydateContain,
       };
-    
+
       if (isLoading === true) {
         return (
           <div>
-          <div>
-          <img
-            src={loadingIcon}
-            width="60px"
-            style={{
-              paddingTop: "0px",
-              marginLeft: "auto",
-              marginRight: "auto",
-              width:"200px",
-              paddingTop:"11%"
-            }}
-          />
-          </div>
-          <div style={{fontSize:"20px",color:"white",textAlign:"center",marginTop:"-25px"}}>
-            Loading. . . 
-          </div>
-        </div>
-        )
-      } 
-      else {
-        //only is total
-        if(isToomuch ===true && multipleAxis === false){
-          return(
-            <div style={{ width: "100%", height: "100%" }}>
-            <Line
+            <div>
+              <img
+                src={loadingIcon}
+                width="60px"
+                style={{
+                  paddingTop: "0px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
+            </div>
+            <div
               style={{
-                width: "100%",
-                height: "400px",
-                marginTop: "3.5%",
-                overflowX: "auto",
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "-25px",
               }}
-              data={data}
-              options={{
-                plugins: {
-                  zoom: {
-                    zoom: {
-                      wheel: {
-                        enabled: true, // SET SCROOL ZOOM TO TRUE
-                      },
-                      mode: "x",
-                      speed: 100,
-                    },
-                    pan: {
-                      enabled: true,
-                      mode: "x",
-                      speed: 100,
-                    },
-                  },
-                  legend: {
-                    display: true,
-
-                    labels: {
-                      color: "white",
-                    },
-                  },
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: "white",
-                      //data can show all province but space in x axis is too low
-                      autoSkip: true,
-                    },
-                  },
-                  A: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    title:{
-                      display:true,
-                      text:"คน",
-                      color: "white"
-                    },
-                    ticks: {
-                      color: "white",
-                    },
-                  },
-                },
-              }}
-            />
+            >
+              Loading. . .
+            </div>
           </div>
-          )
+        );
+      } else {
+        //only is total
+        if (isToomuch === true && multipleAxis === false) {
+          return (
+            <div style={{ width: "100%", height: "100%" }}>
+              <Line
+                style={{
+                  width: "100%",
+                  height: "400px",
+                  marginTop: "3.5%",
+                  overflowX: "auto",
+                }}
+                data={data}
+                options={{
+                  plugins: {
+                    zoom: {
+                      zoom: {
+                        wheel: {
+                          enabled: true, // SET SCROOL ZOOM TO TRUE
+                        },
+                        mode: "x",
+                        speed: 100,
+                      },
+                      pan: {
+                        enabled: true,
+                        mode: "x",
+                        speed: 100,
+                      },
+                    },
+                    legend: {
+                      display: true,
+
+                      labels: {
+                        color: "white",
+                      },
+                    },
+                  },
+                  scales: {
+                    x: {
+                      ticks: {
+                        color: "white",
+                        //data can show all province but space in x axis is too low
+                        autoSkip: true,
+                      },
+                    },
+                    A: {
+                      type: "linear",
+                      display: true,
+                      position: "left",
+                      title: {
+                        display: true,
+                        text: "คน",
+                        color: "white",
+                      },
+                      ticks: {
+                        color: "white",
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          );
+        } else {
+          //2 y axis
+          if (isToomuch === true && multipleAxis === true) {
+            return (
+              <div style={{ width: "100%", height: "100%" }}>
+                <Line
+                  style={{
+                    width: "100%",
+                    height: "400px",
+                    marginTop: "3.5%",
+                    overflowX: "auto",
+                  }}
+                  data={data}
+                  options={{
+                    plugins: {
+                      zoom: {
+                        zoom: {
+                          wheel: {
+                            enabled: true, // SET SCROOL ZOOM TO TRUE
+                          },
+                          mode: "x",
+                          speed: 100,
+                        },
+                        pan: {
+                          enabled: true,
+                          mode: "x",
+                          speed: 100,
+                        },
+                      },
+                      legend: {
+                        display: true,
+
+                        labels: {
+                          color: "white",
+                        },
+                      },
+                    },
+                    scales: {
+                      x: {
+                        ticks: {
+                          color: "white",
+                          //data can show all province but space in x axis is too low
+                          autoSkip: true,
+                        },
+                      },
+
+                      A: {
+                        type: "linear",
+                        display: true,
+                        position: "left",
+                        title: {
+                          display: true,
+                          text: "คน",
+                          color: "white",
+                        },
+                        ticks: {
+                          color: "white",
+                        },
+                      },
+                      B: {
+                        type: "linear",
+                        display: true,
+                        position: "right",
+                        title: {
+                          display: true,
+                          text: "คน",
+                          color: "white",
+                        },
+                        ticks: {
+                          color: "white",
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            );
+          } else {
+            return (
+              <div style={{ width: "100%", height: "100%" }}>
+                <Line
+                  style={{
+                    width: "100%",
+                    height: "400px",
+                    marginTop: "3.5%",
+                    overflowX: "auto",
+                  }}
+                  data={data}
+                  options={{
+                    plugins: {
+                      zoom: {
+                        zoom: {
+                          wheel: {
+                            enabled: true, // SET SCROOL ZOOM TO TRUE
+                          },
+                          mode: "x",
+                          speed: 100,
+                        },
+                        pan: {
+                          enabled: true,
+                          mode: "x",
+                          speed: 100,
+                        },
+                      },
+                      legend: {
+                        display: true,
+
+                        labels: {
+                          color: "white",
+                        },
+                      },
+                    },
+                    scales: {
+                      x: {
+                        ticks: {
+                          color: "white",
+                          //data can show all province but space in x axis is too low
+                          autoSkip: true,
+                        },
+                      },
+
+                      B: {
+                        type: "linear",
+                        display: true,
+                        position: "left",
+                        title: {
+                          display: true,
+                          text: "คน",
+                          color: "white",
+                        },
+                        ticks: {
+                          color: "white",
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            );
+          }
         }
-        else{
-        //2 y axis  
-          if(isToomuch === true && multipleAxis === true){
-            return(
- 
+      }
+    } else if (optionSelectx[0].selected === true) {
+      const data = {
+        //x label //location
+        labels: storageAxis[0],
+        datasets: testMulti,
+        // labels:testX,
+        // datasets:testY
+      };
+      if (isLoading === true) {
+        return (
+          <div>
+            <div>
+              <img
+                src={loadingIcon}
+                width="60px"
+                style={{
+                  paddingTop: "0px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "-25px",
+              }}
+            >
+              Loading. . .
+            </div>
+          </div>
+        );
+      } else {
+        if (wrongData === true) {
+          return <div>Data is not update</div>;
+        } else {
+          if (multipleAxis === true) {
+            if (testMulti.length <= 2 && !isToomuch) {
+              return (
                 <div style={{ width: "100%", height: "100%" }}>
                   <Line
                     style={{
@@ -530,7 +712,7 @@ const Swap = ({
                         },
                         legend: {
                           display: true,
-      
+
                           labels: {
                             color: "white",
                           },
@@ -545,416 +727,219 @@ const Swap = ({
                           },
                         },
 
-                     A: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    title:{
-                      display:true,
-                      text:"คน",
-                      color: "white"
-                    },
-                    ticks: {
-                      color: "white",
-                    },
-                  },
-                  B: {
-                    type: 'linear',
-                    display: true,
-                    position: 'right',
-                    title:{
-                      display:true,
-                      text:"คน",
-                      color: "white"
-                    },
-                    ticks: {
-                      color: "white",
-                    },
-                  },
-      
+                        B: {
+                          type: "linear",
+                          display: true,
+                          position: "left",
+                          title: {
+                            display: true,
+                            text: "คน",
+                            color: "white",
+                          },
+                          ticks: {
+                            color: "white",
+                          },
+                        },
                       },
                     }}
                   />
                 </div>
-      
-            )
-          }
-          else{
-   
-            return(
-    
+              );
+            } else {
+              return (
+                <div style={{ width: "100%", height: "100%" }}>
+                  <Line
+                    style={{
+                      width: "100%",
+                      height: "400px",
+                      marginTop: "3.5%",
+                      overflowX: "auto",
+                    }}
+                    data={data}
+                    options={{
+                      plugins: {
+                        zoom: {
+                          zoom: {
+                            wheel: {
+                              enabled: true, // SET SCROOL ZOOM TO TRUE
+                            },
+                            mode: "x",
+                            speed: 100,
+                          },
+                          pan: {
+                            enabled: true,
+                            mode: "x",
+                            speed: 100,
+                          },
+                        },
+                        legend: {
+                          display: true,
+
+                          labels: {
+                            color: "white",
+                          },
+                        },
+                      },
+                      scales: {
+                        x: {
+                          ticks: {
+                            color: "white",
+                            //data can show all province but space in x axis is too low
+                            autoSkip: true,
+                          },
+                        },
+                        A: {
+                          type: "linear",
+                          display: true,
+                          position: "left",
+                          title: {
+                            display: true,
+                            text: "คน",
+                            color: "white",
+                          },
+                          ticks: {
+                            color: "white",
+                          },
+                        },
+                        B: {
+                          type: "linear",
+                          display: true,
+                          position: "right",
+                          title: {
+                            display: true,
+                            text: "คน",
+                            color: "white",
+                          },
+                          ticks: {
+                            color: "white",
+                          },
+                        },
+                      },
+                    }}
+                  />
+                </div>
+              );
+            }
+          } else {
+            return (
               <div style={{ width: "100%", height: "100%" }}>
-              <Line
-                style={{
-                  width: "100%",
-                  height: "400px",
-                  marginTop: "3.5%",
-                  overflowX: "auto",
-                }}
-                data={data}
-                options={{
-                  plugins: {
-                    zoom: {
+                <Line
+                  style={{
+                    width: "100%",
+                    height: "400px",
+                    marginTop: "3.5%",
+                    overflowX: "auto",
+                  }}
+                  data={data}
+                  options={{
+                    plugins: {
                       zoom: {
-                        wheel: {
-                          enabled: true, // SET SCROOL ZOOM TO TRUE
+                        zoom: {
+                          wheel: {
+                            enabled: true, // SET SCROOL ZOOM TO TRUE
+                          },
+                          mode: "x",
+                          speed: 100,
                         },
-                        mode: "x",
-                        speed: 100,
+                        pan: {
+                          enabled: true,
+                          mode: "x",
+                          speed: 100,
+                        },
                       },
-                      pan: {
-                        enabled: true,
-                        mode: "x",
-                        speed: 100,
-                      },
-                    },
-                    legend: {
-                      display: true,
-  
-                      labels: {
-                        color: "white",
-                      },
-                    },
-                  },
-                  scales: {
-                    x: {
-                      ticks: {
-                        color: "white",
-                        //data can show all province but space in x axis is too low
-                        autoSkip: true,
-                      },
-                    },
+                      legend: {
+                        display: true,
 
-
-              B: {
-                type: 'linear',
-                display: true,
-                position: 'left',
-                title:{
-                  display:true,
-                  text:"คน",
-                  color: "white"
-                },
-                ticks: {
-                  color: "white",
-                },
-              },
-  
-                  },
-                }}
-              />
-            </div>
-            )
+                        labels: {
+                          color: "white",
+                        },
+                      },
+                    },
+                    scales: {
+                      x: {
+                        ticks: {
+                          color: "white",
+                          //data can show all province but space in x axis is too low
+                          autoSkip: true,
+                        },
+                      },
+                      A: {
+                        type: "linear",
+                        display: true,
+                        position: "left",
+                        title: {
+                          display: true,
+                          text: "คน",
+                          color: "white",
+                        },
+                        ticks: {
+                          color: "white",
+                        },
+                      },
+                      B: {
+                        type: "linear",
+                        display: false,
+                        position: "right",
+                        title: {
+                          display: true,
+                          text: "คน",
+                          color: "white",
+                        },
+                        ticks: {
+                          color: "white",
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            );
           }
-
         }
-      }
-
-
-    } else if (optionSelectx[0].selected === true) {
-
-      
-      const data = {
-        //x label //location
-        labels: storageAxis[0],
-        datasets: testMulti,
-        // labels:testX,
-        // datasets:testY
-      };
-      if (isLoading === true) {
-        return (
-          <div>
-            <div>
-            <img
-              src={loadingIcon}
-              width="60px"
-              style={{
-                paddingTop: "0px",
-                marginLeft: "auto",
-                marginRight: "auto",
-                width:"200px",
-                paddingTop:"11%"
-              }}
-            />
-            </div>
-            <div style={{fontSize:"20px",color:"white",textAlign:"center",marginTop:"-25px"}}>
-              Loading. . . 
-            </div>
-          </div>
-        );
-      } else {
-
-      if(wrongData === true){
-        return(
-          <div>
-            Data is not update
-          </div>
-        )
-      }else{
-
-
-      if(multipleAxis === true){
-        if(testMulti.length <=2 && !isToomuch){
- 
-          return(
-
-            <div style={{ width: "100%", height: "100%" }}>
-              <Line
-                style={{
-                  width: "100%",
-                  height: "400px",
-                  marginTop: "3.5%",
-                  overflowX: "auto",
-                }}
-                data={data}
-                options={{
-                  plugins: {
-                    zoom: {
-                      zoom: {
-                        wheel: {
-                          enabled: true, // SET SCROOL ZOOM TO TRUE
-                        },
-                        mode: "x",
-                        speed: 100,
-                      },
-                      pan: {
-                        enabled: true,
-                        mode: "x",
-                        speed: 100,
-                      },
-                    },
-                    legend: {
-                      display: true,
-  
-                      labels: {
-                        color: "white",
-                      },
-                    },
-                  },
-                  scales: {
-                    x: {
-                      ticks: {
-                        color: "white",
-                        //data can show all province but space in x axis is too low
-                        autoSkip: true,
-                      },
-                    },
-                    
-                    B: {
-                      type: 'linear',
-                      display: true,
-                      position: 'left',
-                      title:{
-                        display:true,
-                        text:"คน",
-                        color: "white"
-                      },
-                      ticks: {
-                        color: "white",
-                      },
-                    },
-                  },
-                }}
-              />
-            </div>
-          )
-  
-        }
-        else{
-
-          return(
-            <div style={{ width: "100%", height: "100%" }}>
-              <Line
-                style={{
-                  width: "100%",
-                  height: "400px",
-                  marginTop: "3.5%",
-                  overflowX: "auto",
-                }}
-                data={data}
-                options={{
-                  plugins: {
-                    zoom: {
-                      zoom: {
-                        wheel: {
-                          enabled: true, // SET SCROOL ZOOM TO TRUE
-                        },
-                        mode: "x",
-                        speed: 100,
-                      },
-                      pan: {
-                        enabled: true,
-                        mode: "x",
-                        speed: 100,
-                      },
-                    },
-                    legend: {
-                      display: true,
-  
-                      labels: {
-                        color: "white",
-                      },
-                    },
-                  },
-                  scales: {
-                    x: {
-                      ticks: {
-                        color: "white",
-                        //data can show all province but space in x axis is too low
-                        autoSkip: true,
-                      },
-                    },
-                    A: {
-                      type: 'linear',
-                      display: true,
-                      position: 'left',
-                      title:{
-                        display:true,
-                        text:"คน",
-                        color: "white"
-                      },
-                      ticks: {
-                        color: "white",
-                      },
-                    },
-                    B: {
-                      type: 'linear',
-                      display: true,
-                      position: 'right',
-                      title:{
-                        display:true,
-                        text:"คน",
-                        color: "white"
-                      },
-                      ticks: {
-                        color: "white",
-                      },
-                    },
-                  },
-                }}
-              />
-            </div>
-          )
-  
-        }
-        
-      }
-      else{
-
-        return(
-          <div style={{ width: "100%", height: "100%" }}>
-            <Line
-              style={{
-                width: "100%",
-                height: "400px",
-                marginTop: "3.5%",
-                overflowX: "auto",
-              }}
-              data={data}
-              options={{
-                plugins: {
-                  zoom: {
-                    zoom: {
-                      wheel: {
-                        enabled: true, // SET SCROOL ZOOM TO TRUE
-                      },
-                      mode: "x",
-                      speed: 100,
-                    },
-                    pan: {
-                      enabled: true,
-                      mode: "x",
-                      speed: 100,
-                    },
-                  },
-                  legend: {
-                    display: true,
-
-                    labels: {
-                      color: "white",
-                    },
-                  },
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: "white",
-                      //data can show all province but space in x axis is too low
-                      autoSkip: true,
-                    },
-                  },
-                  A: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    title:{
-                      display:true,
-                      text:"คน",
-                      color: "white"
-                    },
-                    ticks: {
-                      color: "white",
-                    },
-                  },
-                  B: {
-                    type: 'linear',
-                    display: false,
-                    position: 'right',
-                    title:{
-                      display:true,
-                      text:"คน",
-                      color: "white"
-                    },
-                    ticks: {
-                      color: "white",
-                    },
-                  },
-                },
-              }}
-            />
-          </div>
-        )
-      }
-    }
-
       }
     } else {
       return <div>cant visualize</div>;
     }
   } else if (chosen === "Bar") {
-
     function changeBarType(bool) {
       setverticalBar(bool);
     }
 
     if (optionSelectx[1].selected === true) {
-      console.log("bar ; ",weeklydateContain)
+      console.log("bar ; ", weeklydateContain);
       const dataBar = {
         labels: xlabelDate,
         datasets: barweeklyContain,
       };
-      console.log("weekly : ",weeklydateContain)
+      console.log("weekly : ", weeklydateContain);
       if (isLoading === true) {
         return (
           <div>
-          <div>
-          <img
-            src={loadingIcon}
-            width="60px"
-            style={{
-              paddingTop: "0px",
-              marginLeft: "auto",
-              marginRight: "auto",
-              width:"200px",
-              paddingTop:"11%"
-            }}
-          />
+            <div>
+              <img
+                src={loadingIcon}
+                width="60px"
+                style={{
+                  paddingTop: "0px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "-25px",
+              }}
+            >
+              Loading. . .
+            </div>
           </div>
-          <div style={{fontSize:"20px",color:"white",textAlign:"center",marginTop:"-25px"}}>
-            Loading. . . 
-          </div>
-        </div>
-        )
+        );
       } else {
         return (
           <div style={{ marginTo: "30%" }}>
@@ -980,124 +965,101 @@ const Swap = ({
             </div>
 
             {verticalBar === true ? (
-              <Bar data={dataBar}       
-              options={{
-                indexAxis:"x",
-                plugins: {
-                  zoom: {
+              <Bar
+                data={dataBar}
+                options={{
+                  indexAxis: "x",
+                  plugins: {
                     zoom: {
-                      wheel: {
-                        enabled: true, // SET SCROOL ZOOM TO TRUE
+                      zoom: {
+                        wheel: {
+                          enabled: true, // SET SCROOL ZOOM TO TRUE
+                        },
+                        mode: "x",
+                        speed: 100,
                       },
-                      mode: "x",
-                      speed: 100,
+                      pan: {
+                        enabled: true,
+                        mode: "x",
+                        speed: 100,
+                      },
+                      limits: {
+                        min: "original",
+                      },
                     },
-                    pan: {
-                      enabled: true,
-                      mode: "x",
-                      speed: 100,
-                    },
-                    limits:{
-                      min:'original'
-                    }
-                  },
-                  legend: {
-                    display: true,
+                    legend: {
+                      display: true,
 
-                    labels: {
-                      color: "white",
+                      labels: {
+                        color: "white",
+                      },
                     },
                   },
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: "white",
-                      //data can show all province but space in x axis is too low
-                      autoSkip: true,
+                  scales: {
+                    x: {
+                      ticks: {
+                        color: "white",
+                        //data can show all province but space in x axis is too low
+                        autoSkip: true,
+                      },
+                    },
+
+                    y: {
+                      ticks: {
+                        color: "white",
+                      },
                     },
                   },
-
-
-            
-                  y: {
-                    ticks: {
-           
-                      color: 'white',
-                    }
-                  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                },
-              }} />
+                }}
+              />
             ) : (
-              <Bar data={dataBar}       options={{
-                indexAxis:"y",
-                plugins: {
-                  zoom: {
+              <Bar
+                data={dataBar}
+                options={{
+                  indexAxis: "y",
+                  plugins: {
                     zoom: {
-                      wheel: {
-                        enabled: true, // SET SCROOL ZOOM TO TRUE
+                      zoom: {
+                        wheel: {
+                          enabled: true, // SET SCROOL ZOOM TO TRUE
+                        },
+                        mode: "x",
+                        speed: 100,
                       },
-                      mode: "x",
-                      speed: 100,
+                      pan: {
+                        enabled: true,
+                        mode: "x",
+                        speed: 100,
+                      },
+                      limits: {
+                        x: { min: 0 },
+                        y: { min: 0 },
+                      },
                     },
-                    pan: {
-                      enabled: true,
-                      mode: "x",
-                      speed: 100,
-                    },
-                    limits:{
-                      x: { min: 0},
-                      y: { min: 0}
-                    }
-                  },
-                  legend: {
-                    display: true,
+                    legend: {
+                      display: true,
 
-                    labels: {
-                      color: "white",
+                      labels: {
+                        color: "white",
+                      },
                     },
                   },
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: "white",
-                      //data can show all province but space in x axis is too low
-                      autoSkip: true,
-                      
+                  scales: {
+                    x: {
+                      ticks: {
+                        color: "white",
+                        //data can show all province but space in x axis is too low
+                        autoSkip: true,
+                      },
+                    },
+                    y: {
+                      ticks: {
+                        color: "white",
+                      },
                     },
                   },
-                  y: {
-                    ticks: {
-           
-                      color: 'white',
-                    }
-                  }
-
-
-
-                },
-              }}/>
+                }}
+              />
             )}
           </div>
         );
@@ -1110,155 +1072,159 @@ const Swap = ({
       if (isLoading === true) {
         return (
           <div>
-          <div>
-          <img
-            src={loadingIcon}
-            width="60px"
-            style={{
-              paddingTop: "0px",
-              marginLeft: "auto",
-              marginRight: "auto",
-              width:"200px",
-              paddingTop:"11%"
-            }}
-          />
-          </div>
-          <div style={{fontSize:"20px",color:"white",textAlign:"center",marginTop:"-25px"}}>
-            Loading. . . 
-          </div>
-        </div>
-        )
-      } else {
-        if(wrongData === true){
-          return(
             <div>
-              Data is not update
+              <img
+                src={loadingIcon}
+                width="60px"
+                style={{
+                  paddingTop: "0px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
             </div>
-          )
-        }
-        else{
-        return (
-          <div style={{ marginTo: "30%" }}>
-            <div className="bar-header">
-              <p
-                className={
-                  verticalBar === true ? "typeBar-active" : "typeBar-non-active"
-                }
-                onClick={() => changeBarType(true)}
-              >
-                Vertical Display
-              </p>
-              <p
-                className={
-                  verticalBar === false
-                    ? "typeBar-active"
-                    : "typeBar-non-active"
-                }
-                onClick={() => changeBarType(false)}
-              >
-                Horizontal Display
-              </p>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "-25px",
+              }}
+            >
+              Loading. . .
             </div>
-
-            {verticalBar === true ? (
-              <Bar data={dataBar}       
-              options={{
-                indexAxis:"x",
-                plugins: {
-                  zoom: {
-                    zoom: {
-                      wheel: {
-                        enabled: true, // SET SCROOL ZOOM TO TRUE
-                      },
-                      mode: "x",
-                      speed: 100,
-                    },
-                    pan: {
-                      enabled: true,
-                      mode: "x",
-                      speed: 100,
-                    },
-                    limits:{
-                      min:'original'
-                    }
-                  },
-                  legend: {
-                    display: true,
-
-                    labels: {
-                      color: "white",
-                    },
-                  },
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: "white",
-                      //data can show all province but space in x axis is too low
-                      autoSkip: true,
-                    },
-                  },
-                  y: {
-                    ticks: {
-           
-                      color: 'white',
-                    }
-                  }
-                },
-              }} />
-            ) : (
-              <Bar data={dataBar}       options={{
-                indexAxis:"y",
-                plugins: {
-                  zoom: {
-                    zoom: {
-                      wheel: {
-                        enabled: true, // SET SCROOL ZOOM TO TRUE
-                      },
-                      mode: "x",
-                      speed: 100,
-                    },
-                    pan: {
-                      enabled: true,
-                      mode: "x",
-                      speed: 100,
-                    },
-                    limits:{
-                      x: { min: 0},
-                      y: { min: 0}
-                    }
-                  },
-                  legend: {
-                    display: true,
-
-                    labels: {
-                      color: "white",
-                    },
-                  },
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: "white",
-                      //data can show all province but space in x axis is too low
-                      autoSkip: true,
-                    },
-                  },
-                  y: {
-                    ticks: {
-           
-                      color: 'white',
-                    }
-                  }
-
-   
-
-                },
-              }} />
-            )}
           </div>
         );
-          }
+      } else {
+        if (wrongData === true) {
+          return <div>Data is not update</div>;
+        } else {
+          return (
+            <div style={{ marginTo: "30%" }}>
+              <div className="bar-header">
+                <p
+                  className={
+                    verticalBar === true
+                      ? "typeBar-active"
+                      : "typeBar-non-active"
+                  }
+                  onClick={() => changeBarType(true)}
+                >
+                  Vertical Display
+                </p>
+                <p
+                  className={
+                    verticalBar === false
+                      ? "typeBar-active"
+                      : "typeBar-non-active"
+                  }
+                  onClick={() => changeBarType(false)}
+                >
+                  Horizontal Display
+                </p>
+              </div>
+
+              {verticalBar === true ? (
+                <Bar
+                  data={dataBar}
+                  options={{
+                    indexAxis: "x",
+                    plugins: {
+                      zoom: {
+                        zoom: {
+                          wheel: {
+                            enabled: true, // SET SCROOL ZOOM TO TRUE
+                          },
+                          mode: "x",
+                          speed: 100,
+                        },
+                        pan: {
+                          enabled: true,
+                          mode: "x",
+                          speed: 100,
+                        },
+                        limits: {
+                          min: "original",
+                        },
+                      },
+                      legend: {
+                        display: true,
+
+                        labels: {
+                          color: "white",
+                        },
+                      },
+                    },
+                    scales: {
+                      x: {
+                        ticks: {
+                          color: "white",
+                          //data can show all province but space in x axis is too low
+                          autoSkip: true,
+                        },
+                      },
+                      y: {
+                        ticks: {
+                          color: "white",
+                        },
+                      },
+                    },
+                  }}
+                />
+              ) : (
+                <Bar
+                  data={dataBar}
+                  options={{
+                    indexAxis: "y",
+                    plugins: {
+                      zoom: {
+                        zoom: {
+                          wheel: {
+                            enabled: true, // SET SCROOL ZOOM TO TRUE
+                          },
+                          mode: "x",
+                          speed: 100,
+                        },
+                        pan: {
+                          enabled: true,
+                          mode: "x",
+                          speed: 100,
+                        },
+                        limits: {
+                          x: { min: 0 },
+                          y: { min: 0 },
+                        },
+                      },
+                      legend: {
+                        display: true,
+
+                        labels: {
+                          color: "white",
+                        },
+                      },
+                    },
+                    scales: {
+                      x: {
+                        ticks: {
+                          color: "white",
+                          //data can show all province but space in x axis is too low
+                          autoSkip: true,
+                        },
+                      },
+                      y: {
+                        ticks: {
+                          color: "white",
+                        },
+                      },
+                    },
+                  }}
+                />
+              )}
+            </div>
+          );
+        }
       }
     } else {
       return <div> cannot visulza</div>;
@@ -1266,22 +1232,29 @@ const Swap = ({
   } else {
     return (
       <div>
-                 <div>
+        <div>
           <div>
-          <img
-            src={loadingIcon}
-            width="60px"
-            style={{
-              paddingTop: "0px",
-              marginLeft: "auto",
-              marginRight: "auto",
-              width:"200px",
-              paddingTop:"11%"
-            }}
-          />
+            <img
+              src={loadingIcon}
+              width="60px"
+              style={{
+                paddingTop: "0px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: "200px",
+                paddingTop: "11%",
+              }}
+            />
           </div>
-          <div style={{fontSize:"20px",color:"white",textAlign:"center",marginTop:"-25px"}}>
-            Loading. . . 
+          <div
+            style={{
+              fontSize: "20px",
+              color: "white",
+              textAlign: "center",
+              marginTop: "-25px",
+            }}
+          >
+            Loading. . .
           </div>
         </div>
       </div>
@@ -1302,6 +1275,7 @@ const SubChart = ({
   currentChart,
   setcurrentChart,
   optionSelectx,
+  country
 }) => {
   const [disableChart, setdisableChart] = useState("true");
   const [valueDate, setValueDate] = useState("");
@@ -1414,6 +1388,7 @@ const SubChart = ({
           optionSelect={optionSelect}
           style={{ width: "100%", overflowX: "auto" }}
           optionSelectx={optionSelectx}
+          country = {country}
         />
       </div>
     </div>
@@ -1421,16 +1396,3 @@ const SubChart = ({
 };
 
 export default SubChart;
-
-
-
-
-
-
-
-
-
-
-
-
-

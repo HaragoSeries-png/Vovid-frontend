@@ -13,16 +13,18 @@ import MainFirstChart from "../components/MainFirstChart";
 import CustomizeSection from "../components/CustomizeSection";
 import SelectGraph from "../components/SelectGraph";
 import { fecthThAPI } from "../api/apiCountrySelection";
+import SelectCountry from "../components/SelectCountry";
 
 const MainPage = () => {
   const [data, setdata] = useState({});
-  const [country, setcountry] = useState();
+  
   const [xAxis, setxAxis] = useState("Location");
   const [yAxis, setyAxis] = useState("New cases");
   const [graphSelector, setgraphSelector] = useState()
   const [dataGraph, setdataGraph] = useState()
   const [multiSelect, setmultiSelect] = useState(true)
   const [currentChart, setcurrentChart] = useState(null);
+  
   const optionTypeX = [
     {
       name: "Location",
@@ -67,6 +69,19 @@ const MainPage = () => {
     },
 
   ];
+
+  const countryList = [
+    {
+      country : "Thai",
+      selected:true
+    },
+    {
+      country:"Global",
+      selected:false
+    }
+
+  ]
+  const [country, setcountry] = useState(countryList);
   const [optionSelect, setoptionSelect] = useState(optionTypeY)
   const [optionSelectx, setoptionSelectx] = useState(optionTypeX)
 
@@ -103,17 +118,6 @@ const MainPage = () => {
 
 
 
- const handleCountryChange = async (country) => {
-    //fetch the data for a specific country
-    const fetchedData = await fetchData(country);
-    //set the state
-    setdata(fetchedData);
-    setcountry(country);
-    
-    if(country ==="Thailand"){
-    setdataGraph(await fecthThAPI());
-    }
-  };
 
 
 
@@ -126,7 +130,9 @@ const MainPage = () => {
 
   <Grid container spacing={1}>
   <Grid item xs={3} md={3}>
-      
+   <div style={{color:"white"}}>
+    <SelectCountry  country={country} setcountry={setcountry}   />
+    </div>   
   <CountCard data={data} />
   </Grid>
 
@@ -166,6 +172,7 @@ const MainPage = () => {
             currentChart = {currentChart}
             setcurrentChart = {setcurrentChart}
             optionSelectx = {optionSelectx}
+            country = {country}
               /> 
             </div>
 

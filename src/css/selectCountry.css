@@ -1,0 +1,30 @@
+.header-selected{
+    margin-top:0px;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    height: 68px;
+    padding-top: 10px;
+}
+.btn-contain{
+display: flex;
+justify-content: center;
+}
+.btn-box-select{
+    flex: 1;
+    text-align: center;
+   font-size: 23px;
+   border-radius: 8px;
+   color: white !important;
+   cursor: pointer;
+}   
+.active-selected{
+   background-color: orange;
+    
+}
+.selected-container{
+    margin-top: 48px;
+    padding: 2px 10px 10px 10px;
+    background-color: #343A40;
+    border-radius: 8px;
+}
