@@ -124,9 +124,7 @@ const MainPage = () => {
 
   return (
     <div className="container">
-      {/* <Topic />
-      <hr></hr> */}
-      {/* <CountryPicker handleCountryChange={handleCountryChange} /> */}
+
 
   <Grid container spacing={1}>
   <Grid item xs={3} md={3}>
@@ -188,62 +186,6 @@ const MainPage = () => {
 
 
 
-{/* 
-      <div style={{ marginTop: "2%" }}>
-        <Grid container spacing={2}>
-          <Grid item md={6}>
-            <SubChart graphType="Line" />
-          </Grid>
-          <Grid item md={6}>
-            <SubChart graphType="Pie" />
-          </Grid>
-        </Grid>
-      </div> */}
-      {/* <div style={{ marginTop: "2%" }}>
-        <Grid container spacing={2}>
-          <Grid item md={6}>
-            <SubChart graphType="Bar" />
-          </Grid>
-          <Grid item md={6}>
-            <SubChart graphType="Radar" />
-          </Grid>
-        </Grid>
-      </div> */}
-      {/* <div style={{ marginTop: "2%" }}>
-        <Grid container spacing={2}>
-          <Grid item md={6}>
-            <SubChart graphType="Bar" />
-          </Grid>
-          <Grid item md={6}>
-            <SubChart graphType="Scatter" />
-          </Grid>
-        </Grid>
-      </div> */}
-      {/* <div className='row' style={{marginTop:"6%"}}>
-                    <div className='col-md-4'>
-                    <div style={cardStyle}>BarChart</div>
-                    <BarExam/>
-                    </div>
-                    <div className='col-md-4'>
-                    <div style={cardStyle}>LineChart</div>
-                    <LineExam/>
-                    </div>
-                    <div className='col-md-4'>
-                    <div style={cardStyle}>PieChart</div>
-                    <PieExam/>
-                    </div>
-                </div> */}
-      <div className="graph-section">
-        {/* <Row className="row-distance">
-            <Col className="LineGraphSize"><Cardchart  name="Line chart"/></Col>
-            <Col><Cardchart  name="Bar chart"/></Col>
-          </Row>
-          <Row className="row-distance">
-            <Col><Cardchart  name="Pie chart"/></Col>
-            <Col><Cardchart  name="Bar chart"/></Col>
-          </Row> */}
-      </div>
-      {/* <Posts/> */}
     </div>
   );
 };

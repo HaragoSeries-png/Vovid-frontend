@@ -1,8 +1,4 @@
 import axios from "axios";
-import { async } from "q";
-
-                
-const pieUrl    = "https://vovid-backend-th.herokuapp.com/api/daily-data?date="
 const pieUrl1    = "https://vovid-backend-"
 const apiname   = ".herokuapp.com/api/"
 const datethUrl   = "https://vovid-backend-"

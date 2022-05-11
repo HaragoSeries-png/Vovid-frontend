@@ -1,16 +1,11 @@
-import { current } from "@reduxjs/toolkit";
+
 import React, { useEffect, useState } from "react";
 import { Chart } from "chart.js";
-import { Bar, Doughnut, Line, Radar, Scatter } from "react-chartjs-2";
-import HorizontalBar from "react-chartjs-2";
+import { Bar, Doughnut, Line } from "react-chartjs-2";
 import "../css/subChart.css";
-import { YAxis } from "recharts";
 import zoomPlugin from "chartjs-plugin-zoom";
 import SelectDate from "./SelectDate";
-import { fecthThAPI, fetchDate, fetchPie } from "../api/apiCountrySelection";
-import randomColor from "random-color";
-import { colors } from "@material-ui/core";
-import { color } from "d3-color";
+import {fetchDate, fetchPie } from "../api/apiCountrySelection";
 import { fecthDateApi } from "../api/apiDate";
 import loadingIcon from "../img/icon/loading.svg";
 Chart.register(zoomPlugin); // REGISTER PLUGIN
@@ -32,13 +27,10 @@ const Swap = ({
   optionSelectx,
   country
 }) => {
-  let keepData = "";
-  let allDate;
-  let currentState;
+  
   const [dateProp, setdateProp] = useState("");
 
   const [verticalBar, setverticalBar] = useState(true);
-  const [apiWait, setapiWait] = useState(false);
   let apidata = dateProp[0];
   let [newCase, setnewCase] = useState([]);
   let [totalCase, settotalCase] = useState([]);
@@ -51,7 +43,6 @@ const Swap = ({
   let dialyPieLabel = [];
   let dialyPieValue = [];
   let weeklydateContain;
-  let weeklydate = [];
   let [dateMultiSelect, setdateMultiSelect] = useState(null);
   var barweeklyContain;
   const [isLoading, setisLoading] = useState(false);
@@ -490,6 +481,7 @@ const Swap = ({
                         autoSkip: true,
                       },
                     },
+      
                     A: {
                       type: "linear",
                       display: true,
@@ -499,9 +491,12 @@ const Swap = ({
                         text: "คน",
                         color: "white",
                       },
+
                       ticks: {
                         color: "white",
+                      
                       },
+                      min:0
                     },
                   },
                 }}
@@ -553,7 +548,7 @@ const Swap = ({
                           autoSkip: true,
                         },
                       },
-
+                     
                       A: {
                         type: "linear",
                         display: true,
@@ -565,7 +560,9 @@ const Swap = ({
                         },
                         ticks: {
                           color: "white",
+                          beginAtZero: true
                         },
+                        min:0
                       },
                       B: {
                         type: "linear",
@@ -578,7 +575,9 @@ const Swap = ({
                         },
                         ticks: {
                           color: "white",
+                          beginAtZero: true
                         },
+                        min:0
                       },
                     },
                   }}
@@ -641,6 +640,7 @@ const Swap = ({
                         ticks: {
                           color: "white",
                         },
+                        min:0
                       },
                     },
                   }}
@@ -751,6 +751,7 @@ const Swap = ({
                           ticks: {
                             color: "white",
                           },
+                          min:0
                         },
                       },
                     }}
@@ -812,6 +813,7 @@ const Swap = ({
                           ticks: {
                             color: "white",
                           },
+                          min:0
                         },
                         B: {
                           type: "linear",
@@ -825,6 +827,7 @@ const Swap = ({
                           ticks: {
                             color: "white",
                           },
+                          min:0
                         },
                       },
                     }}
@@ -887,6 +890,7 @@ const Swap = ({
                         ticks: {
                           color: "white",
                         },
+                        min:0
                       },
                       B: {
                         type: "linear",
@@ -900,6 +904,7 @@ const Swap = ({
                         ticks: {
                           color: "white",
                         },
+                        min:0
                       },
                     },
                   }}
@@ -1020,6 +1025,7 @@ const Swap = ({
                       ticks: {
                         color: "white",
                       },
+                      min:0
                     },
                   },
                 }}
@@ -1068,6 +1074,7 @@ const Swap = ({
                       ticks: {
                         color: "white",
                       },
+                      min:0
                     },
                   },
                 }}
