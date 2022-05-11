@@ -79,7 +79,7 @@ const Swap = ({
     let a = val.death;
     return a;
   });
-  console.log("dateProp[0]",dateProp[0])
+  
   async function changeValueArray() {
     optionSelect.map((val, index) => {
       if (val.name === "New cases") {
@@ -128,7 +128,7 @@ const Swap = ({
     });
   }
   useEffect(async () => {
-    console.log("from subchart : ",country)
+ 
     //filter country
     filterCountry()
     
@@ -136,7 +136,7 @@ const Swap = ({
 
     await fetchDate(valueDate,selectedCountry[0].country).then((keepData) => {
       setdateProp(keepData.data);
-      console.log("result : ",dateProp)
+    
       if (keepData.data[0]?.result.length === 0) {
         setwrongData(true);
       } else {
@@ -175,12 +175,12 @@ const Swap = ({
     backgroundColor: colorArray[index],
     borderColor: colorArray[index],
   }));
-  console.log("option : ",optionMultiSelect)
+  
   testMulti = optionMultiSelect.map((obj) => ({ ...obj, yAxisID: null }));
 
   testMulti.map((val) => {
     if (val.label === "Total deaths") {
-      val.yAxisID = "A";
+      val.yAxisID = "B";
     } else if (val.label === "Total cases") {
       val.yAxisID = "A";
     } else if (val.label === "New cases") {
@@ -191,7 +191,7 @@ const Swap = ({
   });
 
   testMulti.map((check) => {
-    if (check.label === "New cases" || check.label === "New deaths") {
+    if (check.label === "New cases" || check.label === "New deaths" || check.label ==="Total deaths") {
       multipleAxis = true;
     } else {
       multipleAxis = false;
@@ -199,7 +199,7 @@ const Swap = ({
   });
 
   testMulti.map((check) => {
-    if (check.label === "Total deaths" || check.label === "Total cases") {
+    if (check.label === "Total cases") {
       isToomuch = true;
     }
   });
@@ -302,7 +302,7 @@ const Swap = ({
   }));
   weeklydateContain.map((val) => {
     if (val.label === "Total deaths") {
-      val.yAxisID = "A";
+      val.yAxisID = "B";
     } else if (val.label === "Total cases") {
       val.yAxisID = "A";
     } else if (val.label === "New cases") {
@@ -312,7 +312,7 @@ const Swap = ({
     }
   });
   weeklydateContain.map((check) => {
-    if (check.label === "New cases" || check.label === "New deaths") {
+    if (check.label === "New cases" || check.label === "New deaths" || check.label ==="Total deaths") {
       dateRightAxis = true;
     } else {
       dateRightAxis = false;
@@ -658,10 +658,7 @@ const Swap = ({
         // labels:testX,
         // datasets:testY
       };
-      console.log("staxss : ",storageAxis)
-      console.log("testMulti : ",testMulti)
-
-
+        //loading
       if (isLoading === true) {
         return (
           <div>
@@ -691,11 +688,14 @@ const Swap = ({
           </div>
         );
       } else {
+        //data exist
         if (wrongData === true) {
           return <div>Data is not update</div>;
         } else {
+          console.log(multipleAxis)
           if (multipleAxis === true) {
             if (testMulti.length <= 2 && !isToomuch) {
+              console.log("case 1")
               return (
                 <div style={{ width: "100%", height: "100%" }}>
                   <Line
@@ -759,6 +759,7 @@ const Swap = ({
                 </div>
               );
             } else {
+              console.log("case 2")
               return (
                 <div style={{ width: "100%", height: "100%" }}>
                   <Line
@@ -826,6 +827,7 @@ const Swap = ({
                           },
                           ticks: {
                             color: "white",
+                            precision: 0
                           },
                           min:0
                         },
@@ -836,6 +838,7 @@ const Swap = ({
               );
             }
           } else {
+            console.log("case 3")
             return (
               <div style={{ width: "100%", height: "100%" }}>
                 <Line

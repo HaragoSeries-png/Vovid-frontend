@@ -43,13 +43,13 @@ const MainPage = () => {
 
   const optionTypeY = [
     {
-      name: "Total deaths",
+      name: "Total cases",
       selected: true,
       data:[],
       
     },
     {
-      name: "Total cases",
+      name: "Total deaths",
       selected: true,
       data:[],
   
