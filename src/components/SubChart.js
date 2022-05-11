@@ -1022,11 +1022,22 @@ const Swap = ({
                         //data can show all province but space in x axis is too low
                         autoSkip: true,
                       },
+                      title:{
+                        display:true,
+                        text:"วันที่ 7 วันย้อนหลัง",
+                        color:"white"
+                      }
                     },
 
                     y: {
                       ticks: {
                         color: "white",
+                      },
+                      title:{
+                        display:true,
+                       
+                        text:"คน",
+                        color:"white"
                       },
                       min:0
                     },
@@ -1072,10 +1083,20 @@ const Swap = ({
                         //data can show all province but space in x axis is too low
                         autoSkip: true,
                       },
+                      title:{
+                        display:true,
+                        text:"คน",
+                        color:"white"
+                      }
                     },
                     y: {
                       ticks: {
                         color: "white",
+                      },
+                      title:{
+                        display:true,
+                        text:"วันที่ 7 วันย้อนหลัง",
+                        color:"white"
                       },
                       min:0
                     },
@@ -1191,6 +1212,7 @@ const Swap = ({
                         ticks: {
                           color: "white",
                         },
+                        
                       },
                     },
                   }}
