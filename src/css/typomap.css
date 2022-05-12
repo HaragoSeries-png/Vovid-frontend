@@ -1,22 +1,22 @@
 .box-text .MuiGrid-container{
-    width: 130%;
+    width: 350px;
 }
 .grid-contain{
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 10px;
+    grid-gap: 5px;
 }
 .box-select{
     
     font-size: 18px;
     color: white;
-    padding: 3px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    
+    padding: 8px;
     cursor: pointer;
+    border-radius: 12px;
 }
 .option-active{
+
     color: black;
     background-color: orange;
 }
@@ -32,6 +32,7 @@
     background-color: transparent;
 }
 .option-inactive:hover{
-    background-color: orange;
-    transition: 0.5s;
+    background-color: #ececec;
+    color: black !important;
+    transition: 0.3s;
 }

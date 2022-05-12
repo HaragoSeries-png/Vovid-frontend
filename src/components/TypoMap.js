@@ -112,14 +112,11 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
                   variant="h5"
                   style={{ textAlign: "left", fontSize: "20px" }}
                 >
-                  <CountUp
-                    start={"-"}
-                    end={selectProvince[1]}
-                    // end={100}
-                    duration={0.5}
-                 
-                    separator=","
-                  />
+                  
+                    
+                    {selectProvince[1]}
+                    
+                  
                 </Typography>
               </Grid>
             </Grid>

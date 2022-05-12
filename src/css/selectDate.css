@@ -1,6 +1,7 @@
 .dateContainer .MuiFormControl-root{
     display: flex;
     width: 300px;
+    
 }
 .dateContainer{
     padding-top:2%;
@@ -23,4 +24,29 @@
 
 .dateContainer .DatePicker__input::placeholder{
     color: black;
+}
+.dateContainer .custom-yesterday-day{
+    color: white !important;
+    border: 1px solid #e67e22 !important;
+    background-color: red !important;
+    /* background-color: red !important;
+    color: white !important; */
+}
+.dateContainer .navyBlueDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    border: 2px solid red !important;
+  }
+.dateContainer .Calendar__day.-selected, .Calendar__day.-selectedStart, .Calendar__day.-selectedEnd {
+    background: orange;
+    color: #fff;
+}
+
+.dateContainer .DatePicker__input{
+    cursor: pointer !important;
+    background-color: white;
+    border: none;
+    border-radius: 600px;
+}
+.dateContainer .DatePicker__input::placeholder{
+   color: black;
+   font-weight: bold;
 }

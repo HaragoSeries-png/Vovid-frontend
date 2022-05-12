@@ -35,7 +35,7 @@ const CountCard = ({ data }) => {
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>
-              <div style={{backgroundColor:"#DC3545",padding:"5px",borderRadius:"12px"}}>   
+              <div style={{backgroundColor:"rgb(80 151 27)",padding:"5px",borderRadius:"12px"}}>   
                 <img
                   src={infected}
                   width="60px"      
@@ -108,7 +108,7 @@ const CountCard = ({ data }) => {
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>
-              <div style={{backgroundColor:"#FFC107",padding:"5px",borderRadius:"12px"}}>   
+              <div style={{backgroundColor:"#DC143C",padding:"5px",borderRadius:"12px"}}>   
                 <img
                   src={death}
                   width="60px"

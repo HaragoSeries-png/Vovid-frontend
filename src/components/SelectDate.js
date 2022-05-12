@@ -6,9 +6,10 @@ import { Calendar, utils } from "react-modern-calendar-datepicker";
 const SelectDate = ({valueDate,setValueDate}) =>{
 const [selectedDay, setSelectedDay] = useState(null);
 
-  let a = "";
-  let b = "";
-  let c ="";
+  var a = "";
+  var b = "";
+  var c ="";
+  var dDefault = []
   const useDate = {
     year:2022,
     day:0,
@@ -33,6 +34,23 @@ const [selectedDay, setSelectedDay] = useState(null);
     b = toYear+"/"+toMonth+"/"+toDay
     
   }
+
+  function splitArray(dateDefault){
+    let date_selected = dateDefault;
+    dDefault = date_selected.split('/')
+    console.log(dDefault[1])
+    console.log(dDefault[1].length)
+    if(dDefault[1].length>1){
+     let textSplice = dDefault[1].slice(1,2)
+    
+     dDefault[1] = textSplice
+    }
+    for(let i=0;i<3;i++){
+     dDefault[i] =  Number(dDefault[i])
+    }
+    console.log("ddt : ",dDefault)
+  }
+
   function checkDate(){
     let fDay;
     let fmonth;
@@ -139,10 +157,14 @@ const [selectedDay, setSelectedDay] = useState(null);
   checkDate();
   toISOFormat();
   getYesterday();
+  splitArray(b)
   useEffect(() => {
+    console.log("date : ",dDefault[0])
     if(selectedDay === ""){ 
       let c  = b.replaceAll('/','-')
+      
       setValueDate(c)
+
     }else{
 
     setValueDate(a)
@@ -157,7 +179,13 @@ const [selectedDay, setSelectedDay] = useState(null);
       inputPlaceholder={b}
       minimumDate={useDate}
       maximumDate={maxDate}
-      
+      customDaysClassName={[
+       
+        { year: dDefault[0], month: dDefault[1], day: dDefault[2], className: 'navyBlueDay' },
+      ]}
+      style={{
+        borderRadius: '50px',
+      }}
     />
       </div>
     );

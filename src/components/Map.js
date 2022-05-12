@@ -42,7 +42,7 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
         oldData = selectProvince[0];
 
         if(oldData === name){
-          setselectProvince(["-","0"])
+          setselectProvince(["-","-"])
         }
       }, 10);
 
@@ -124,7 +124,7 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
 
     colorAxis: {
       min: 1,
-      max:5,
+      max:4,
       minColor: "#238823",
       maxColor: "#FF4500",
     },

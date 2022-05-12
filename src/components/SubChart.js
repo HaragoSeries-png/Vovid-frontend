@@ -8,6 +8,7 @@ import SelectDate from "./SelectDate";
 import {fetchDate, fetchPie } from "../api/apiCountrySelection";
 import { fecthDateApi } from "../api/apiDate";
 import loadingIcon from "../img/icon/loading.svg";
+import sorryIcon from "../img/icon/sorry.png"
 Chart.register(zoomPlugin); // REGISTER PLUGIN
 
 const Swap = ({
@@ -136,8 +137,8 @@ const Swap = ({
 
     await fetchDate(valueDate,selectedCountry[0].country).then((keepData) => {
       setdateProp(keepData.data);
-    
-      if (keepData.data[0]?.result.length === 0) {
+      console.log("kdt : ",keepData.data[0]?.result)
+      if (keepData.data[0]?.result.length === 0 ||keepData.data[0]?.result === undefined ||keepData.data[0]?.result === null) {
         setwrongData(true);
       } else {
         setwrongData(false);
@@ -169,7 +170,7 @@ const Swap = ({
     return { label, ...rest };
   });
 
-  let colorArray = ["red", "blue", "orange", "green"];
+  let colorArray = ["RGBA(255, 99, 71,1)", "blue", "orange", "green"];
   optionMultiSelect = optionMultiSelect.map((item, index) => ({
     ...item,
     backgroundColor: colorArray[index],
@@ -183,6 +184,8 @@ const Swap = ({
       val.yAxisID = "B";
     } else if (val.label === "Total cases") {
       val.yAxisID = "A";
+      val.fill = true;
+      val.backgroundColor = "RGBA(255, 99, 71,0.2)"
     } else if (val.label === "New cases") {
       val.yAxisID = "B";
     } else if (val.label === "New deaths") {
@@ -398,7 +401,33 @@ const Swap = ({
         );
       }
     } else {
-      return <div>can not visulize pie chart with x axis</div>;
+      return (
+        <div>
+            <div>
+              <img
+                src={sorryIcon}
+                width="60px"
+                style={{
+                  paddingTop: "0px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "25px",
+              }}
+            >
+             Sorry, Data is not compatible with selected feature.
+            </div>
+          </div>
+      );
     }
   } else if (chosen === "Line") {
     if (optionSelectx[1].selected === true) {
@@ -658,6 +687,7 @@ const Swap = ({
         // labels:testX,
         // datasets:testY
       };
+      console.log("wrong data : ",wrongData)
         //loading
       if (isLoading === true) {
         return (
@@ -689,8 +719,36 @@ const Swap = ({
         );
       } else {
         //data exist
+        
         if (wrongData === true) {
-          return <div>Data is not update</div>;
+          return(
+            <div>
+            <div>
+              <img
+                src={sorryIcon}
+                width="60px"
+                style={{
+                  paddingTop: "0px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "25px",
+              }}
+            >
+             Sorry, Data is not update
+            </div>
+          </div>
+          ) 
+          
         } else {
           console.log(multipleAxis)
           if (multipleAxis === true) {
@@ -918,7 +976,33 @@ const Swap = ({
         }
       }
     } else {
-      return <div>cant visualize</div>;
+      return(
+        <div>
+            <div>
+              <img
+                src={sorryIcon}
+                width="60px"
+                style={{
+                  paddingTop: "0px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "25px",
+              }}
+            >
+             Can not visualize , please select feature in x axis.
+            </div>
+          </div>
+      );
     }
   } else if (chosen === "Bar") {
     function changeBarType(bool) {
@@ -1406,8 +1490,12 @@ const SubChart = ({
       <div className="top-content">
         {/* */}
         <div className="header-font">
-          <SelectDate valueDate={valueDate} setValueDate={setValueDate} />
-          {/* {disableChart}{" "} */}
+          <SelectDate 
+          valueDate={valueDate} 
+          setValueDate={setValueDate}
+          style={{borderRadias:"100px"}}
+          />
+          
         </div>
 
         <BtnDisplay />
