@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+
 import React, { Component, useEffect } from 'react'
 import "../css/selectCountry.css"
 
@@ -6,7 +6,7 @@ import "../css/selectCountry.css"
 
 const SelectCountry=({country,setcountry}) =>{
     useEffect(() => {
-      console.log("country array : ",country)
+
     }, [country])
   
 

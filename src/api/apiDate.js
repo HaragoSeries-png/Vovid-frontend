@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const apiData = "https://vovid-backend-th.herokuapp.com/api/sum-of?date="
+
 const apiData1 = "https://vovid-backend-"
 var selectedCountry
 export const fecthDateApi = async (dateValue,country) =>{

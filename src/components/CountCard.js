@@ -1,6 +1,6 @@
 import React from "react";
 import Box from '@mui/material/Box';
-import { Card, CardContent, Typography, Grid } from "@material-ui/core";
+import { CardContent, Typography, Grid } from "@material-ui/core";
 import CardActions from '@mui/material/CardActions';
 import styles from "../css/countcard.css";
 import Button from '@mui/material/Button';
@@ -47,7 +47,7 @@ const CountCard = ({ data }) => {
                 <Typography
                   color="white"
                   gutterBottom
-                  style={{ textAlign: "left", fontSize: "20px" }}
+                  style={{ textAlign: "left", fontSize: "20px",fontWeight:"bold" }}
                 >
                   Infected
                 </Typography>
@@ -121,7 +121,7 @@ const CountCard = ({ data }) => {
                 <Typography
                   color="white"
                   gutterBottom
-                  style={{ textAlign: "left", fontSize: "20px" }}
+                  style={{ textAlign: "left", fontSize: "20px",fontWeight:"bold" }}
                 >
                  Death
                 </Typography>

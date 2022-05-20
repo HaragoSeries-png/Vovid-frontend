@@ -1,19 +1,9 @@
 
-import React, { useEffect, useState } from "react";
-import Box from '@mui/material/Box';
-import { Card, CardContent, Typography, Grid } from "@material-ui/core";
-import CardActions from '@mui/material/CardActions';
-import styles from "../css/countcard.css";
-import Button from '@mui/material/Button';
-import CountUp from "react-countup";
-import "../css/typomap.css"
-//For applying multiples classes
-import cx from "classnames";
+import React, { useEffect } from "react";
 
-//image insert
-import infected from "../img/icon/virus.png";
-import recovery from "../img/icon/recovery.png"
-import death from "../img/icon/poison.png"
+import { CardContent, Typography, Grid } from "@material-ui/core";
+import "../css/typomap.css"
+//For applying multiples classe
 //Data is the name of the prop object
 
 
@@ -78,11 +68,11 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
                 </Typography>
                 <Typography
                   variant="h5"
-                  style={{ textAlign: "left", fontSize: "20px" }}
+                  style={{ textAlign: "left", fontSize: "15px" }}
                 >
              {selectProvince[0]}
                 </Typography>
-                <Typography
+                {/* <Typography
                   color="white"
                   gutterBottom
                   style={{ textAlign: "left", fontSize: "20px" }}
@@ -98,7 +88,7 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
                     {selectProvince[1]}
                     
                   
-                </Typography>
+                </Typography> */}
               </Grid>
             </Grid>
           </CardContent>
@@ -118,7 +108,7 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
       
               </Grid>
               <Grid item md={8.5}>
-                {/* <Typography
+                <Typography
                   color="white"
                   gutterBottom
                   style={{ textAlign: "left", fontSize: "20px" }}
@@ -127,14 +117,14 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
                 </Typography>
                 <Typography
                   variant="h5"
-                  style={{ textAlign: "left", fontSize: "20px" }}
+                  style={{ textAlign: "left", fontSize: "15px" }}
                 >
                   
                     
                     {selectProvince[1]}
                     
                   
-                </Typography> */}
+                </Typography>
               </Grid>
             </Grid>
           </CardContent>

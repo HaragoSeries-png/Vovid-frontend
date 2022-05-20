@@ -17,6 +17,8 @@
 }
 .top-content .header-font{
     font-size: 15px;
+    display: flex;
+    justify-content: space-around;
 }
 .btn-chart{
     width: 80px;
@@ -27,6 +29,21 @@
     border: none;
     margin-right: 10px;
 }
+.btn-sorting{
+    width:120px;
+    padding:0px !important;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+.btn-sorting-text{
+    width:auto;
+    padding-top:4px;
+    border-radius: 4px;
+    margin-right: 10px;
+    color: orange;
+}
+
+
 
 .btn-chart:hover{
     width: 80px;
@@ -81,4 +98,40 @@
     border: 1px solid orange;
     user-select: none;
     cursor: default !important;
+}
+.sortContainer .css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input {
+    color: orange !important;
+    /* border-bottom:2px solid orange !important */
+}
+.sortContainer .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon{
+    fill: orange !important;
+}
+.sortContainer .css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
+    background-color: #343A40 !important;
+    color: rgb(255, 165, 0) !important;
+}
+
+.sortContainer .css-1mf6u8l-MuiSvgIcon-root-MuiSelect-icon{
+    fill: orange !important;
+}
+.sortContainer .css-a3l6o-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+    border-bottom: 2px solid transparent !important;
+    outline:  none !important;
+}
+.sortContainer .css-a3l6o-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+    border-bottom: 2px solid orange !important;
+}
+
+.sortContainer .css-a3l6o-MuiInputBase-root-MuiInput-root-MuiSelect-root:after{
+    border: 0px !important;
+}
+.MuiPaper-root{
+    background-color: orange !important;
+    border-radius:0px 0px 8px 8px !important;
+}
+.MuiTouchRipple-root .css-8je8zh-MuiTouchRipple-root:hover{
+    background-color: red !important;
+}
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected{
+    background-color: rgb(227, 147, 0) !important;
 }

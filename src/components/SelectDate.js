@@ -38,8 +38,6 @@ const [selectedDay, setSelectedDay] = useState(null);
   function splitArray(dateDefault){
     let date_selected = dateDefault;
     dDefault = date_selected.split('/')
-    console.log(dDefault[1])
-    console.log(dDefault[1].length)
     if(dDefault[1].length>1){
      let textSplice = dDefault[1].slice(1,2)
     
@@ -48,7 +46,7 @@ const [selectedDay, setSelectedDay] = useState(null);
     for(let i=0;i<3;i++){
      dDefault[i] =  Number(dDefault[i])
     }
-    console.log("ddt : ",dDefault)
+
   }
 
   function checkDate(){
@@ -79,22 +77,22 @@ const [selectedDay, setSelectedDay] = useState(null);
         if(fDay -7  ==0){
           fDay = 31
         }
-        else if(fDay -7 == -1){
+        else if(fDay -7 === -1){
           fDay = 30
         }
-        else if(fDay -7 == -2){
+        else if(fDay -7 === -2){
           fDay = 29
         }
-        else if(fDay -7 == -3){
+        else if(fDay -7 === -3){
           fDay = 28
         }
-        else if(fDay -7 ==-4){
+        else if(fDay -7 ===-4){
           fDay = 27
         }
-        else if(fDay -7 ==-5){
+        else if(fDay -7 ===-5){
           fDay = 26
         }
-        else if(fDay -7 ==-6){
+        else if(fDay -7 ===-6){
           fDay = 25
         }
      }
@@ -103,22 +101,22 @@ const [selectedDay, setSelectedDay] = useState(null);
         if(fDay - 7 ==0){
           fDay = 30
         }
-        else if(fDay - 7 ==-1){
+        else if(fDay - 7 ===-1){
           fDay = 29
         }
-        else if(fDay - 7 ==-2){
+        else if(fDay - 7 ===-2){
           fDay = 28
         }
-        else if(fDay - 7 ==-3){
+        else if(fDay - 7 ===-3){
           fDay = 27
         }
-        else if(fDay - 7 ==-4){
+        else if(fDay - 7 ===-4){
           fDay = 26
         }
-        else if(fDay - 7 ==-5){
+        else if(fDay - 7 ===-5){
           fDay = 25
         }
-        else if(fDay - 7 ==-6){
+        else if(fDay - 7 ===-6){
           fDay = 24
         }
      }
@@ -159,7 +157,6 @@ const [selectedDay, setSelectedDay] = useState(null);
   getYesterday();
   splitArray(b)
   useEffect(() => {
-    console.log("date : ",dDefault[0])
     if(selectedDay === ""){ 
       let c  = b.replaceAll('/','-')
       

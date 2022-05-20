@@ -5,10 +5,14 @@ import { Bar, Doughnut, Line } from "react-chartjs-2";
 import "../css/subChart.css";
 import zoomPlugin from "chartjs-plugin-zoom";
 import SelectDate from "./SelectDate";
-import {fetchDate, fetchPie } from "../api/apiCountrySelection";
+import {fetchData, fetchPie } from "../api/apiCountrySelection";
 import { fecthDateApi } from "../api/apiDate";
 import loadingIcon from "../img/icon/loading.svg";
 import sorryIcon from "../img/icon/sorry.png"
+
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 Chart.register(zoomPlugin); // REGISTER PLUGIN
 
 const Swap = ({
@@ -26,7 +30,8 @@ const Swap = ({
   setyAxis,
   setoptionSelect,
   optionSelectx,
-  country
+  country,
+  sortType
 }) => {
   
   const [dateProp, setdateProp] = useState("");
@@ -56,35 +61,37 @@ const Swap = ({
   var selectedCountry
   let storageAxis = [" ", " "];
 
-  newCase = apidata?.result.map((val) => {
+  if(apidata?.result){
+    newCase = apidata?.result.map((val) => {
     let a = val.newCase;
     return a;
   });
 
   location = apidata?.result.map((val) => {
     let a = val.location;
-    // console.log(a);
+
     return a;
   });
   totalCase = apidata?.result.map((val) => {
     let a = val.totalCase;
-    // console.log(a);
+ 
     return a;
   });
   newDeath = apidata?.result.map((val) => {
     let a = val.newDeath;
-    // console.log(a);
+ 
     return a;
   });
   death = apidata?.result.map((val) => {
     let a = val.death;
     return a;
   });
-  
+
+}
   async function changeValueArray() {
     optionSelect.map((val, index) => {
       if (val.name === "New cases") {
-        return (val.data = newCase);
+        return val.data = newCase;
       } else if (val.name === "Total cases") {
         return (val.data = totalCase);
       } else if (val.name === "New deaths") {
@@ -119,7 +126,7 @@ const Swap = ({
   }
   if (multiSelect === true) {
     changeValueArray();
-    // console.log("after change value : ",optionSelect);
+
   }
   chooseRealShow(x, 0);
   chooseRealShow(y, 1);
@@ -128,25 +135,26 @@ const Swap = ({
       return value.selected === true;
     });
   }
+  
   useEffect(async () => {
- 
+    
     //filter country
     filterCountry()
     
     setisLoading(true);
 
-    await fetchDate(valueDate,selectedCountry[0].country).then((keepData) => {
+    await fetchData(valueDate,selectedCountry[0].country,sortType).then((keepData) => {
+
       setdateProp(keepData.data);
-      console.log("kdt : ",keepData.data[0]?.result)
+      if(keepData.data[0]?.result){
       if (keepData.data[0]?.result.length === 0 ||keepData.data[0]?.result === undefined ||keepData.data[0]?.result === null) {
         setwrongData(true);
       } else {
         setwrongData(false);
       }
+    }
     });
-
-    // allDate = await fecthThAPI();
-    // setdateSelect(allDate);
+    
     changeValueArray();
 
     await fecthDateApi(valueDate,selectedCountry[0].country).then((value) => {
@@ -157,20 +165,23 @@ const Swap = ({
     });
 
     setisLoading(false);
-  }, [valueDate,country]);
+  }, [valueDate,country,sortType]);
   //total death,total cases,new cases,new death
 
   //set line filter
   optionMultiSelect = optionSelect.filter((value) => {
     return value.selected === true;
   });
-  
+
   optionMultiSelect = optionMultiSelect.map((item) => {
     let { name: label, ...rest } = item;
     return { label, ...rest };
   });
 
+
   let colorArray = ["RGBA(255, 99, 71,1)", "blue", "orange", "green"];
+
+
   optionMultiSelect = optionMultiSelect.map((item, index) => ({
     ...item,
     backgroundColor: colorArray[index],
@@ -207,6 +218,13 @@ const Swap = ({
     }
   });
 
+
+  // if(testSort){
+  // testSort.sort(function(a,b){
+  //   return b-a
+  // })
+  // }
+  
   //handle pie dialy data
   //data format
 
@@ -321,6 +339,13 @@ const Swap = ({
       dateRightAxis = false;
     }
   });
+
+  
+  weeklydateContain.map((val)=>{
+    if(val.label === "Total cases"){
+      val.fill = false
+    }
+  })
   if (chosen === "Pie") {
     if (
       optionSelectx[0].selected === false &&
@@ -343,8 +368,9 @@ const Swap = ({
               <img
                 src={loadingIcon}
                 width="60px"
+                alt=""
                 style={{
-                  paddingTop: "0px",
+           
                   marginLeft: "auto",
                   marginRight: "auto",
                   width: "200px",
@@ -407,8 +433,9 @@ const Swap = ({
               <img
                 src={sorryIcon}
                 width="60px"
+                alt=""
                 style={{
-                  paddingTop: "0px",
+          
                   marginLeft: "auto",
                   marginRight: "auto",
                   width: "200px",
@@ -436,7 +463,7 @@ const Swap = ({
         labels: xlabelDate,
         datasets: weeklydateContain,
       };
-
+   
       if (isLoading === true) {
         return (
           <div>
@@ -444,8 +471,9 @@ const Swap = ({
               <img
                 src={loadingIcon}
                 width="60px"
+                alt=""
                 style={{
-                  paddingTop: "0px",
+               
                   marginLeft: "auto",
                   marginRight: "auto",
                   width: "200px",
@@ -680,6 +708,7 @@ const Swap = ({
         }
       }
     } else if (optionSelectx[0].selected === true) {
+
       const data = {
         //x label //location
         labels: storageAxis[0],
@@ -687,7 +716,6 @@ const Swap = ({
         // labels:testX,
         // datasets:testY
       };
-      console.log("wrong data : ",wrongData)
         //loading
       if (isLoading === true) {
         return (
@@ -696,8 +724,9 @@ const Swap = ({
               <img
                 src={loadingIcon}
                 width="60px"
+                alt=""
                 style={{
-                  paddingTop: "0px",
+                  
                   marginLeft: "auto",
                   marginRight: "auto",
                   width: "200px",
@@ -727,8 +756,9 @@ const Swap = ({
               <img
                 src={sorryIcon}
                 width="60px"
+                alt=""
                 style={{
-                  paddingTop: "0px",
+            
                   marginLeft: "auto",
                   marginRight: "auto",
                   width: "200px",
@@ -750,10 +780,8 @@ const Swap = ({
           ) 
           
         } else {
-          console.log(multipleAxis)
           if (multipleAxis === true) {
             if (testMulti.length <= 2 && !isToomuch) {
-              console.log("case 1")
               return (
                 <div style={{ width: "100%", height: "100%" }}>
                   <Line
@@ -808,6 +836,7 @@ const Swap = ({
                           },
                           ticks: {
                             color: "white",
+                            precision:0
                           },
                           min:0
                         },
@@ -817,7 +846,6 @@ const Swap = ({
                 </div>
               );
             } else {
-              console.log("case 2")
               return (
                 <div style={{ width: "100%", height: "100%" }}>
                   <Line
@@ -896,7 +924,6 @@ const Swap = ({
               );
             }
           } else {
-            console.log("case 3")
             return (
               <div style={{ width: "100%", height: "100%" }}>
                 <Line
@@ -982,8 +1009,9 @@ const Swap = ({
               <img
                 src={sorryIcon}
                 width="60px"
+                alt=""
                 style={{
-                  paddingTop: "0px",
+                
                   marginLeft: "auto",
                   marginRight: "auto",
                   width: "200px",
@@ -1023,8 +1051,9 @@ const Swap = ({
               <img
                 src={loadingIcon}
                 width="60px"
+                alt=""
                 style={{
-                  paddingTop: "0px",
+         
                   marginLeft: "auto",
                   marginRight: "auto",
                   width: "200px",
@@ -1116,6 +1145,7 @@ const Swap = ({
                     y: {
                       ticks: {
                         color: "white",
+                        precision:0
                       },
                       title:{
                         display:true,
@@ -1166,6 +1196,7 @@ const Swap = ({
                         color: "white",
                         //data can show all province but space in x axis is too low
                         autoSkip: true,
+                        precision:0
                       },
                       title:{
                         display:true,
@@ -1176,6 +1207,7 @@ const Swap = ({
                     y: {
                       ticks: {
                         color: "white",
+                        precision:0
                       },
                       title:{
                         display:true,
@@ -1203,8 +1235,9 @@ const Swap = ({
               <img
                 src={loadingIcon}
                 width="60px"
+                alt=""
                 style={{
-                  paddingTop: "0px",
+                 
                   marginLeft: "auto",
                   marginRight: "auto",
                   width: "200px",
@@ -1295,7 +1328,8 @@ const Swap = ({
                       y: {
                         ticks: {
                           color: "white",
-                        },
+                          precision:0
+                          },
                         
                       },
                     },
@@ -1344,6 +1378,7 @@ const Swap = ({
                       y: {
                         ticks: {
                           color: "white",
+                          precision:0
                         },
                       },
                     },
@@ -1365,8 +1400,9 @@ const Swap = ({
             <img
               src={loadingIcon}
               width="60px"
+              alt=""
               style={{
-                paddingTop: "0px",
+              
                 marginLeft: "auto",
                 marginRight: "auto",
                 width: "200px",
@@ -1407,24 +1443,63 @@ const SubChart = ({
 }) => {
   const [disableChart, setdisableChart] = useState("true");
   const [valueDate, setValueDate] = useState("");
+  const [sortType, setsortType] = useState("")
+
   let usedDataDate = "";
 
   function changeChart(nameChart) {
     setcurrentChart(nameChart);
   }
-  function changeMultiSelect() {
-    setmultiSelect(!multiSelect);
-  }
+
+
   useEffect(async () => {
-    // if(currentChart ==="Pie"){
-    //   optionSelect =  optionSelect.map((p)=>p.selected === false ?{...p,selected:true}:p)
-    // }
-  }, [dataGraph, x, y, valueDate, optionSelectx]);
+
+  }, [dataGraph, x, y, valueDate, optionSelect]);
+  const SortTypebtn= () =>{
+
+    const handleChange = (event) => {
+      setsortType(event.target.value);
+      
+    };
+  return(
+  <div className="sortContainer">
+   
+
+        <FormControl  variant="standard"  style={{width:"100%",height:"20px",marginTop:"0px",border:"0px"}}  >
+        <Select
+          value={sortType}
+          onChange={handleChange}
+          displayEmpty
+          inputProps={{ 'aria-label': 'Without label' }}
+          style={{fontColor:"orange"}}
+          InputProps={{ disableUnderline: true }}
+        >
+          <MenuItem value="">
+            Default
+          </MenuItem>
+          <MenuItem value="total-cases">Total cases</MenuItem>
+          <MenuItem value="total-deaths">Total deaths</MenuItem>
+          <MenuItem value="new-deaths">New deaths</MenuItem>
+          <MenuItem value="new-cases">New cases</MenuItem>
+        </Select>
+
+      </FormControl>
+  </div>
+  )
+}
+
 
   const BtnDisplay = () => {
     if (valueDate !== "") {
       return (
         <div className="header-font">
+
+          <div className="btn-sorting-text">
+            Sort by
+            </div>
+          <div className="btn-sorting" >
+          < SortTypebtn   />
+          </div>
           <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Line")}
@@ -1443,12 +1518,7 @@ const SubChart = ({
           >
             Bar
           </button>
-          {/* <button
-            className={currentChart === "Radar" ? "active-btn" : "btn-chart"}
-            onClick={() => changeChart("Radar")}
-          >
-            Radar
-          </button> */}
+        
         </div>
       );
     } else {
@@ -1497,7 +1567,7 @@ const SubChart = ({
           />
           
         </div>
-
+        
         <BtnDisplay />
       </div>
       <hr style={{ backgroundColor: "black" }}></hr>
@@ -1521,6 +1591,7 @@ const SubChart = ({
           style={{ width: "100%", overflowX: "auto" }}
           optionSelectx={optionSelectx}
           country = {country}
+          sortType = {sortType}
         />
       </div>
     </div>
