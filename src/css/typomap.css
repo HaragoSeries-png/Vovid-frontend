@@ -6,14 +6,20 @@
     grid-template-columns: 1fr 1fr;
     padding: 10px;
     grid-gap: 5px;
+    width: 100%;
 }
 .box-select{
-    
-    font-size: 18px;
+    width: 115px;
+    font-size: 16px;
     color: white;
-    padding: 8px;
+    padding: 4px;
+    text-indent: 10px;
+    
     cursor: pointer;
-    border-radius: 12px;
+    border-radius: 8px;
+    text-align: left;
+    margin-left: 5px;
+    padding-bottom: 8px;
 }
 .option-active{
 
@@ -36,3 +42,9 @@
     color: black !important;
     transition: 0.3s;
 }
+.type-box-typo{
+    background-color: #343A40;
+    border-radius: 12px;
+    height:min-content;
+    margin-top:20%;
+  }

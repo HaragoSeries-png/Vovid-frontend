@@ -56,8 +56,8 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
 
       <Grid container spacing={0} style={{justifyContent:"center"}} >
 
-        <Grid item sm={12} md={10} className="type-box" style={{marginTop:"10%"}} >
-          <CardContent>
+        <Grid item sm={12} md={10} className="type-box-typo" style={{marginTop:"10%"}} >
+          <CardContent >
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
               <Grid item md={3.5}>
               <div style={{}}>   
@@ -82,25 +82,6 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
                 >
              {selectProvince[0]}
                 </Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Grid>
-
-        <Grid item sm={10} md={10} className="type-box" style={{marginTop:"10%"}}>
-          <CardContent>
-            <Grid container spacing={2} style={{ paddingTop: "0px" }}>
-              <Grid item md={3.5}>
-                <div style={{}}>   
-                {/* <img
-                  src={recovery}
-                  width="60px"
-                  style={{ paddingTop: "0px",marginLeft:"auto",marginRight:"auto" }}
-                /> */}
-                </div>
-      
-              </Grid>
-              <Grid item md={8.5}>
                 <Typography
                   color="white"
                   gutterBottom
@@ -123,10 +104,46 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
           </CardContent>
         </Grid>
 
+        <Grid item sm={10} md={10} className="type-box" style={{marginTop:"10%"}}>
+          <CardContent>
+            <Grid container spacing={2} style={{ paddingTop: "0px" }}>
+              <Grid item md={3.5}>
+                <div style={{}}>   
+                {/* <img
+                  src={recovery}
+                  width="60px"
+                  style={{ paddingTop: "0px",marginLeft:"auto",marginRight:"auto" }}
+                /> */}
+                </div>
+      
+              </Grid>
+              <Grid item md={8.5}>
+                {/* <Typography
+                  color="white"
+                  gutterBottom
+                  style={{ textAlign: "left", fontSize: "20px" }}
+                >
+                  Cluster Group
+                </Typography>
+                <Typography
+                  variant="h5"
+                  style={{ textAlign: "left", fontSize: "20px" }}
+                >
+                  
+                    
+                    {selectProvince[1]}
+                    
+                  
+                </Typography> */}
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Grid>
+
         <Grid item sm={10} md={10} className="type-box special-box"  style={{marginTop:"10%"}}>
           <CardContent>
-            <Grid container  style={{ paddingTop: "0px" }}>
-                <div style={{fontSize:"22px",textAlign:"center",paddingLeft:"25px",marginBottom:"10px"}}>
+            <Grid container  style={{ paddingTop: "0px",width:"100%" }}>
+                <div style={{fontSize:"22px",marginBottom:"10px",marginLeft:"auto",marginRight:"auto"}}>
                   Customize Select
                 </div>
                 <div className="grid-contain">

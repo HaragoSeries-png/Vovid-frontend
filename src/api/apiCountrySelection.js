@@ -20,7 +20,7 @@ export const fetchDate = async (dateData,country) =>{
   // catch (error) {
   //   console.log(error);
   // }
-  return await axios.get(api);
+  return  axios.get(api);
 }
 
 export const fetchPie = async(dateData,country)=>{

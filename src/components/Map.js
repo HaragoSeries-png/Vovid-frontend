@@ -202,7 +202,7 @@ const Map = ({selectProvince,setselectProvince,selectedCases}) => {
   
   if (isLoading === true) {
     return (
-      <div>
+      <div style={{borderRadius:"12px"}}>
       <div  style={{width:"100%",height:"600px",backgroundColor:"#343A40"}} >
       <img
         src={loadingIcon}

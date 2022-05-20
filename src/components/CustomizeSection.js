@@ -59,7 +59,7 @@ export default function CustomizeSection({
       <div className="main-container-visual">
         <div className="header-axis">
           <div className="leftBorder">X-Axis</div>
-          <div className="leftBorder" style={{paddingTop:"22px"}}>Y-Axis</div>
+          <div className="leftBorder" style={{paddingTop:"19px"}}>Y-Axis</div>
         </div>
 
         <div className="axis-type">
