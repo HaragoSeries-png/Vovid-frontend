@@ -1507,7 +1507,7 @@ const OrderControl = () =>{
         onClick={() => handleChangeOrder("asc")}
         >
         <img
-                src={ascending}
+                src={default_graph}
                 width="30px"
                 alt=""
                 style={{
@@ -1528,7 +1528,7 @@ const OrderControl = () =>{
         style={{borderRadias:"5px"}}
         >
           <img
-                src={decesding}
+                src={ascending}
                 width="30px"
                 alt=""
                 style={{
@@ -1550,7 +1550,7 @@ const OrderControl = () =>{
         style={{borderRadias:"5px"}}
         >
           <img
-                src={default_graph}
+                src={decesding}
                 width="30px"
                 alt=""
                 style={{
