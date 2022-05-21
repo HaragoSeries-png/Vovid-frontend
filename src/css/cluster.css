@@ -1,3 +1,6 @@
+*{
+    font-family: 'Rubik', sans-serif;
+}
 .containers{
     width: 100%;
     height: 100vh;

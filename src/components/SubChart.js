@@ -8,11 +8,14 @@ import SelectDate from "./SelectDate";
 import {fetchData, fetchPie } from "../api/apiCountrySelection";
 import { fecthDateApi } from "../api/apiDate";
 import loadingIcon from "../img/icon/loading.svg";
-import sorryIcon from "../img/icon/sorry.png"
-
+import sorryIcon from "../img/icon/sorry.png";
+import ascending from "../img/icon/acd2.png";
+import decesding from "../img/icon/dec2.png";
+import default_graph from "../img/icon/gen2.png"
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+
 Chart.register(zoomPlugin); // REGISTER PLUGIN
 
 const Swap = ({
@@ -1500,8 +1503,20 @@ const OrderControl = () =>{
   return(
     <div>
         <div
+        style={{borderRadias:"5px"}}
         onClick={() => handleChangeOrder("asc")}
-        >asc
+        >
+        <img
+                src={ascending}
+                width="30px"
+                alt=""
+                style={{
+                  backgroundColor:"orange",
+                  padding:"2px",
+                  borderRadias:"6px",
+                  paddingTop:"4px"
+                }}
+              />
         </div>
     </div>
   )
@@ -1510,7 +1525,20 @@ const OrderControl = () =>{
       <div>
          <div
         onClick={() => handleChangeOrder("desc")}
-        >desc
+        style={{borderRadias:"5px"}}
+        >
+          <img
+                src={decesding}
+                width="30px"
+                alt=""
+                style={{
+                  backgroundColor:"orange",
+                  padding:"2px",
+                  borderRadias:"6px",
+                  width:"30px",
+                  paddingTop:"4px"
+                }}
+              />
         </div>
       </div>
     )
@@ -1519,7 +1547,19 @@ const OrderControl = () =>{
     <div>
        <div
         onClick={() => handleChangeOrder(" ")}
-        >default
+        style={{borderRadias:"5px"}}
+        >
+          <img
+                src={default_graph}
+                width="30px"
+                alt=""
+                style={{
+                  backgroundColor:"orange",
+                  padding:"2px",
+                  borderRadias:"6px",
+                  paddingTop:"4px"
+                }}
+              />
         </div>
     </div>
     )
@@ -1550,7 +1590,7 @@ const BooleanDisplay = ()=>{
           <div className="btn-sorting" >
           < SortTypebtn   />
           </div>
-          <div className="btn-sorting">
+          <div className="type-sorting">
           <OrderControl/>
           </div>
 
@@ -1562,9 +1602,6 @@ const BooleanDisplay = ()=>{
     if (valueDate !== "") {
       return (
         <div className="header-font">
-
-          <BooleanDisplay/>
-
           <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Line")}
@@ -1583,6 +1620,9 @@ const BooleanDisplay = ()=>{
           >
             Bar
           </button>
+          <BooleanDisplay/>
+
+          
         
         </div>
       );

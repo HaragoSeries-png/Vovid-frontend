@@ -1,3 +1,6 @@
+*{
+    font-family: 'Rubik', sans-serif;
+}
 .navMain{
     background-color: #343A40;
     display: flex;

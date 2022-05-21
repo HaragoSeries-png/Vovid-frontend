@@ -1,3 +1,6 @@
+*{
+    font-family: 'Rubik', sans-serif;
+}
 .containChart{
     width: 100%;
     border-radius: 12px;
@@ -34,6 +37,12 @@
     padding:0px !important;
     border-radius: 4px;
     margin-right: 20px;
+}
+.type-sorting{
+    width:auto;
+    padding:0px !important;
+    margin-right: 10px;
+    cursor: pointer;
 }
 .btn-sorting-text{
     width:auto;
@@ -126,7 +135,9 @@
     border: 0px !important;
 }
 .MuiPaper-root{
-    background-color: orange !important;
+    background-color: #343A40 !important;
+    padding-top: 0px !important;
+    color: white !important;
     border-radius:0px 0px 8px 8px !important;
 }
 .MuiTouchRipple-root .css-8je8zh-MuiTouchRipple-root:hover{
