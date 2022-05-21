@@ -31,7 +31,8 @@ const Swap = ({
   setoptionSelect,
   optionSelectx,
   country,
-  sortType
+  sortType,
+  orderType
 }) => {
   
   const [dateProp, setdateProp] = useState("");
@@ -143,7 +144,7 @@ const Swap = ({
     
     setisLoading(true);
 
-    await fetchData(valueDate,selectedCountry[0].country,sortType).then((keepData) => {
+    await fetchData(valueDate,selectedCountry[0].country,sortType,orderType).then((keepData) => {
 
       setdateProp(keepData.data);
       if(keepData.data[0]?.result){
@@ -165,7 +166,7 @@ const Swap = ({
     });
 
     setisLoading(false);
-  }, [valueDate,country,sortType]);
+  }, [valueDate,country,orderType]);
   //total death,total cases,new cases,new death
 
   //set line filter
@@ -1444,7 +1445,7 @@ const SubChart = ({
   const [disableChart, setdisableChart] = useState("true");
   const [valueDate, setValueDate] = useState("");
   const [sortType, setsortType] = useState("")
-
+  const [orderType, setorderType] = useState(" ")
   let usedDataDate = "";
 
   function changeChart(nameChart) {
@@ -1453,8 +1454,9 @@ const SubChart = ({
 
 
   useEffect(async () => {
-
-  }, [dataGraph, x, y, valueDate, optionSelect]);
+    console.log("st : ",sortType)
+    
+  }, [sortType]);
   const SortTypebtn= () =>{
 
     const handleChange = (event) => {
@@ -1463,8 +1465,6 @@ const SubChart = ({
     };
   return(
   <div className="sortContainer">
-   
-
         <FormControl  variant="standard"  style={{width:"100%",height:"20px",marginTop:"0px",border:"0px"}}  >
         <Select
           value={sortType}
@@ -1487,19 +1487,84 @@ const SubChart = ({
   </div>
   )
 }
+const OrderControl = () =>{
 
+  function handleChangeOrder(typeorder){
+    setorderType(typeorder)
+  }
+  useEffect(() => {
+    console.log("odt : ",orderType)
+  }, [orderType])
+  if(sortType !== ""){
+  if(orderType == " "){
+  return(
+    <div>
+        <div
+        onClick={() => handleChangeOrder("asc")}
+        >asc
+        </div>
+    </div>
+  )
+  }else if(orderType =="asc"){
+    return(
+      <div>
+         <div
+        onClick={() => handleChangeOrder("desc")}
+        >desc
+        </div>
+      </div>
+    )
+  }else if(orderType =="desc"){
+    return(
+    <div>
+       <div
+        onClick={() => handleChangeOrder(" ")}
+        >default
+        </div>
+    </div>
+    )
+  }
+}
+else{
+  return(
+    <div>
 
-  const BtnDisplay = () => {
-    if (valueDate !== "") {
-      return (
-        <div className="header-font">
+    </div>
+  )
+}
+}
+const BooleanDisplay = ()=>{
+  if(optionSelectx[1].selected == true){
+    return(
+      <div>
 
-          <div className="btn-sorting-text">
+      </div>
+    )
+  }
+  else{
+    return(
+      <div style={{display:"flex"}}>
+        <div className="btn-sorting-text">
             Sort by
             </div>
           <div className="btn-sorting" >
           < SortTypebtn   />
           </div>
+          <div className="btn-sorting">
+          <OrderControl/>
+          </div>
+
+      </div>
+    )
+  }
+}
+  const BtnDisplay = () => {
+    if (valueDate !== "") {
+      return (
+        <div className="header-font">
+
+          <BooleanDisplay/>
+
           <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
             onClick={() => changeChart("Line")}
@@ -1592,6 +1657,7 @@ const SubChart = ({
           optionSelectx={optionSelectx}
           country = {country}
           sortType = {sortType}
+          orderType = {orderType}
         />
       </div>
     </div>

@@ -2,7 +2,7 @@ import axios from "axios";
 const pieUrl1    = "https://vovid-backend-"
 const apiname   = ".herokuapp.com/api/"
 const datethUrl   = "https://vovid-backend-"
-export const fetchData = async (dateData,country,sortType) =>{
+export const fetchData = async (dateData,country,sortType,orderType) =>{
   
   let selectedCountry = ""
   let api
@@ -12,13 +12,14 @@ export const fetchData = async (dateData,country,sortType) =>{
   }else{
     selectedCountry = "gb"
   }
-  if(sortType.length ==  0){
-
+  console.log("order type api : ",orderType.length)
+  if(orderType.length ==  1){
+    console.log("11111111111111")
     api = String(datethUrl)+String(selectedCountry)+String(apiname)+"cases?date="+String(dateData)
   }
   else{
-   
-    api = String(datethUrl)+String(selectedCountry)+String(apiname)+"cases?date="+String(dateData)+"&order="+sortType+"&by=desc"
+    console.log("22222222222")
+    api = String(datethUrl)+String(selectedCountry)+String(apiname)+"cases?date="+String(dateData)+"&order="+sortType+"&by=" + orderType
   }
   // try {
   //   let data = await axios.get(api);
