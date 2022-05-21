@@ -183,7 +183,7 @@ const Swap = ({
   });
 
 
-  let colorArray = ["RGBA(255, 99, 71,1)", "blue", "orange", "green"];
+  let colorArray = ["RGBA(255, 99, 71,1)", "blue", "orange", "#bc5090"];
 
 
   optionMultiSelect = optionMultiSelect.map((item, index) => ({
@@ -360,7 +360,7 @@ const Swap = ({
         datasets: [
           {
             data: dialyPieValue,
-            backgroundColor: ["red", "green", "blue", "orange  "],
+            backgroundColor: ["red", "#bc5090", "blue", "orange  "],
           },
         ],
       };
