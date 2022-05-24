@@ -351,6 +351,7 @@ const Swap = ({
     }
   })
   if (chosen === "Pie") {
+
     if (
       optionSelectx[0].selected === false &&
       optionSelectx[1].selected === false
@@ -364,7 +365,7 @@ const Swap = ({
           },
         ],
       };
-
+      console.log("pie value : ",dialyPieValue)
       if (isLoading === true) {
         return (
           <div>
@@ -394,7 +395,38 @@ const Swap = ({
             </div>
           </div>
         );
-      } else {
+      } 
+      else {
+        if(dialyPieValue.length ==0){
+          return(
+            <div>
+            <div>
+              <img
+                src={sorryIcon}
+                width="60px"
+                alt=""
+                style={{
+          
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "25px",
+              }}
+            >
+             Sorry, please selected feature in y axis.
+            </div>
+          </div>
+          )
+        }else{
         return (
           <div
             className="graph-contain"
@@ -429,6 +461,7 @@ const Swap = ({
             </div>
           </div>
         );
+        }
       }
     } else {
       return (
@@ -1031,7 +1064,7 @@ const Swap = ({
                 marginTop: "25px",
               }}
             >
-             Can not visualize , please select feature in x axis.
+             Can not visualize , please select feature.
             </div>
           </div>
       );
@@ -1394,7 +1427,34 @@ const Swap = ({
         }
       }
     } else {
-      return <div> cannot visulza</div>;
+      return <div>
+                <div>
+            <div>
+              <img
+                src={sorryIcon}
+                width="60px"
+                alt=""
+                style={{
+                
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  width: "200px",
+                  paddingTop: "11%",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "white",
+                textAlign: "center",
+                marginTop: "25px",
+              }}
+            >
+             Can not visualize , please select feature.
+            </div>
+          </div>
+      </div>;
     }
   } else {
     return (
