@@ -590,7 +590,7 @@ const Swap = ({
                         color: "white",
                       
                       },
-                      min:0
+                      
                     },
                   },
                 }}
@@ -679,6 +679,7 @@ const Swap = ({
               </div>
             );
           } else {
+            console.log("eieiei")
             return (
               <div style={{ width: "100%", height: "100%" }}>
                 <Line
@@ -734,7 +735,7 @@ const Swap = ({
                         ticks: {
                           color: "white",
                         },
-                        min:0
+                        
                       },
                     },
                   }}
