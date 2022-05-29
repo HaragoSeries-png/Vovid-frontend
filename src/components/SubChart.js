@@ -148,15 +148,17 @@ const Swap = ({
     setisLoading(true);
 
     await fetchData(valueDate,selectedCountry[0].country,sortType,orderType).then((keepData) => {
-
-      setdateProp(keepData.data);
-      if(keepData.data[0]?.result){
-      if (keepData.data[0]?.result.length === 0 ||keepData.data[0]?.result === undefined ||keepData.data[0]?.result === null) {
-        setwrongData(true);
-      } else {
-        setwrongData(false);
+      setTimeout(() => {
+        setdateProp(keepData.data);
+        if(keepData.data[0]?.result){
+        if (keepData.data[0]?.result.length === 0 ||keepData.data[0]?.result === undefined ||keepData.data[0]?.result === null) {
+          setwrongData(true);
+        } else {
+          setwrongData(false);
+        }
       }
-    }
+      }, 1000);  
+ 
     });
     
     changeValueArray();
@@ -1565,7 +1567,7 @@ const OrderControl = () =>{
     <div>
         <div
         style={{borderRadias:"5px"}}
-        onClick={() => handleChangeOrder("asc")}
+        onClick={() => handleChangeOrder("desc")}
         >
         <img
                 src={default_graph}
@@ -1585,7 +1587,7 @@ const OrderControl = () =>{
     return(
       <div>
          <div
-        onClick={() => handleChangeOrder("desc")}
+        onClick={() => handleChangeOrder(" ")}
         style={{borderRadias:"5px"}}
         >
           <img
@@ -1607,7 +1609,7 @@ const OrderControl = () =>{
     return(
     <div>
        <div
-        onClick={() => handleChangeOrder(" ")}
+        onClick={() => handleChangeOrder("asc")}
         style={{borderRadias:"5px"}}
         >
           <img
@@ -1635,7 +1637,8 @@ else{
 }
 }
 const BooleanDisplay = ()=>{
-  if(optionSelectx[1].selected == true){
+
+  if(optionSelectx[1].selected == true || currentChart == "Pie"){
     return(
       <div>
 
