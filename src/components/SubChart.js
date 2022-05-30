@@ -1667,7 +1667,7 @@ const BooleanDisplay = ()=>{
       return (
         
         <div className="header-font"  style={{width:"100%"}}>
-          <div   style={{marginRight:"15%",marginLeft:"21%"}} >
+          <div   style={{marginRight:"10%",marginLeft:"21%"}} >
           <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
               onClick={() => changeChart("Line")}
