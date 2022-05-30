@@ -424,7 +424,7 @@ const Swap = ({
                 marginTop: "25px",
               }}
             >
-             Sorry, please selected feature in y axis.
+             Sorry, please selecte feature in Y-Axis.
             </div>
           </div>
           )
@@ -814,7 +814,7 @@ const Swap = ({
                 marginTop: "25px",
               }}
             >
-             Sorry, Data is not update
+             Sorry, Data is not update please try again
             </div>
           </div>
           ) 
@@ -1067,7 +1067,7 @@ const Swap = ({
                 marginTop: "25px",
               }}
             >
-             Can not visualize , please select feature.
+             Can not visualize , please select feature in X-Axis.
             </div>
           </div>
       );
@@ -1454,7 +1454,7 @@ const Swap = ({
                 marginTop: "25px",
               }}
             >
-             Can not visualize , please select feature.
+             Can not visualize , please select feature in X-Axis.
             </div>
           </div>
       </div>;
@@ -1665,11 +1665,14 @@ const BooleanDisplay = ()=>{
   const BtnDisplay = () => {
     if (valueDate !== "") {
       return (
-        <div className="header-font">
+        
+        <div className="header-font"  style={{width:"100%"}}>
+          <div   style={{marginRight:"15%",marginLeft:"21%"}} >
           <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
-            onClick={() => changeChart("Line")}
-          >
+              onClick={() => changeChart("Line")}
+            
+  >
             Line
           </button>
           <button
@@ -1684,7 +1687,8 @@ const BooleanDisplay = ()=>{
           >
             Bar
           </button>
-          <BooleanDisplay/>
+          </div>
+          <BooleanDisplay />
 
           
         

@@ -26,12 +26,12 @@ useEffect(() => {
              to="/"
              className={({isActive}) => (isActive ? "active" : "default")}
 
-             >Overview statistic</NavLink>
+             >Overview data</NavLink>
    
             <NavLink  to="/Cluster"
            className={({isActive}) => (isActive ? "active" : "default")}
             
-            >Clustering</NavLink>
+            >Severity map</NavLink>
       
         </div>
       </div>

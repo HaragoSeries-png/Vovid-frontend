@@ -14,14 +14,13 @@
 }
 .top-content{
     display: flex;
-    justify-content: space-between;
     padding: 15px 15px 0px 15px;
     vertical-align: middle;
 }
 .top-content .header-font{
     font-size: 15px;
     display: flex;
-    justify-content: space-around;
+    
 }
 .btn-chart{
     width: 80px;

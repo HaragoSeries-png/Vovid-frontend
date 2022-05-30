@@ -3,13 +3,13 @@
 }
 .grid-contain{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     padding: 10px;
     grid-gap: 5px;
     width: 100%;
 }
 .box-select{
-    width: 115px;
+    width: 100%;
     font-size: 16px;
     color: white;
     padding: 4px;

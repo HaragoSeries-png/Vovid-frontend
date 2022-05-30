@@ -49,46 +49,22 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
         <Grid item sm={12} md={10} className="type-box-typo" style={{marginTop:"10%"}} >
           <CardContent >
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
-              <Grid item md={3.5}>
-              <div style={{}}>   
-                {/* <img
-                  src={infected}
-                  width="60px"      
-                  style={{ paddingTop: "0px",marginLeft:"auto",marginRight:"auto" }}
-                /> */}
-                </div>
-              </Grid>
-              <Grid item md={8.5}>
-                <Typography
+              
+              <Grid item md={12}>
+                <div
                   color="white"
                   gutterBottom
                   style={{ textAlign: "left", fontSize: "20px" }}
                 >
                 Province
-                </Typography>
+                </div>
                 <Typography
                   variant="h5"
-                  style={{ textAlign: "left", fontSize: "15px" }}
+                  style={{ textAlign: "left", fontSize: "15px",marginTop:"20px" }}
                 >
              {selectProvince[0]}
                 </Typography>
-                {/* <Typography
-                  color="white"
-                  gutterBottom
-                  style={{ textAlign: "left", fontSize: "20px" }}
-                >
-                  Cluster Group
-                </Typography>
-                <Typography
-                  variant="h5"
-                  style={{ textAlign: "left", fontSize: "20px" }}
-                >
-                  
-                    
-                    {selectProvince[1]}
-                    
-                  
-                </Typography> */}
+            
               </Grid>
             </Grid>
           </CardContent>
@@ -97,33 +73,19 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
         <Grid item sm={10} md={10} className="type-box" style={{marginTop:"10%"}}>
           <CardContent>
             <Grid container spacing={2} style={{ paddingTop: "0px" }}>
-              <Grid item md={3.5}>
-                <div style={{}}>   
-                {/* <img
-                  src={recovery}
-                  width="60px"
-                  style={{ paddingTop: "0px",marginLeft:"auto",marginRight:"auto" }}
-                /> */}
-                </div>
-      
-              </Grid>
-              <Grid item md={8.5}>
-                <Typography
+              <Grid item md={12}>
+                <div
                   color="white"
                   gutterBottom
                   style={{ textAlign: "left", fontSize: "20px" }}
                 >
                   Cluster Group
-                </Typography>
+                </div>
                 <Typography
                   variant="h5"
-                  style={{ textAlign: "left", fontSize: "15px" }}
+                  style={{ textAlign: "left", fontSize: "15px",marginTop:"20px" }}
                 >
-                  
-                    
-                    {selectProvince[1]}
-                    
-                  
+                  {selectProvince[1]}
                 </Typography>
               </Grid>
             </Grid>
@@ -133,15 +95,17 @@ const TypoMap = ({ selectProvince,setselectedCases,selectedCases }) => {
         <Grid item sm={10} md={10} className="type-box special-box"  style={{marginTop:"10%"}}>
           <CardContent>
             <Grid container  style={{ paddingTop: "0px",width:"100%" }}>
-                <div style={{fontSize:"22px",marginBottom:"10px",marginLeft:"auto",marginRight:"auto"}}>
+                <div style={{fontSize:"20px",marginBottom:"10px",width:"100%",textAlign:"center"}}>
                   Customize Select
                 </div>
+                
+
                 <div className="grid-contain">
                   {selectedCases.map((value,index)=>{
                     return(
                       <div
                       key={index.name}
-                      style={{color:"white"}}
+                      style={{color:"white",textAlign:"center"}}
                       className={"box-select "+(value.selected === true ? "option-active" : "option-inactive" )}
                       onClick={()=>selectOptionArray(index)}
                       >

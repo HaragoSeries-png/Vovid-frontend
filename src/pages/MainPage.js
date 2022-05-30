@@ -131,7 +131,7 @@ const MainPage = () => {
    <div style={{color:"white"}}>
     <SelectCountry  country={country} setcountry={setcountry}   />
     </div>   
-  <CountCard data={data} />
+  <CountCard data={data}  country={country} />
   </Grid>
 
   <Grid item xs={9} md={9}>

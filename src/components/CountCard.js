@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import { CardContent, Typography, Grid } from "@material-ui/core";
 import CardActions from '@mui/material/CardActions';
 import styles from "../css/countcard.css";
 import Button from '@mui/material/Button';
 import CountUp from "react-countup";
-
+import {fetchPieNodate } from "../api/apiCountrySelection";
 //For applying multiples classes
 import cx from "classnames";
 
@@ -14,6 +14,9 @@ import infected from "../img/icon/virus.png";
 import recovery from "../img/icon/recovery.png"
 import death from "../img/icon/poison.png"
 //Data is the name of the prop object
+
+
+
 const bull = (
   <Box
     component="span"
@@ -23,7 +26,36 @@ const bull = (
   </Box>
 );
 
-const CountCard = ({ data }) => {
+const CountCard = ({ data,country }) => {
+
+  const [valueInfected, setvalueInfected] = useState("")
+  const [valueDeaths, setvaluelDeaths] = useState("")
+  var selectValue = ""
+  country = country.filter((value)=>{
+    return value.selected === true
+  })
+  selectValue = country[0].country
+  function setRegion(region,value){
+    if(region === "Thai"){
+      setvalueInfected(value.data.total_cases)
+      setvaluelDeaths(value.data.total_deaths)
+    }else{
+      setvalueInfected(value.data.total_cases)
+      setvaluelDeaths(value.data.total_deaths)
+    }
+  }
+
+
+  useEffect(async () => {
+  console.log("country : ",country)
+  console.log("selected value : ",selectValue)
+  await fetchPieNodate(selectValue).then((value)=>{
+    setRegion(selectValue,value)
+  })
+
+  }, [country])
+  
+
   if (!data.confirmed) {
     return "Loading...";
   }
@@ -49,7 +81,7 @@ const CountCard = ({ data }) => {
                   gutterBottom
                   style={{ textAlign: "left", fontSize: "20px",fontWeight:"bold" }}
                 >
-                  Infected
+                 Infected
                 </Typography>
                 <Typography
                   variant="h5"
@@ -57,7 +89,7 @@ const CountCard = ({ data }) => {
                 >
                   <CountUp
                     start={0}
-                    end={data.confirmed.value}
+                    end={valueInfected}
                     duration={2.5}
                     separator=","
                   />
@@ -123,7 +155,7 @@ const CountCard = ({ data }) => {
                   gutterBottom
                   style={{ textAlign: "left", fontSize: "20px",fontWeight:"bold" }}
                 >
-                 Death
+                Death
                 </Typography>
                 <Typography
                   variant="h5"
@@ -131,7 +163,7 @@ const CountCard = ({ data }) => {
                 >
                   <CountUp
                     start={0}
-                    end={data.deaths.value}
+                    end={valueDeaths}
                     duration={2.5}
                     separator=","
                   />
@@ -140,6 +172,50 @@ const CountCard = ({ data }) => {
             </Grid>
           </CardContent>
         </Grid>
+
+
+        <Grid item sm={12} md={12} className="type-box" style={{marginTop:"10px",height:"min-content"}}>
+          <CardContent>
+            <Grid container spacing={2} style={{ paddingTop: "0px" }}>
+              <Grid item md={8.5}>
+                <Typography
+                  color="white"
+                  gutterBottom
+                  style={{ textAlign: "center", fontSize: "20px",fontWeight:"bold" }}
+                >
+                 Suggestion
+                </Typography>
+                <div style={{fontSize:"15px",textAlign:"left"}}>
+                Line graph and Bar graph can use  <span style={{color:"orange"}}>zoom</span>  and <span style={{color:"orange"}} >pan</span>  function. 
+                </div>
+                  <ul style={{fontSize:"15px",textAlign:"left",marginTop:"10px"}} >
+                    <li>   <span style={{color:"orange"}} >Zoom</span>   in or out : mouse wheel</li>
+                    <li> <span style={{color:"orange"}} >Pan</span> : drag left or right</li>
+                  </ul>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </Grid>
  
     

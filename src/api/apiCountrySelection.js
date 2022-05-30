@@ -12,13 +12,13 @@ export const fetchData = async (dateData,country,sortType,orderType) =>{
   }else{
     selectedCountry = "gb"
   }
-  console.log("order type api : ",orderType.length)
+  
   if(orderType.length ==  1){
-    console.log("11111111111111")
+
     api = String(datethUrl)+String(selectedCountry)+String(apiname)+"cases?date="+String(dateData)
   }
   else{
-    console.log("22222222222")
+ 
     api = String(datethUrl)+String(selectedCountry)+String(apiname)+"cases?date="+String(dateData)+"&order="+sortType+"&by=" + orderType
   }
   // try {
@@ -33,6 +33,7 @@ export const fetchData = async (dateData,country,sortType,orderType) =>{
 }
 
 export const fetchPie = async(dateData,country)=>{
+  console.log("date data : ",dateData)
   let selectedCountry = ""
   if(country==="Thai"){
     selectedCountry = "th"
@@ -41,5 +42,18 @@ export const fetchPie = async(dateData,country)=>{
   }
   
   let api = String(pieUrl1) + String(selectedCountry) + ".herokuapp.com/api/daily-data?date="+ String(dateData)
+  return await axios.get(api)
+}
+
+
+export const fetchPieNodate = async(country)=>{
+  let selectedCountry = ""
+  if(country==="Thai"){
+    selectedCountry = "th"
+  }else{
+    selectedCountry = "gb"
+  }
+  
+  let api = String(pieUrl1) + String(selectedCountry) + ".herokuapp.com/api/daily-data"
   return await axios.get(api)
 }
