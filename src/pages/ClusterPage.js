@@ -9,8 +9,14 @@ var [selectProvince, setselectProvince] = useState(["-","-"])
 
 const optionCases = [
   {
-    name:"New cases",
+    name:"Over all",
     selected:true,
+    data:[],
+    api:"overall"
+  },
+  {
+    name:"New cases",
+    selected:false,
     data:[],
     api:"new-cases"
   },
