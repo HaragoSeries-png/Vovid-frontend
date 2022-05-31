@@ -1671,7 +1671,7 @@ const BooleanDisplay = ()=>{
           <button
             className={currentChart === "Line" ? "active-btn" : "btn-chart"}
               onClick={() => changeChart("Line")}
-            
+         
   >
             Line
           </button>

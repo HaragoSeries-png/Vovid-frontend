@@ -54,6 +54,6 @@ export const fetchPieNodate = async(country)=>{
     selectedCountry = "gb"
   }
   
-  let api = String(pieUrl1) + String(selectedCountry) + ".herokuapp.com/api/daily-data"
+  let api = String(pieUrl1) + String(selectedCountry) + ".herokuapp.com/api/daily-data?date=2022-05-29"
   return await axios.get(api)
 }
